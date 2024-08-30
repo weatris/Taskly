@@ -1,5 +1,11 @@
+import { Navbar } from './Navbar';
+
 function App() {
-  return <div className="App">Init project</div>;
+  return (
+    <div>
+      <Navbar />
+    </div>
+  );
 }
 
 export default App;
