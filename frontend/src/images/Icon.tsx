@@ -14,7 +14,7 @@ export const Icon = ({
   const classes = classNames(
     'w-8 h-8 p-[2px] rounded-md',
     hoverable && 'hover:bg-gray-50',
-    className
+    className,
   );
 
   return (

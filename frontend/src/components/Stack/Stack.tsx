@@ -1,5 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
+import {
+  alignItemsClasses,
+  directionClasses,
+  justifyContentClasses,
+  wrapClasses,
+} from './classes';
 
 interface StackProps {
   direction?: 'row' | 'row-reverse' | 'col' | 'col-reverse';
@@ -16,16 +22,18 @@ const Stack: React.FC<StackProps> = ({
   alignItems = 'center',
   justifyContent = 'start',
   wrap = 'nowrap',
+  gap = '',
   className = '',
   children,
 }) => {
-  const classes = classNames(
+  const classes = cn(
     'flex',
-    `flex-${direction}`,
-    `items-${alignItems}`,
-    `justify-${justifyContent}`,
-    wrap !== 'nowrap' ? `flex-${wrap}` : '',
-    className
+    directionClasses[direction],
+    alignItemsClasses[alignItems],
+    justifyContentClasses[justifyContent],
+    wrapClasses[wrap],
+    gap && `gap-${gap}`,
+    className,
   );
 
   return <div className={classes}>{children}</div>;

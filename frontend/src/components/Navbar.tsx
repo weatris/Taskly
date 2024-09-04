@@ -1,8 +1,9 @@
 import classNames from 'classnames';
-import Stack from './Stack';
+import Stack from './Stack/Stack';
 import { Icon } from '../images/Icon';
 import { Bars3Icon } from '../images/icons';
 import { HeaderStyle } from '../styles';
+import { t } from 'i18next';
 
 export const Navbar = () => {
   return (
@@ -18,7 +19,7 @@ export const Navbar = () => {
         <p
           className={classNames(HeaderStyle, 'pb-1 text-gray-700 select-none')}
         >
-          Task.ly
+        {t('appName')}
         </p>
       </Stack>
 

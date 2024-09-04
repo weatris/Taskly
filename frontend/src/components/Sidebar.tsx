@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Stack from './Stack';
+import Stack from './Stack/Stack';
 import classNames from 'classnames';
 
 export const Sidebar = () => {
@@ -7,7 +7,10 @@ export const Sidebar = () => {
 
   return (
     <Stack
-      className={classNames('h-full border', isOpen ? 'w-[200px]' : 'w-[60px]')}
+      className={classNames(
+        'h-full border-r',
+        isOpen ? 'w-[240px]' : 'w-[60px]',
+      )}
       direction="col"
     >
       <></>
