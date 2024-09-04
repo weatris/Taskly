@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import Stack from './components/Stack';
-import { Icon } from './images/Icon';
-import { Bars3Icon } from './images/icons';
-import { HeaderStyle } from './styles';
+import Stack from './Stack';
+import { Icon } from '../images/Icon';
+import { Bars3Icon } from '../images/icons';
+import { HeaderStyle } from '../styles';
 
 export const Navbar = () => {
   return (

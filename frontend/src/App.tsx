@@ -1,10 +1,16 @@
-import { Navbar } from './Navbar';
+import { Navbar } from './components/Navbar';
+import { Sidebar } from './components/Sidebar';
+import Stack from './components/Stack';
 
 function App() {
   return (
-    <div>
+    <Stack className="w-screen h-screen" direction="col">
       <Navbar />
-    </div>
+      <Stack className="w-full h-full grow">
+        <Sidebar />
+        <>content</>
+      </Stack>
+    </Stack>
   );
 }
 
