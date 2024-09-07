@@ -1,5 +1,7 @@
 {
   "translation": {
-    "appName": "Task.ly"
+    "appName": "Task.ly",
+    "WorkPlaces": "Work Places",
+    "Boards": "Boards"
   }
 }

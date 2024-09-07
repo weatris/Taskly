@@ -13,13 +13,13 @@ export const Icon = ({
 }) => {
   const classes = classNames(
     'w-8 h-8 p-[2px] rounded-md',
-    hoverable && 'hover:bg-gray-100',
+    hoverable && 'hover:bg-gray-100 cursor-pointer',
     className,
   );
 
   return (
-    <button onClick={onClick} className={classes}>
+    <div onClick={onClick} className={classes}>
       {children}
-    </button>
+    </div>
   );
 };

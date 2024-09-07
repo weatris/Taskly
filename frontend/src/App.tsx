@@ -9,9 +9,9 @@ function App() {
   return (
     <Stack className="w-screen h-screen" direction="col">
       <Navbar />
-      <Stack className='w-full h-full' direction='row'>
+      <Stack className="w-full h-full" direction="row">
         <Sidebar />
-      <AppRoutes/>
+        <AppRoutes />
       </Stack>
     </Stack>
   );

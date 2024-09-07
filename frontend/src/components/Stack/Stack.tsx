@@ -15,6 +15,7 @@ interface StackProps {
   gap?: string;
   className?: string;
   children: React.ReactNode;
+  onClick?: (e:any)=>void;
 }
 
 const Stack: React.FC<StackProps> = ({
@@ -24,6 +25,7 @@ const Stack: React.FC<StackProps> = ({
   wrap = 'nowrap',
   gap = '',
   className = '',
+  onClick,
   children,
 }) => {
   const classes = cn(
@@ -36,7 +38,7 @@ const Stack: React.FC<StackProps> = ({
     className,
   );
 
-  return <div className={classes}>{children}</div>;
+  return <div className={classes} onClick={onClick}>{children}</div>;
 };
 
 export default Stack;

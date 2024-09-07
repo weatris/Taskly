@@ -4,5 +4,10 @@ import enJSON from './locale/en.json';
 
 i18n.use(initReactI18next).init({
   resources: { en: { ...enJSON } },
+  nonExplicitSupportedLngs: true,
+  fallbackLng: 'en',
   lng: 'en',
+  react: {
+    useSuspense: true,
+  }
 });
