@@ -1,7 +1,15 @@
 {
   "translation": {
     "appName": "Task.ly",
-    "WorkPlaces": "Work Places",
-    "Boards": "Boards"
+    "sidebar": {
+      "Dashboard": "Dashboard",
+      "WorkPlaces": "WorkPlaces",
+      "Boards": "Boards",
+      "Calendar": "Calendar"
+    },
+    "WorkPlaces": {
+      "title": "Your WorkPlaces",
+      "newChanges": "{{amount}} new changes"
+    }
   }
 }

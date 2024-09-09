@@ -15,7 +15,7 @@ interface StackProps {
   gap?: string;
   className?: string;
   children: React.ReactNode;
-  onClick?: (e:any)=>void;
+  onClick?: (e: any) => void;
 }
 
 const Stack: React.FC<StackProps> = ({
@@ -38,7 +38,11 @@ const Stack: React.FC<StackProps> = ({
     className,
   );
 
-  return <div className={classes} onClick={onClick}>{children}</div>;
+  return (
+    <div className={classes} onClick={onClick}>
+      {children}
+    </div>
+  );
 };
 
 export default Stack;

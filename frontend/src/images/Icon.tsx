@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Stack from '../components/Stack/Stack';
 
 export const Icon = ({
   onClick,
@@ -18,8 +19,13 @@ export const Icon = ({
   );
 
   return (
-    <div onClick={onClick} className={classes}>
+    <Stack
+      className={classes}
+      onClick={onClick}
+      direction="row"
+      alignItems="center"
+    >
       {children}
-    </div>
+    </Stack>
   );
 };

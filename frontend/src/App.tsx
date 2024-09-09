@@ -3,15 +3,18 @@ import { Sidebar } from './components/Sidebar';
 import Stack from './components/Stack/Stack';
 import { AppRoutes } from './content/AppRoutes';
 import './i18n.ts';
-import { t } from 'i18next';
 
 function App() {
   return (
     <Stack className="w-screen h-screen" direction="col">
       <Navbar />
-      <Stack className="w-full h-full" direction="row">
+      <Stack className="w-full h-full relative" direction="row">
         <Sidebar />
-        <AppRoutes />
+        <Stack className="w-full h-full relative">
+          <Stack className="w-full h-full absolute flex-1">
+            <AppRoutes />
+          </Stack>
+        </Stack>
       </Stack>
     </Stack>
   );
