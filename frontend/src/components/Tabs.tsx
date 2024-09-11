@@ -26,7 +26,7 @@ export const Tabs = ({ tabs }: { tabs: TabType[] }) => {
           </div>
         ))}
       </Stack>
-      <div className="w-full h-full p-2">
+      <div className="w-full h-full">
         {activeTab?.component || <div>Page not found</div>}
       </div>
     </Stack>

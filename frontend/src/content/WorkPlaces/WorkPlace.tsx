@@ -6,6 +6,7 @@ import { Tabs, TabType } from '../../components/Tabs';
 import { Icon } from '../../images/Icon';
 import { EllipsisHorizontalIcon } from '../../images/icons';
 import { workplaces } from '../../mock';
+import { ChatTab } from './ChatTab/ChatTab';
 
 export const WorkPlace = ({ id }: { id: string }) => {
   // todo: make api call to get all WorkPlace data (boards list included)
@@ -16,7 +17,7 @@ export const WorkPlace = ({ id }: { id: string }) => {
     {
       title: t('WorkPlaces.tabs.chat'),
       path: `/workplaces/${id}`,
-      component: <>Chat</>,
+      component: <ChatTab/>,
     },
     {
       title: 'tester 1',

@@ -28,11 +28,11 @@ export const Sidebar = () => {
       icon: <HomeIcon color="grey" />,
       path: '/',
     },
-    {
-      title: t('sidebar.WorkPlaces'),
-      icon: <BookOpenIcon color="grey" />,
-      path: '/workplaces',
-    },
+    // {
+    //   title: t('sidebar.WorkPlaces'),
+    //   icon: <BookOpenIcon color="grey" />,
+    //   path: '/workplaces',
+    // },
     {
       title: t('sidebar.Boards'),
       icon: <ClipboardIcon color="grey" />,
