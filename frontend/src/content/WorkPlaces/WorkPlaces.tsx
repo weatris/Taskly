@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { t } from 'i18next';
 import { Button } from '../../components/Button';
 import { WorkPlace } from './WorkPlace';
+import classNames from 'classnames';
 
 export const WorkPlaces = () => {
   const [search, setSearchValue] = useState('');
@@ -43,7 +44,10 @@ export const WorkPlaces = () => {
             {data.map((item) => {
               return (
                 <Stack
-                  className="w-full h-[60px] p-2 cursor-pointer border-b border-gray-100 hover:bg-gray-100"
+                  className={classNames(
+                    'w-full h-[60px] p-2 cursor-pointer border-b border-gray-100 hover:bg-gray-100',
+                    id === item.id && 'bg-gray-200',
+                  )}
                   direction="row"
                   alignItems="start"
                   onClick={() => {
@@ -74,7 +78,13 @@ export const WorkPlaces = () => {
           alignItems="start"
           justifyContent="start"
         >
-          {!!id ? <WorkPlace {...{ id }} /> : <></>}
+          {!!id ? (
+            <WorkPlace {...{ id }} />
+          ) : (
+            <Stack className="w-full h-full" justifyContent="center">
+              Select Workplace to start
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </Stack>

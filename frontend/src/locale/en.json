@@ -7,9 +7,17 @@
       "Boards": "Boards",
       "Calendar": "Calendar"
     },
+    "accessTypes": {
+      "public": "public",
+      "private": "private",
+      "closed": "closed"
+    },
     "WorkPlaces": {
       "title": "Your WorkPlaces",
-      "newChanges": "{{amount}} new changes"
+      "newChanges": "{{amount}} new changes",
+      "tabs": {
+        "chat": "Chat"
+      }
     }
   }
 }

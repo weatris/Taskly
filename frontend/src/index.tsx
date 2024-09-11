@@ -4,8 +4,7 @@ import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from './stateProvider/store';
+import { Providers } from './stateProvider/Providers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -13,9 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
+      <Providers>
         <App />
-      </Provider>
+      </Providers>
     </BrowserRouter>
   </React.StrictMode>,
 );
