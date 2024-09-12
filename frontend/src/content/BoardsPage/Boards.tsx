@@ -1,3 +1,56 @@
+import { useNavigate } from 'react-router-dom';
+import { AccessTypeBadge } from '../../components/AccessTypeBadge';
+import { Button } from '../../components/Button';
+import Stack from '../../components/Stack/Stack';
+import { boards } from '../../mock';
+
 export const Boards = () => {
-  return <>Boards</>;
+  const navigate = useNavigate();
+  const data = boards;
+
+  return (
+    <Stack
+      className="w-full h-full"
+      direction="col"
+      alignItems="start"
+      justifyContent="start"
+    >
+      <Stack
+        className="w-full p-3 border-b"
+        direction="row"
+        alignItems="center"
+        justifyContent="end"
+      >
+        <Button text="create board" />
+      </Stack>
+
+      <Stack
+        className="w-full h-full gap-3 p-5"
+        direction="row"
+        alignItems="start"
+        wrap="wrap"
+      >
+        {data.map((item) => (
+          <Stack
+            key={item.id}
+            className="w-[200px] h-[300px] min-w-[200px] min-h-[300px] relative border rounded-lg shadow-sm cursor-pointer"
+            direction="col"
+            onClick={() => {
+              navigate(`/boards/${item.id}`);
+            }}
+          >
+            <div className="w-full rounded-t-lg overflow-hidden">
+              <p className="w-full bg-gray-50 truncate border-b py-2 px-1 text-lg">
+                {item.name}
+              </p>
+            </div>
+            <AccessTypeBadge
+              tp={item.type}
+              className="absolute right-1 -top-4"
+            />
+          </Stack>
+        ))}
+      </Stack>
+    </Stack>
+  );
 };

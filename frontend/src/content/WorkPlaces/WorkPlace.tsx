@@ -17,7 +17,7 @@ export const WorkPlace = ({ id }: { id: string }) => {
     {
       title: t('WorkPlaces.tabs.chat'),
       path: `/workplaces/${id}`,
-      component: <ChatTab/>,
+      component: <ChatTab />,
     },
     {
       title: 'tester 1',
