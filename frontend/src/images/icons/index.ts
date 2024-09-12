@@ -7,4 +7,5 @@ export {
   LockClosedIcon,
   HomeIcon,
   EllipsisHorizontalIcon,
+  ArrowPathIcon,
 } from '@heroicons/react/24/solid';

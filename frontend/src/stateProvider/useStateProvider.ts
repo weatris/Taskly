@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './store';
 import { ConfigSlice } from './config';
 import { bindActionCreators } from '@reduxjs/toolkit';
+import { AuthSlice } from './auth/auth';
 
 export const useStateProvider = () => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ export const useStateProvider = () => {
     actions: bindActionCreators(
       {
         ...ConfigSlice.actions,
+        ...AuthSlice.actions,
       },
       dispatch,
     ),
