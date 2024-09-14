@@ -8,7 +8,7 @@ const typeMapping = {
   alert: 'bg-orange-300',
   success: 'bg-green-400',
   error: 'bg-red-300',
-  info: 'bg-blue-100',
+  info: 'bg-blue-200',
 };
 
 export const NotificationProvider = () => {
@@ -27,7 +27,7 @@ export const NotificationProvider = () => {
         return (
           <Stack
             className={classNames(
-              'w-auto min-w-[240px] h-[60px] min-h-[60px] overflow-x-hidden cursor-pointer relative border border-gray-300 rounded-lg py-1 px-2 pr-8',
+              'w-auto min-w-[240px] min-h-[30px] overflow-x-hidden cursor-pointer relative border border-gray-300 rounded-lg py-1 px-2 pr-8',
               className,
             )}
             direction="col"

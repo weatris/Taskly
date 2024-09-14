@@ -8,7 +8,7 @@ type WorkPlaceType = {
 
 type userType = {
   id: string;
-  displayName: string;
+  name: string;
   email: string;
 };
 

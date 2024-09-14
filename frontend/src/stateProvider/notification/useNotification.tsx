@@ -1,6 +1,6 @@
 import { generateRandomId } from '../../utils/utils';
 import { useStateProvider } from '../useStateProvider';
-import { notificationType } from './typing';
+import { notificationMessageType } from './typing';
 
 export const useNotification = () => {
   const { state, actions } = useStateProvider();
@@ -8,17 +8,23 @@ export const useNotification = () => {
   const { addNotification: addNotificationState, removeNotification } = actions;
 
   const addNotification = ({
-    notification,
+    title,
+    tp = 'info',
+    subtitle = '',
     lifetime = 3000,
   }: {
-    notification: notificationType;
+    title: string;
+    tp?: notificationMessageType;
+    subtitle?: string;
     lifetime?: number;
   }) => {
     const id = generateRandomId(6);
 
     addNotificationState({
-      ...notification,
       id,
+      title,
+      subtitle,
+      type: tp,
     });
 
     setTimeout(() => {

@@ -7,12 +7,12 @@ export const workplaces: WorkPlaceType[] = [
     members: [
       {
         id: 'm1',
-        displayName: 'Alice Smith',
+        name: 'Alice Smith',
         email: 'alice@techhub.com',
       },
       {
         id: 'm2',
-        displayName: 'Bob Johnson',
+        name: 'Bob Johnson',
         email: 'bob@techhub.com',
       },
     ],
@@ -25,12 +25,12 @@ export const workplaces: WorkPlaceType[] = [
     members: [
       {
         id: 'm3',
-        displayName: 'Carol Lee',
+        name: 'Carol Lee',
         email: 'carol@designers.com',
       },
       {
         id: 'm4',
-        displayName: 'David Kim',
+        name: 'David Kim',
         email: 'david@designers.com',
       },
     ],
@@ -43,7 +43,7 @@ export const workplaces: WorkPlaceType[] = [
     members: [
       {
         id: 'm5',
-        displayName: 'Eva Brown',
+        name: 'Eva Brown',
         email: 'eva@healthlab.com',
       },
     ],
@@ -55,12 +55,12 @@ export const workplaces: WorkPlaceType[] = [
     members: [
       {
         id: 'm6',
-        displayName: 'Frank White',
+        name: 'Frank White',
         email: 'frank@writersguild.com',
       },
       {
         id: 'm7',
-        displayName: 'Grace Green',
+        name: 'Grace Green',
         email: 'grace@writersguild.com',
       },
     ],
@@ -73,12 +73,12 @@ export const workplaces: WorkPlaceType[] = [
     members: [
       {
         id: 'm8',
-        displayName: 'Henry Black',
+        name: 'Henry Black',
         email: 'henry@marketingpro.com',
       },
       {
         id: 'm9',
-        displayName: 'Ivy Blue',
+        name: 'Ivy Blue',
         email: 'ivy@marketingpro.com',
       },
     ],
@@ -88,27 +88,27 @@ export const workplaces: WorkPlaceType[] = [
 export const users: userType[] = [
   {
     id: 'u1',
-    displayName: 'John Doe',
+    name: 'John Doe',
     email: 'john.doe@example.com',
   },
   {
     id: 'u2',
-    displayName: 'Jane Smith',
+    name: 'Jane Smith',
     email: 'jane.smith@example.com',
   },
   {
     id: 'u3',
-    displayName: 'Alex Johnson',
+    name: 'Alex Johnson',
     email: 'alex.johnson@example.com',
   },
   {
     id: 'u4',
-    displayName: 'Emily Davis',
+    name: 'Emily Davis',
     email: 'emily.davis@example.com',
   },
   {
     id: 'u5',
-    displayName: 'Michael Brown',
+    name: 'Michael Brown',
     email: 'michael.brown@example.com',
   },
 ];

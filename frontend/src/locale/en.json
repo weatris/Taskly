@@ -18,6 +18,26 @@
       "tabs": {
         "chat": "Chat"
       }
+    },
+    "Login": {
+      "header": "Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Submit",
+      "noAccount": "No account? Create one"
+    },
+    "Register": {
+      "header": "Register",
+      "email": "Email",
+      "name": "Name",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "haveAccount": "Use existing account",
+      "submit": "Submit"
+    },
+    "Errors": {
+      "default": "Something went wrong",
+      "invalidData": "Invalid Data"
     }
   }
 }

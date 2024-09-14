@@ -2,12 +2,20 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import { AuthProvider } from './auth/AuthProvider';
 import { NotificationProvider } from './notification/NotificationProvider';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RequestInterceptor } from './RequestInterceptor';
+
+const queryClient = new QueryClient();
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Provider store={store}>
-      <NotificationProvider />
-      <AuthProvider> {children}</AuthProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <NotificationProvider />
+        <RequestInterceptor>
+          <AuthProvider>{children}</AuthProvider>
+        </RequestInterceptor>
+      </Provider>
+    </QueryClientProvider>
   );
 };

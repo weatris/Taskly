@@ -8,7 +8,11 @@ import { NotificationSlice } from './notification/notification';
 export const useStateProvider = () => {
   const dispatch = useDispatch();
   return {
-    state: useSelector((state: RootState) => state),
+    state: {
+      config: useSelector((state: RootState) => state.config),
+      auth: useSelector((state: RootState) => state.auth),
+      notification: useSelector((state: RootState) => state.notification),
+    },
     actions: bindActionCreators(
       {
         ...ConfigSlice.actions,

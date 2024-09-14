@@ -1,13 +1,12 @@
-import express from 'express';
+import express from "express";
+import userService from "../services/user.js";
 const router = express.Router();
-import userService from '../services/user.js';
 
-router.post('/', userService.createUser);
-router.get('/:id', userService.getUserById);
-router.post('/login', userService.login);
+router.post("/", userService.createUser);
+router.post("/login", userService.login);
+router.get("/refresh", userService.refreshToken);
 
-router.put('/:id', userService.authenticate, userService.updateUser);
-router.delete('/:id', userService.authenticate, userService.deleteUser);
-router.get('/refresh', userService.authenticate, userService.updateUser);
+router.delete("/:id", userService.authenticate, userService.deleteUser);
+router.get("/search/:id", userService.authenticate, userService.getUserById);
 
 export default router;
