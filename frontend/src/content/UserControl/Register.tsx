@@ -5,9 +5,7 @@ import { useNotification } from '../../stateProvider/notification/useNotificatio
 import { useRef } from 'react';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
-
-const inputStyle =
-  'w-full p-2 border rounded-md border-gray-200 focus:border-gray-300 outline-none';
+import { inputStyle } from '../../common/styles';
 
 export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
   const { addNotification } = useNotification();

@@ -5,9 +5,7 @@ import { useNotification } from '../../stateProvider/notification/useNotificatio
 import { useRef } from 'react';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
-
-const inputStyle =
-  'w-full p-2 border rounded-md border-gray-200 focus:border-gray-300 outline-none';
+import { inputStyle } from '../../common/styles';
 
 export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
   const { addNotification } = useNotification();
@@ -25,17 +23,6 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
     },
   });
 
-  // const { mutate } = useApiMutation('refreshToken', {
-  //   onError: (error) => {
-  //     console.log(error);
-  //     setAuthData(undefined);
-  //   },
-  //   onSuccess: (data) => {
-  //     localStorage.setItem('authData', JSON.stringify(data));
-  //     setAuthData(data);
-  //   },
-  // });
-
   const onSubmit = () => {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
@@ -45,7 +32,7 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
       !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
     ) {
       addNotification({
-        title: 'Invalid email address',
+        title: t('Errors.invalidEmail'),
         tp: 'alert',
       });
       return;
@@ -59,7 +46,7 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
     ) {
       addNotification({
         title:
-          'Password must have at least 8 characters, 1 number, and 1 special character',
+        t('Errors.passwordNotSafe'),
         tp: 'info',
       });
       return;

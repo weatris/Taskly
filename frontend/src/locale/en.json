@@ -7,17 +7,8 @@
       "Boards": "Boards",
       "Calendar": "Calendar"
     },
-    "accessTypes": {
-      "public": "public",
-      "private": "private",
-      "closed": "closed"
-    },
-    "WorkPlaces": {
-      "title": "Your WorkPlaces",
-      "newChanges": "{{amount}} new changes",
-      "tabs": {
-        "chat": "Chat"
-      }
+    "manageUser": {
+      "LogOut": "Log Out"
     },
     "Login": {
       "header": "Login",
@@ -37,7 +28,24 @@
     },
     "Errors": {
       "default": "Something went wrong",
-      "invalidData": "Invalid Data"
+      "invalidData": "Invalid Data",
+      "invalidEmail": "Invalid email address",
+      "passwordNotSafe": "Password must have at least 8 characters, 1 number, and 1 special character"
+    },
+    "accessTypes": {
+      "public": "public",
+      "private": "private",
+      "closed": "closed"
+    },
+    "WorkPlaces": {
+      "title": "Your WorkPlaces",
+      "newChanges": "{{amount}} new changes",
+      "tabs": {
+        "chat": "Chat"
+      }
+    },
+    "Boards": {
+      "createBoard": "Create Board"
     }
   }
 }

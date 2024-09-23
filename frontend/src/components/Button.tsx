@@ -15,7 +15,7 @@ export const Button = ({
   const classes = classNames(
     'px-3',
     variant == 'default' && 'bg-green-700 hover:bg-green-800 text-white',
-    variant == 'primary' && '',
+    variant == 'primary' && 'hover:bg-gray-50 text-gray-700',
     className,
   );
   return (

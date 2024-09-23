@@ -8,10 +8,10 @@ function App() {
   return (
     <Stack className="w-screen h-screen" direction="col">
       <Navbar />
-      <Stack className="w-full h-full relative" direction="row">
+      <Stack className="w-full h-full" direction="row">
         <Sidebar />
-        <Stack className="w-full h-full relative">
-          <Stack className="w-full h-full absolute flex-1">
+        <Stack className="w-full h-full">
+          <Stack className="w-full h-full flex-1">
             <AppRoutes />
           </Stack>
         </Stack>
