@@ -6,12 +6,23 @@ import { HeaderStyle } from '../styles';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
 import { useStateProvider } from '../stateProvider/useStateProvider';
+import { Dropdown, dropdownItemType } from './Dropdown';
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const { state, actions } = useStateProvider();
   const { isFull } = state.config;
   const { toggleSidebar } = actions;
+
+  const items: dropdownItemType[] = [
+    {
+      content: <p className="text-red-500">{t('manageUser.LogOut')}</p>,
+      onClick: () => {
+        localStorage.removeItem('authData');
+        window.location.reload();
+      },
+    },
+  ];
 
   return (
     <Stack
@@ -40,14 +51,18 @@ export const Navbar = () => {
         </p>
       </Stack>
 
-      <Stack>
-        <Stack
-          className="h-10 w-10 bg-gray-200 border border-gray-400 rounded-full"
-          justifyContent="center"
-        >
-          <p className="mx-auto text-xl select-none">T</p>
-        </Stack>
-      </Stack>
+      <Dropdown
+        label={
+          <Stack
+            className="h-10 w-10 bg-gray-200 border border-gray-400 rounded-full"
+            justifyContent="center"
+          >
+            <p className="mx-auto text-xl select-none">T</p>
+          </Stack>
+        }
+        items={items}
+        hideArrow={true}
+      />
     </Stack>
   );
 };

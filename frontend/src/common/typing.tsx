@@ -20,7 +20,7 @@ type groupType = {
 };
 
 type configType = {
-  groupTypes: groupType[];
+  groupTypes?: groupType[];
 };
 
 type memberType = {
@@ -28,10 +28,12 @@ type memberType = {
   level: permissionLevelType;
 };
 
+type boardAccessType = 'public' | 'private' | 'closed';
+
 type boardType = {
   id: string;
   name: string;
-  type?: 'public' | 'private' | 'closed';
+  type?: boardAccessType;
   members: memberType[];
   config: configType;
 };

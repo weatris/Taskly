@@ -1,3 +1,4 @@
+import { boardFunctions } from './boards';
 import { userFunctions } from './user';
 
 export const BACKEND_URL =
@@ -5,4 +6,5 @@ export const BACKEND_URL =
 
 export const apiFunctions = {
   ...userFunctions,
+  ...boardFunctions,
 };

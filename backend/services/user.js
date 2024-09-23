@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { generateToken } from "./../utils.js";
 import { sequelize } from "../config/db.js";
+import { decodeToken } from "../utils/decodeToken.js";
 
 const tokenLifeTime = "1h";
 
@@ -102,12 +103,12 @@ async function login(req, res) {
 }
 
 async function authenticate(req, res, next) {
-  const token = req.header("Authorization");
+  const {decoded, token} = decodeToken(req, false);
+
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.user = await User.findByPk(decoded.userId);
     next();
   } catch (err) {
@@ -117,17 +118,13 @@ async function authenticate(req, res, next) {
 }
 
 async function refreshToken(req, res) {
-  const data = req.header("Authorization");
-  const token = data && data.split(" ")[1];
+  const {decoded, token} = decodeToken(req);
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY, {
-      ignoreExpiration: true,
-    });
     const user = await User.findByPk(decoded.userId);
 
     if (!user) {

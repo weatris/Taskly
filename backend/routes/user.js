@@ -6,7 +6,7 @@ router.post("/", userService.createUser);
 router.post("/login", userService.login);
 router.get("/refresh", userService.refreshToken);
 
-router.delete("/:id", userService.authenticate, userService.deleteUser);
-router.get("/search/:id", userService.authenticate, userService.getUserById);
+// router.delete("/:id", userService.authenticate, userService.deleteUser);
+// router.get("/search/:id", userService.authenticate, userService.getUserById);
 
 export default router;

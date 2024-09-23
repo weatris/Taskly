@@ -2,11 +2,22 @@ import { useNavigate } from 'react-router-dom';
 import { AccessTypeBadge } from '../../components/AccessTypeBadge';
 import { Button } from '../../components/Button';
 import Stack from '../../components/Stack/Stack';
-import { boards } from '../../mock';
+import { useApiQuery } from '../../api/useApiQuery';
+import { useState } from 'react';
+import { t } from 'i18next';
+import { CreateBoardPanel } from './CreateBoardPanel';
 
 export const Boards = () => {
   const navigate = useNavigate();
-  const data = boards;
+  const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
+  const { data = [] } = useApiQuery('searchBoards', [
+    {
+      params: {
+        name: '',
+        type: 'public',
+      },
+    },
+  ]);
 
   return (
     <Stack
@@ -21,7 +32,12 @@ export const Boards = () => {
         alignItems="center"
         justifyContent="end"
       >
-        <Button text="create board" />
+        <Button
+          text={t('Boards.createBoard')}
+          onClick={() => {
+            setShowCreateBoardModal(true);
+          }}
+        />
       </Stack>
 
       <Stack
@@ -51,6 +67,12 @@ export const Boards = () => {
           </Stack>
         ))}
       </Stack>
+      <CreateBoardPanel
+        {...{
+          showCreateBoardModal,
+          setShowCreateBoardModal,
+        }}
+      />
     </Stack>
   );
 };
