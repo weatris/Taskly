@@ -45,7 +45,9 @@
     "Boards": {
       "createBoard": {
         "title": "Create Board",
-        "name": "Name"
+        "name": "Name",
+        "fillData": "Fill missing data",
+        "cantCreate": "Can`t create board"
       }
     },
     "common": {

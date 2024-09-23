@@ -10,7 +10,7 @@ import { CreateBoardPanel } from './CreateBoardPanel';
 export const Boards = () => {
   const navigate = useNavigate();
   const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
-  const { data = [] } = useApiQuery('searchBoards', [
+  const { data = [], refetch } = useApiQuery('searchBoards', [
     {
       params: {
         name: '',
@@ -71,6 +71,10 @@ export const Boards = () => {
         {...{
           showCreateBoardModal,
           setShowCreateBoardModal,
+          onSuccess: ()=>{
+            refetch();
+            setShowCreateBoardModal(false);
+          }
         }}
       />
     </Stack>
