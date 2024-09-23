@@ -108,7 +108,7 @@ export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
           />
           <Button
             className="w-full"
-            text={t('Register.submit')}
+            text={t('common.submit')}
             onClick={onSubmit}
           />
           <button className="text-blue-500 ml-auto" onClick={toggleMode}>

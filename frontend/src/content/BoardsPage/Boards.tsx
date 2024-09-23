@@ -33,7 +33,7 @@ export const Boards = () => {
         justifyContent="end"
       >
         <Button
-          text={t('Boards.createBoard')}
+          text={t('Boards.createBoard.title')}
           onClick={() => {
             setShowCreateBoardModal(true);
           }}

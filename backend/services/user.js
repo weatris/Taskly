@@ -103,7 +103,7 @@ async function login(req, res) {
 }
 
 async function authenticate(req, res, next) {
-  const {decoded, token} = decodeToken(req, false);
+  const { decoded, token } = decodeToken(req, false);
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -118,7 +118,7 @@ async function authenticate(req, res, next) {
 }
 
 async function refreshToken(req, res) {
-  const {decoded, token} = decodeToken(req);
+  const { decoded, token } = decodeToken(req);
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });

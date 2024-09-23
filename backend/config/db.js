@@ -22,22 +22,22 @@ export const BoardMember = createBoardMemberModel(sequelize);
 
 User.belongsToMany(Board, {
   through: BoardMember,
-  foreignKey: 'userId',
-  otherKey: 'boardId',
-  as: 'boards',
+  foreignKey: "userId",
+  otherKey: "boardId",
+  as: "boards",
 });
 
 Board.belongsToMany(User, {
   through: BoardMember,
-  foreignKey: 'boardId',
-  otherKey: 'userId',
-  as: 'members',
+  foreignKey: "boardId",
+  otherKey: "userId",
+  as: "members",
 });
 
-BoardMember.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-BoardMember.belongsTo(Board, { foreignKey: 'boardId', as: 'board' });
+BoardMember.belongsTo(User, { foreignKey: "userId", as: "user" });
+BoardMember.belongsTo(Board, { foreignKey: "boardId", as: "board" });
 
-User.hasMany(BoardMember, { foreignKey: 'userId', as: 'boardMemberships' });
-Board.hasMany(BoardMember, { foreignKey: 'boardId', as: 'memberShips' });
+User.hasMany(BoardMember, { foreignKey: "userId", as: "boardMemberships" });
+Board.hasMany(BoardMember, { foreignKey: "boardId", as: "memberShips" });
 
 export default { sequelize, User, Board, BoardMember };

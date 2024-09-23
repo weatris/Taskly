@@ -45,8 +45,7 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
       !password.match(/[!@#$%^&*(),.?":{}|<>-_+=]/)
     ) {
       addNotification({
-        title:
-        t('Errors.passwordNotSafe'),
+        title: t('Errors.passwordNotSafe'),
         tp: 'info',
       });
       return;
@@ -78,7 +77,7 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
           />
           <Button
             className="w-full"
-            text={t('Login.submit')}
+            text={t('common.submit')}
             onClick={onSubmit}
           />
           <button className="text-blue-500 ml-auto" onClick={toggleMode}>

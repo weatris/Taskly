@@ -3,6 +3,7 @@ import { Icon } from '../images/Icon';
 import { XMarkIcon } from '../images/icons';
 import { Button } from './Button';
 import Stack from './Stack/Stack';
+import { t } from 'i18next';
 
 export const Modal = ({
   isVisible,
@@ -67,7 +68,7 @@ export const Modal = ({
           <Stack className="w-full p-2 gap-2 border-t">
             <Button
               className="w-full"
-              text="Cancel"
+              text={t('common.cancel')}
               variant="primary"
               onClick={() => {
                 onClose();
@@ -75,7 +76,7 @@ export const Modal = ({
             />
             <Button
               className="w-full"
-              text="Submit"
+              text={t('common.submit')}
               onClick={() => {
                 onAccept();
               }}

@@ -12,18 +12,18 @@ export const CreateBoardPanel = ({
   showCreateBoardModal: boolean;
   setShowCreateBoardModal: Dispatch<SetStateAction<boolean>>;
 }) => {
-    const [selectedOption, setSelectedOption] = useState('');
-    const options = [
-        { title: t('accessTypes.public'), key: 'public' },
-        { title: t('accessTypes.private'), key: 'private' },
-        { title: t('accessTypes.closed'), key: 'closed' }
-      ];
+  const [selectedOption, setSelectedOption] = useState('');
+  const options = [
+    { title: t('accessTypes.public'), key: 'public' },
+    { title: t('accessTypes.private'), key: 'private' },
+    { title: t('accessTypes.closed'), key: 'closed' },
+  ];
 
   return (
     <Modal
       {...{
         isVisible: showCreateBoardModal,
-        title: 'tester',
+        title: t('Boards.createBoard.title'),
         onClose: () => {
           setShowCreateBoardModal(false);
         },
@@ -32,11 +32,17 @@ export const CreateBoardPanel = ({
         },
       }}
     >
-      <Stack className='w-full h-full gap-4' direction='col'>
-      <input className={inputStyle} placeholder="Name" />
-      <Select options={options} onChange={(value)=>{
-        setSelectedOption(value);
-      }}/>
+      <Stack className="w-full h-full gap-4" direction="col">
+        <input
+          className={inputStyle}
+          placeholder={t('Boards.createBoard.name')}
+        />
+        <Select
+          options={options}
+          onChange={(value) => {
+            setSelectedOption(value);
+          }}
+        />
       </Stack>
     </Modal>
   );

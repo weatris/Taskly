@@ -1,5 +1,5 @@
 // BoardMember.js
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { Sequelize, DataTypes, Model } from "sequelize";
 
 export default (sequelize) => {
   class BoardMember extends Model {}
@@ -14,20 +14,20 @@ export default (sequelize) => {
       boardId: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'boards',
-          key: 'id',
+          model: "boards",
+          key: "id",
         },
         allowNull: false,
-        field: 'board_id',
+        field: "board_id",
       },
       userId: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'users',
-          key: 'id',
+          model: "users",
+          key: "id",
         },
         allowNull: false,
-        field: 'user_id',
+        field: "user_id",
       },
       level: {
         type: DataTypes.STRING,
@@ -36,8 +36,8 @@ export default (sequelize) => {
     },
     {
       sequelize,
-      modelName: 'BoardMember',
-      tableName: 'board_members',
+      modelName: "BoardMember",
+      tableName: "board_members",
       timestamps: true,
       underscored: true,
     },

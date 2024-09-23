@@ -14,7 +14,6 @@
       "header": "Login",
       "email": "Email",
       "password": "Password",
-      "submit": "Submit",
       "noAccount": "No account? Create one"
     },
     "Register": {
@@ -23,8 +22,7 @@
       "name": "Name",
       "password": "Password",
       "confirmPassword": "Confirm Password",
-      "haveAccount": "Use existing account",
-      "submit": "Submit"
+      "haveAccount": "Use existing account"
     },
     "Errors": {
       "default": "Something went wrong",
@@ -45,7 +43,14 @@
       }
     },
     "Boards": {
-      "createBoard": "Create Board"
+      "createBoard": {
+        "title": "Create Board",
+        "name": "Name"
+      }
+    },
+    "common": {
+      "submit": "Submit",
+      "cancel": "Cancel"
     }
   }
 }

@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model } from "sequelize";
 
 export default (sequelize) => {
   class Board extends Model {}
@@ -15,25 +15,25 @@ export default (sequelize) => {
         allowNull: false,
       },
       type: {
-        type: DataTypes.ENUM('public', 'private', 'closed'),
+        type: DataTypes.ENUM("public", "private", "closed"),
         allowNull: true,
       },
       config: {
         type: DataTypes.TEXT,
         allowNull: true,
         get() {
-          const rawValue = this.getDataValue('config');
+          const rawValue = this.getDataValue("config");
           return rawValue ? JSON.parse(rawValue) : null;
         },
         set(value) {
-          this.setDataValue('config', JSON.stringify(value));
+          this.setDataValue("config", JSON.stringify(value));
         },
       },
     },
     {
       sequelize,
-      modelName: 'Board',
-      tableName: 'boards',
+      modelName: "Board",
+      tableName: "boards",
       timestamps: true,
       underscored: true,
     },
