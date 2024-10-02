@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const { mutate, isPending } = useApiMutation('refreshToken', {
     onError: (error) => {
-      console.error('Token refresh error:', error);
+      console.log('Token refresh error:', error);
+      localStorage.removeItem('authData');
       setAuthData(undefined);
     },
     onSuccess: (data) => {
@@ -24,7 +25,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           expirationDate: new Date(data.expirationDate),
         });
     },
+    retry: () => false,
   });
+
+  const { mutate: validateToken, isPending: isValidating } = useApiMutation(
+    'validateToken',
+    {
+      onError: (error) => {
+        console.log('Token validate error:', error);
+        localStorage.removeItem('authData');
+        setAuthData(undefined);
+      },
+      onSuccess: () => {
+        const savedAuthData = localStorage.getItem('authData');
+        const parsedData = JSON.parse(savedAuthData || '');
+        setAuthData({
+          ...parsedData,
+          expirationDate: new Date(parsedData.expirationDate),
+        });
+      },
+      retry: () => false,
+    },
+  );
 
   useEffectOnce(() => {
     const loadAuthDataFromStorage = () => {
@@ -32,10 +54,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (savedAuthData) {
         try {
           const parsedData = JSON.parse(savedAuthData);
-          setAuthData({
-            ...parsedData,
-            expirationDate: new Date(parsedData.expirationDate),
-          });
+          const parsedToken = parsedData.token;
+          if (parsedToken)
+            validateToken(parsedToken, {
+              onSuccess: () => {
+                setAuthData({
+                  ...parsedData,
+                  expirationDate: new Date(parsedData.expirationDate),
+                });
+              },
+            });
         } catch (error) {
           console.error('Error parsing auth data:', error);
           setAuthData(undefined);
@@ -70,7 +98,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [expirationDate, mutate]);
 
-  if (isLoading || isPending) {
+  if (isLoading || isPending || isValidating) {
     return <Spinner />;
   }
 

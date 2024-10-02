@@ -14,7 +14,7 @@ export const CreateBoardPanel = ({
 }: {
   showCreateBoardModal: boolean;
   setShowCreateBoardModal: Dispatch<SetStateAction<boolean>>;
-  onSuccess: ()=>void;
+  onSuccess: () => void;
 }) => {
   const { addNotification } = useNotification();
   const [selectedOption, setSelectedOption] = useState('public');
@@ -25,16 +25,15 @@ export const CreateBoardPanel = ({
   ];
 
   const nameRef = useRef<HTMLInputElement>(null);
-  const {mutate} = useApiMutation('createBoard',{
+  const { mutate } = useApiMutation('createBoard', {
     onSuccess,
-    onError: ()=>{
+    onError: () => {
       addNotification({ title: t('Boards.createBoard.cantCreate') });
-    }
-  }
-  );
+    },
+  });
 
-  const onAccept = ()=>{
-    if(!selectedOption||!nameRef.current?.value){
+  const onAccept = () => {
+    if (!selectedOption || !nameRef.current?.value) {
       addNotification({ title: t('Boards.createBoard.fillData') });
       return;
     }
@@ -44,9 +43,9 @@ export const CreateBoardPanel = ({
         config: {},
         name: nameRef.current?.value,
         type: selectedOption as boardAccessType,
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <Modal
@@ -61,7 +60,7 @@ export const CreateBoardPanel = ({
     >
       <Stack className="w-full h-full gap-4" direction="col">
         <input
-        ref={nameRef}
+          ref={nameRef}
           className={inputStyle}
           placeholder={t('Boards.createBoard.name')}
         />

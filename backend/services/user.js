@@ -117,6 +117,26 @@ async function authenticate(req, res, next) {
   }
 }
 
+async function validateToken(req, res) {
+  try {
+    const {token} = req.body;
+    
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const decoded = jwt.verify(token, process.env.SECRET_KEY, {
+      ignoreExpiration: true,
+    });
+
+    await User.findByPk(decoded.userId);
+    return res.status(200).json({});
+  } catch (err) {
+    console.error(err);
+    return res.status(401).json({ message: "Invalid token" });
+  }
+}
+
 async function refreshToken(req, res) {
   const { decoded, token } = decodeToken(req);
 
@@ -163,4 +183,5 @@ export default {
   login,
   refreshToken,
   authenticate,
+  validateToken,
 };

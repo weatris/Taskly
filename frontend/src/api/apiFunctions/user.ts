@@ -15,4 +15,7 @@ export const userFunctions = {
     axios.post<LoginResponse>(BACKEND_URL + '/users/login', params),
 
   refreshToken: () => axios.get<LoginResponse>(BACKEND_URL + '/users/refresh'),
+
+  validateToken: (token: string) =>
+    axios.post<LoginResponse>(BACKEND_URL + '/users/validate', { token }),
 };

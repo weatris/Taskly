@@ -71,10 +71,10 @@ export const Boards = () => {
         {...{
           showCreateBoardModal,
           setShowCreateBoardModal,
-          onSuccess: ()=>{
+          onSuccess: () => {
             refetch();
             setShowCreateBoardModal(false);
-          }
+          },
         }}
       />
     </Stack>
