@@ -9,4 +9,5 @@ export {
   EllipsisHorizontalIcon,
   ArrowPathIcon,
   XMarkIcon,
+  ExclamationTriangleIcon,
 } from '@heroicons/react/24/solid';

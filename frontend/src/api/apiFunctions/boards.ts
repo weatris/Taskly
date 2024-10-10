@@ -14,6 +14,6 @@ export const boardFunctions = {
     params: { name: string; type: boardAccessType };
   }) => axios.post<boardType[]>(BACKEND_URL + '/boards/search', params),
 
-  getBoardById: ({ params }: { params: { id: string } }) =>
-    axios.get<boardType>(BACKEND_URL + `/boards/${params.id}`),
+  getBoardById: ({ id }: { id: string }) =>
+    axios.get<boardType>(BACKEND_URL + `/boards/${id}`),
 };
