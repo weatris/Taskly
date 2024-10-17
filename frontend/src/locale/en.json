@@ -43,6 +43,7 @@
       }
     },
     "Boards": {
+      "noBoardCreated": "No Board created",
       "createBoard": {
         "title": "Create Board",
         "name": "Name",
@@ -53,7 +54,8 @@
     "common": {
       "submit": "Submit",
       "cancel": "Cancel",
-      "refresh": "Refresh"
+      "refresh": "Refresh",
+      "nothingFound": "Nothing found, please change filters"
     }
   }
 }

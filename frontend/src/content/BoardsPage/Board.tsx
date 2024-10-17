@@ -7,7 +7,6 @@ import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 export const Board = () => {
   const { id = '' } = useParams();
 
-  //todo fix id is undefined when inside of useApiQuery
   const { data, isLoading, isError } = useApiQuery('getBoardById', [{ id }]);
   const groupTypes = data?.config.groupTypes || [];
 

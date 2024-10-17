@@ -41,7 +41,7 @@ export async function createBoard(req, res) {
 
 export async function searchBoards(req, res) {
   try {
-    const { name, type } = req.query;
+    const { name, type } = req.body;
 
     const where = {};
     if (name) {

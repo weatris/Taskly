@@ -21,9 +21,9 @@ export function useApiQuery<K extends keyof typeof apiFunctions>(
 ) {
   const { addNotification } = useNotification();
 
-  const queryFn = async () => {
+  const queryFn = async (vars: any) => {
     // Extract 'data' field from the API function response
-    const response = await apiFunctions[key](variables as any);
+    const response = await apiFunctions[key](vars.queryKey[1][0]);
     return response.data; // Return only the 'data' field
   };
 

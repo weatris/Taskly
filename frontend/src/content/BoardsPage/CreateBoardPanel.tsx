@@ -9,11 +9,11 @@ import { useNotification } from '../../stateProvider/notification/useNotificatio
 
 export const CreateBoardPanel = ({
   showCreateBoardModal,
-  setShowCreateBoardModal,
+  onClose,
   onSuccess,
 }: {
   showCreateBoardModal: boolean;
-  setShowCreateBoardModal: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
   onSuccess: () => void;
 }) => {
   const { addNotification } = useNotification();
@@ -52,9 +52,7 @@ export const CreateBoardPanel = ({
       {...{
         isVisible: showCreateBoardModal,
         title: t('Boards.createBoard.title'),
-        onClose: () => {
-          setShowCreateBoardModal(false);
-        },
+        onClose,
         onAccept,
       }}
     >

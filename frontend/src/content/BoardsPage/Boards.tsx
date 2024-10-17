@@ -7,10 +7,47 @@ import { useState } from 'react';
 import { t } from 'i18next';
 import { CreateBoardPanel } from './CreateBoardPanel';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
+import { SearchInput } from '../../components/SearchInput';
+import { useStateProvider } from '../../stateProvider/useStateProvider';
+import { InfoPanel } from '../../components/StatePanels/InfoPanel';
+
+const NoBoardCreated = () => {
+  const { toggleCreateBoardModal } = useStateProvider().actions;
+
+  return (
+    <Stack
+      className="w-full h-full"
+      direction="col"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Stack
+        className="p-3 rounded-md border-gray-200 border-[1px] shadow-md"
+        direction="col"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <p className="text-xl text-gray-400 mb-3">
+          {t('Boards.noBoardCreated')}
+        </p>
+        <Button
+          text={t('Boards.createBoard.title')}
+          onClick={() => {
+            toggleCreateBoardModal(true);
+          }}
+        />
+      </Stack>
+    </Stack>
+  );
+};
 
 export const Boards = () => {
   const navigate = useNavigate();
-  const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
+  const { state, actions } = useStateProvider();
+  const { showCreateBoardModal } = state.board;
+  const { toggleCreateBoardModal } = actions;
+  const [searchValue, setSearchValue] = useState('');
+
   const {
     data = [],
     isLoading,
@@ -19,34 +56,51 @@ export const Boards = () => {
   } = useApiQuery('searchBoards', [
     {
       params: {
-        name: '',
+        name: searchValue,
         type: 'public',
       },
     },
   ]);
 
   return (
-    <ProgressPanel {...{ isLoading, isError }}>
+    <Stack
+      className="w-full h-full"
+      direction="col"
+      alignItems="start"
+      justifyContent="start"
+    >
       <Stack
-        className="w-full h-full"
-        direction="col"
-        alignItems="start"
-        justifyContent="start"
+        className="w-full p-3 border-b"
+        direction="row"
+        alignItems="center"
+        justifyContent="between"
       >
-        <Stack
-          className="w-full p-3 border-b"
-          direction="row"
-          alignItems="center"
-          justifyContent="end"
-        >
-          <Button
-            text={t('Boards.createBoard.title')}
-            onClick={() => {
-              setShowCreateBoardModal(true);
-            }}
-          />
-        </Stack>
-
+        <SearchInput
+          {...{
+            value: searchValue,
+            setValue: setSearchValue,
+            debounce: true,
+          }}
+        />
+        <Button
+          text={t('Boards.createBoard.title')}
+          onClick={() => {
+            toggleCreateBoardModal(true);
+          }}
+        />
+      </Stack>
+      <ProgressPanel
+        {...{
+          isLoading,
+          isError,
+          nothingFound: !data.length,
+          nothingFoundComponent: !searchValue ? (
+            <NoBoardCreated />
+          ) : (
+            <InfoPanel />
+          ),
+        }}
+      >
         <Stack
           className="w-full h-full gap-3 p-5"
           direction="row"
@@ -74,17 +128,19 @@ export const Boards = () => {
             </Stack>
           ))}
         </Stack>
-        <CreateBoardPanel
-          {...{
-            showCreateBoardModal,
-            setShowCreateBoardModal,
-            onSuccess: () => {
-              refetch();
-              setShowCreateBoardModal(false);
-            },
-          }}
-        />
-      </Stack>
-    </ProgressPanel>
+      </ProgressPanel>
+      <CreateBoardPanel
+        {...{
+          showCreateBoardModal,
+          onClose: () => {
+            toggleCreateBoardModal(false);
+          },
+          onSuccess: () => {
+            refetch();
+            toggleCreateBoardModal(false);
+          },
+        }}
+      />
+    </Stack>
   );
 };

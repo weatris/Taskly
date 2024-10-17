@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Icon } from '../images/Icon';
-import { MagnifyingGlassIcon } from '../images/icons';
+import { MagnifyingGlassIcon, XMarkIcon } from '../images/icons';
 import Stack from './Stack/Stack';
 import classNames from 'classnames';
 
@@ -60,8 +60,20 @@ export const SearchInput = ({
           }}
         />
       </div>
-      <Icon className="absolute right-1" hoverable={false}>
-        <MagnifyingGlassIcon color="gray" />
+      <Icon
+        className="absolute right-1"
+        hoverable={!!value}
+        onClick={() => {
+          if (value) {
+            setInputValue('');
+          }
+        }}
+      >
+        {!!value ? (
+          <XMarkIcon color="gray" />
+        ) : (
+          <MagnifyingGlassIcon color="gray" />
+        )}
       </Icon>
     </Stack>
   );

@@ -1,16 +1,21 @@
 import { Spinner } from '../Spinner';
 import { ErrorPanel } from './ErrorPanel';
+import { InfoPanel } from './InfoPanel';
 
 export const ProgressPanel = ({
   isLoading,
-  isError,
   children,
+  isError,
   errorComponent = <ErrorPanel />,
+  nothingFound,
+  nothingFoundComponent = <InfoPanel />,
 }: {
   isLoading: boolean;
-  isError?: boolean;
   children: React.ReactNode;
+  isError?: boolean;
   errorComponent?: React.ReactNode;
+  nothingFound?: boolean;
+  nothingFoundComponent?: React.ReactNode;
 }) => {
   if (isLoading) {
     return <Spinner />;
@@ -18,6 +23,10 @@ export const ProgressPanel = ({
 
   if (isError) {
     return <>{errorComponent}</>;
+  }
+
+  if (nothingFound) {
+    return <>{nothingFoundComponent}</>;
   }
 
   return <>{children}</>;
