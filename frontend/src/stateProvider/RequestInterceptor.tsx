@@ -18,6 +18,19 @@ export const RequestInterceptor = ({
         return config;
       });
     }
+    axios.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          window.location.reload();
+        } else {
+          console.log('Axios error:', error);
+        }
+        return Promise.reject(error);
+      },
+    );
   }, [token]);
 
   return <>{children}</>;

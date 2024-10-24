@@ -16,4 +16,7 @@ export const boardFunctions = {
 
   getBoardById: ({ id }: { id: string }) =>
     axios.get<boardType>(BACKEND_URL + `/boards/${id}`),
+
+  updateConfig: ({ id, config }: { id: string; config: any }) =>
+    axios.put<{ id: string }>(BACKEND_URL + `/boards/${id}`, { config }),
 };

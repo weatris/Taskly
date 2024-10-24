@@ -119,8 +119,40 @@ export async function getBoardById(req, res) {
   }
 }
 
+export async function updateBoard(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const user = req.user;
+    if (!user) {
+      await transaction.rollback();
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { id } = req.params;
+    const { config } = req.body;
+
+    const board = await Board.findByPk(id);
+    if (!board) {
+      await transaction.rollback();
+      return res.status(404).json({ message: "Board not found" });
+    }
+
+    board.config = config;
+    await board.save({ transaction });
+
+    await transaction.commit();
+
+    res.status(200).json({ message: "Board updated successfully" });
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error updating board" });
+  }
+}
+
 export default {
   createBoard,
   searchBoards,
   getBoardById,
+  updateBoard
 };

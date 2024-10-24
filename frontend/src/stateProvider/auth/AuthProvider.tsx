@@ -7,11 +7,11 @@ import { useEffectOnce } from 'react-use';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { state, actions } = useStateProvider();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDataLoading, setIsLoading] = useState(true);
   const { setAuthData } = actions;
   const { token, expirationDate } = state.auth;
 
-  const { mutate, isPending } = useApiMutation('refreshToken', {
+  const { mutate, isLoading } = useApiMutation('refreshToken', {
     onError: (error) => {
       console.log('Token refresh error:', error);
       localStorage.removeItem('authData');
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     retry: () => false,
   });
 
-  const { mutate: validateToken, isPending: isValidating } = useApiMutation(
+  const { mutate: validateToken, isLoading: isValidating } = useApiMutation(
     'validateToken',
     {
       onError: (error) => {
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [expirationDate, mutate]);
 
-  if (isLoading || isPending || isValidating) {
+  if (isDataLoading || isLoading || isValidating) {
     return <Spinner />;
   }
 

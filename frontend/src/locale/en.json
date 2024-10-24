@@ -49,13 +49,20 @@
         "name": "Name",
         "fillData": "Fill missing data",
         "cantCreate": "Can`t create board"
-      }
+      },
+      "settings": "Settings"
+    },
+    "Board": {
+      "createList": "Create list",
+      "createTicket": "Create ticket"
     },
     "common": {
       "submit": "Submit",
+      "create": "Create",
       "cancel": "Cancel",
       "refresh": "Refresh",
-      "nothingFound": "Nothing found, please change filters"
+      "nothingFound": "Nothing found, please change filters",
+      "ButtonInputForm": "Enter name"
     }
   }
 }
