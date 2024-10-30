@@ -19,7 +19,12 @@ export default (sequelize) => {
         allowNull: true,
       },
       config: {
-        type: DataTypes.TEXT,
+        type: {
+          groups: DataTypes.ARRAY({
+            id: DataTypes.STRING,
+            name: DataTypes.STRING,
+          }),
+        },
         allowNull: true,
         get() {
           const rawValue = this.getDataValue("config");

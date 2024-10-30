@@ -19,4 +19,15 @@ export const boardFunctions = {
 
   updateConfig: ({ id, config }: { id: string; config: any }) =>
     axios.put<{ id: string }>(BACKEND_URL + `/boards/${id}`, { config }),
+
+  createTicket: ({
+    id,
+    groupId,
+    name,
+  }: {
+    id: string;
+    groupId: string;
+    name: string;
+  }) =>
+    axios.post<void>(BACKEND_URL + `/boards/${id}/tickets`, { name, groupId }),
 };

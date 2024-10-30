@@ -23,32 +23,16 @@ export const TicketGroup = ({
   refetch,
 }: {
   item: ticketGroupType;
-  boardData?: boardType;
+  boardData: boardType;
   refetch: () => void;
 }) => {
   const [showEditName, setShowEditName] = useState(false);
   const [value, setValue] = useState(item.groupName);
   const ref = useRef(null);
   const { addNotification } = useNotification();
+  const tickets = item.tickets || [];
 
-  const onAccept = () => {};
-
-  const tickets = [
-    {
-      name: 'tester',
-      id: 1,
-    },
-    {
-      name: 'tester',
-      id: 2,
-    },
-    {
-      name: 'tester',
-      id: 3,
-    },
-  ];
-
-  const { mutate, isLoading } = useApiMutation('updateConfig', {
+  const { mutate: mutateCreateTicket } = useApiMutation('createTicket', {
     onSuccess: () => {
       refetch();
     },
@@ -60,12 +44,33 @@ export const TicketGroup = ({
     },
   });
 
+  const createTicket = (name: string) => {
+    mutateCreateTicket({
+      id: boardData.id,
+      groupId: item.groupId,
+      name,
+    });
+  };
+
+  const { mutate: mutateUpdateConfig, isLoading: isLoadingUpdateConfig } =
+    useApiMutation('updateConfig', {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: () => {
+        addNotification({
+          title: t('Errors.default'),
+          tp: 'alert',
+        });
+      },
+    });
+
   const onGroupRename = (groupId: string, newName: string) => {
-    if (!boardData?.id) {
+    if (!boardData?.id || !newName || !groupId) {
       return;
     }
 
-    mutate({
+    mutateUpdateConfig({
       id: boardData.id,
       config: {
         ...boardData?.config,
@@ -107,7 +112,7 @@ export const TicketGroup = ({
             <p
               className={classNames(
                 'leading-[40px] truncate',
-                isLoading && 'invisible',
+                isLoadingUpdateConfig && 'invisible',
               )}
             >
               {item.groupName}
@@ -118,7 +123,7 @@ export const TicketGroup = ({
                 setShowEditName(true);
               }}
             >
-              {isLoading ? (
+              {isLoadingUpdateConfig ? (
                 <>
                   <Spinner />
                 </>
@@ -136,13 +141,15 @@ export const TicketGroup = ({
           direction="col"
           alignItems="start"
         >
-          {ticket.id == 1 && (
+          {ticket.id == '1' && (
             <div className="w-full h-[20px] rounded-t-lg bg-red-200" />
           )}
           <p className="leading-[40px] px-2">{ticket.name}</p>
         </Stack>
       ))}
-      <ButtonInputForm {...{ onAccept, text: t('Board.createTicket') }} />
+      <ButtonInputForm
+        {...{ onAccept: createTicket, text: t('Board.createTicket') }}
+      />
     </Stack>
   );
 };

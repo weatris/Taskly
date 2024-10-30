@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { tickets } from '../../mock';
 import Stack from '../../components/Stack/Stack';
 import { useApiQuery } from '../../api/useApiQuery';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
@@ -55,8 +54,11 @@ export const Board = () => {
   const ticketData = groupTypes.map((groupType) => ({
     groupId: groupType.id,
     groupName: groupType.name,
-    tickets: tickets.filter((ticket) => ticket.group === groupType.id),
+    tickets:
+      data?.tickets.filter((ticket) => ticket.groupId === groupType.id) || [],
   }));
+
+  console.log(ticketData);
 
   return (
     <>
@@ -76,21 +78,23 @@ export const Board = () => {
               }}
             />
           </Stack>
-          <Stack
-            className="w-full h-full overlow-x-auto p-4 gap-3"
-            direction="row"
-            alignItems="start"
-            justifyContent="start"
-          >
-            <>
-              {ticketData.map((item) => (
-                <TicketGroup {...{ item, boardData: data, refetch }} />
-              ))}
-            </>
-            <ButtonInputForm
-              {...{ onAccept: onCreateNewGroup, text: t('Board.createList') }}
-            />
-          </Stack>
+          {!!data && (
+            <Stack
+              className="w-full h-full overlow-x-auto p-4 gap-3"
+              direction="row"
+              alignItems="start"
+              justifyContent="start"
+            >
+              <>
+                {ticketData.map((item) => (
+                  <TicketGroup {...{ item, boardData: data, refetch }} />
+                ))}
+              </>
+              <ButtonInputForm
+                {...{ onAccept: onCreateNewGroup, text: t('Board.createList') }}
+              />
+            </Stack>
+          )}
         </Stack>
       </ProgressPanel>
     </>

@@ -119,8 +119,8 @@ async function authenticate(req, res, next) {
 
 async function validateToken(req, res) {
   try {
-    const {token} = req.body;
-    
+    const { token } = req.body;
+
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
