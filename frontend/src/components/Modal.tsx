@@ -16,13 +16,19 @@ export const Modal = ({
   isVisible?: boolean;
   title: string | React.ReactNode;
   onClose: () => void;
-  onAccept: () => void;
+  onAccept?: () => void;
   children?: React.ReactNode;
-  modalType?: 'modal' | 'sidebar';
+  modalType?: 'info' | 'modal' | 'sidebar';
 }) => {
   if (!isVisible) {
     return <></>;
   }
+
+  const alignItems = {
+    info: 'center',
+    modal: 'center',
+    sidebar: 'end',
+  };
 
   return (
     <>
@@ -30,15 +36,15 @@ export const Modal = ({
       <Stack
         className="w-full h-full absolute top-0 left-0 right-0 bottom-0"
         direction="col"
-        alignItems={modalType == 'modal' ? 'center' : 'end'}
+        alignItems={alignItems[modalType] as any}
         justifyContent="center"
       >
         <Stack
           className={classNames(
             'bg-white overflow-hidden',
-            modalType == 'modal'
-              ? 'w-[350px] rounded-lg border'
-              : 'w-[400px] h-full border-l-3',
+            modalType == 'modal' && 'w-[350px] rounded-lg border',
+            modalType == 'sidebar' && 'w-[400px] h-full border-l-3',
+            modalType == 'info' && 'w-[60%] h-[80%] rounded-lg border',
           )}
           direction="col"
           alignItems="start"
@@ -65,23 +71,25 @@ export const Modal = ({
               {children}
             </div>
           )}
-          <Stack className="w-full p-2 gap-2 border-t">
-            <Button
-              className="w-full"
-              text={t('common.cancel')}
-              variant="primary"
-              onClick={() => {
-                onClose();
-              }}
-            />
-            <Button
-              className="w-full"
-              text={t('common.submit')}
-              onClick={() => {
-                onAccept();
-              }}
-            />
-          </Stack>
+          {modalType !== 'info' && (
+            <Stack className="w-full p-2 gap-2 border-t">
+              <Button
+                className="w-full"
+                text={t('common.cancel')}
+                variant="primary"
+                onClick={() => {
+                  onClose();
+                }}
+              />
+              <Button
+                className="w-full"
+                text={t('common.submit')}
+                onClick={() => {
+                  onAccept?.();
+                }}
+              />
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </>

@@ -7,8 +7,8 @@ import { t } from 'i18next';
 import { ButtonInputForm } from './ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { generateRandomId } from '../../utils/utils';
 import { TicketGroup } from './TicketGroup';
+import { OpenTicketModal } from './OpenTicketModal';
 
 export const Board = () => {
   const { id = '' } = useParams();
@@ -19,7 +19,7 @@ export const Board = () => {
     { id },
   ]);
 
-  const { mutate } = useApiMutation('updateConfig', {
+  const { mutate : mutateCreateGroup } = useApiMutation('createGroup', {
     onSuccess: () => {
       refetch();
     },
@@ -31,34 +31,23 @@ export const Board = () => {
     },
   });
 
-  const onCreateNewGroup = (listName: string) => {
-    if (listName) {
-      mutate({
+  const onCreateNewGroup = (name: string) => {
+    if (name) {
+      mutateCreateGroup({
         id,
-        config: {
-          ...data?.config,
-          groupTypes: [
-            ...(data?.config.groupTypes || []),
-            {
-              id: generateRandomId(10),
-              name: listName,
-            },
-          ],
-        },
+        name
       });
     }
   };
 
-  const groupTypes = data?.config.groupTypes || [];
+  const groups = data?.groups || [];
 
-  const ticketData = groupTypes.map((groupType) => ({
-    groupId: groupType.id,
-    groupName: groupType.name,
+  const ticketData = groups.map((group) => ({
+    groupId: group.id,
+    groupName: group.name,
     tickets:
-      data?.tickets.filter((ticket) => ticket.groupId === groupType.id) || [],
+      data?.tickets.filter((ticket) => ticket.groupId === group.id) || [],
   }));
-
-  console.log(ticketData);
 
   return (
     <>
@@ -96,6 +85,7 @@ export const Board = () => {
             </Stack>
           )}
         </Stack>
+        <OpenTicketModal/>
       </ProgressPanel>
     </>
   );

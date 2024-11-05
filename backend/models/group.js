@@ -1,9 +1,9 @@
-import { DataTypes, Model } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 
 export default (sequelize) => {
-  class Board extends Model {}
+  class Group extends Sequelize.Model {}
 
-  Board.init(
+  Group.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -14,19 +14,15 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      type: {
-        type: DataTypes.ENUM("public", "private", "closed"),
-        allowNull: true,
-      },
     },
     {
       sequelize,
-      modelName: "Board",
-      tableName: "boards",
+      modelName: "Group",
+      tableName: "groups",
       timestamps: true,
       underscored: true,
     },
   );
 
-  return Board;
+  return Group;
 };

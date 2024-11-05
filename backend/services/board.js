@@ -1,4 +1,4 @@
-import { sequelize, User, Board, BoardMember, Ticket } from "../config/db.js";
+import { sequelize, User, Board, BoardMember, Ticket, Group } from "../config/db.js";
 import { Op } from "sequelize";
 
 export async function createBoard(req, res) {
@@ -100,6 +100,11 @@ export async function getBoardById(req, res) {
           },
         },
         {
+          model: Group,
+          as: "groups",
+          attributes: ["id", "name"],
+        },
+        {
           model: Ticket,
           as: "tickets",
           attributes: [
@@ -132,74 +137,8 @@ export async function getBoardById(req, res) {
   }
 }
 
-export async function updateBoard(req, res) {
-  const transaction = await sequelize.transaction();
-  try {
-    const user = req.user;
-    if (!user) {
-      await transaction.rollback();
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const { id } = req.params;
-    const { config } = req.body;
-
-    const board = await Board.findByPk(id);
-    if (!board) {
-      await transaction.rollback();
-      return res.status(404).json({ message: "Board not found" });
-    }
-
-    board.config = config;
-    await board.save({ transaction });
-
-    await transaction.commit();
-
-    res.status(200).json({ message: "Board updated successfully" });
-  } catch (err) {
-    await transaction.rollback();
-    console.error(err);
-    res.status(500).json({ message: "Error updating board" });
-  }
-}
-
-export async function createTicket(req, res) {
-  const transaction = await sequelize.transaction();
-  try {
-    const { id } = req.params;
-    const { groupId, name, description, assignedTo } = req.body;
-
-    const board = await Board.findByPk(id);
-    if (!board) {
-      await transaction.rollback();
-      return res.status(404).json({ message: "Board not found" });
-    }
-
-    const ticket = await Ticket.create(
-      {
-        groupId,
-        name,
-        description,
-        assignedTo,
-        boardId: board.id,
-      },
-      { transaction },
-    );
-
-    await transaction.commit();
-
-    res.status(200).json({ message: "Ticket created successfully", ticket });
-  } catch (err) {
-    await transaction.rollback();
-    console.error(err);
-    res.status(500).json({ message: "Error updating board" });
-  }
-}
-
 export default {
   createBoard,
   searchBoards,
   getBoardById,
-  updateBoard,
-  createTicket,
 };

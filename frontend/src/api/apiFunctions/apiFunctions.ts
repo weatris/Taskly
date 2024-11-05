@@ -1,4 +1,6 @@
 import { boardFunctions } from './boards';
+import { groupFunctions } from './group';
+import { ticketFunctions } from './ticket';
 import { userFunctions } from './user';
 
 export const BACKEND_URL =
@@ -7,4 +9,6 @@ export const BACKEND_URL =
 export const apiFunctions = {
   ...userFunctions,
   ...boardFunctions,
+  ...groupFunctions,
+  ...ticketFunctions,
 };

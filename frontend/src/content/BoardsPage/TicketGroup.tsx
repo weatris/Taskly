@@ -10,6 +10,8 @@ import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { Spinner } from '../../components/Spinner';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../../components/Button';
 
 type ticketGroupType = {
   groupId: string;
@@ -31,6 +33,7 @@ export const TicketGroup = ({
   const ref = useRef(null);
   const { addNotification } = useNotification();
   const tickets = item.tickets || [];
+  const navigate = useNavigate();
 
   const { mutate: mutateCreateTicket } = useApiMutation('createTicket', {
     onSuccess: () => {
@@ -52,8 +55,8 @@ export const TicketGroup = ({
     });
   };
 
-  const { mutate: mutateUpdateConfig, isLoading: isLoadingUpdateConfig } =
-    useApiMutation('updateConfig', {
+  const { mutate: mutateRenameGroup, isLoading: isLoadingRenameGroup } =
+    useApiMutation('renameGroup', {
       onSuccess: () => {
         refetch();
       },
@@ -70,28 +73,21 @@ export const TicketGroup = ({
       return;
     }
 
-    mutateUpdateConfig({
+    mutateRenameGroup({
       id: boardData.id,
-      config: {
-        ...boardData?.config,
-        groupTypes: (boardData?.config.groupTypes || []).map((item) => {
-          if (item.id == groupId) {
-            return {
-              ...item,
-              name: newName,
-            };
-          }
-          return item;
-        }),
-      },
+      newName
     });
   };
 
-  useClickAway(ref, () => {
+  const handleSave = ()=>{
     setShowEditName(false);
     if (item.groupName !== value) {
       onGroupRename?.(item.groupId, value);
     }
+  }
+
+  useClickAway(ref, () => {
+    handleSave();
   });
 
   return (
@@ -101,7 +97,12 @@ export const TicketGroup = ({
         className="w-[260px] h-[40px] flex flex-col bg-gray-200 rounded-lg border shadow-md gap-2"
       >
         {showEditName ? (
+        <Stack className='w-full h-full gap-1'>
           <Input {...{ value, setValue }} />
+          {value!== item.groupName&&<Button {...{text:'+', className:'px-0', onClick: ()=>{
+            handleSave();
+          }}}/>}
+          </Stack>
         ) : (
           <Stack
             className="w-full px-2 pb-2"
@@ -112,7 +113,7 @@ export const TicketGroup = ({
             <p
               className={classNames(
                 'leading-[40px] truncate',
-                isLoadingUpdateConfig && 'invisible',
+                isLoadingRenameGroup && 'invisible',
               )}
             >
               {item.groupName}
@@ -123,7 +124,7 @@ export const TicketGroup = ({
                 setShowEditName(true);
               }}
             >
-              {isLoadingUpdateConfig ? (
+              {isLoadingRenameGroup ? (
                 <>
                   <Spinner />
                 </>
@@ -140,6 +141,9 @@ export const TicketGroup = ({
           className="w-full min-h-[40px] bg-white rounded-lg border cursor-pointer hover:border-gray-400"
           direction="col"
           alignItems="start"
+          onClick={() => {
+            navigate(`tickets/${ticket.id}`);
+          }}
         >
           {ticket.id == '1' && (
             <div className="w-full h-[20px] rounded-t-lg bg-red-200" />

@@ -35,14 +35,17 @@ type boardType = {
   name: string;
   type?: boardAccessType;
   members: memberType[];
-  config: configType;
+  groups: groupType[];
   tickets: ticketType[];
 };
 
 type ticketType = {
   id: string;
   groupId: string;
+  groupName?: string;
   name: string;
-  description: string;
+  description?: string;
   assignedTo?: string[];
+  createdAt?: string;
+  updatedAt?: string;
 };
