@@ -32,13 +32,16 @@ export const EditableName = ({
   };
 
   useClickAway(ref, () => {
-   !isLoading && showEditName && onSave();
+    !isLoading && showEditName && onSave();
   });
 
   return (
     <div
       ref={ref}
-      className={classNames("w-[260px] h-[40px] flex flex-row items-center bg-gray-200 rounded-lg border shadow-md gap-2", className)}
+      className={classNames(
+        'w-[260px] h-[40px] flex flex-row items-center bg-gray-200 rounded-lg border shadow-md gap-2',
+        className,
+      )}
     >
       {showEditName ? (
         <Stack className="w-full h-full gap-1">

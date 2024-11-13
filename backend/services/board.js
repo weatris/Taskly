@@ -1,4 +1,11 @@
-import { sequelize, User, Board, BoardMember, Ticket, Group } from "../config/db.js";
+import {
+  sequelize,
+  User,
+  Board,
+  BoardMember,
+  Ticket,
+  Group,
+} from "../config/db.js";
 import { Op } from "sequelize";
 
 export async function createBoard(req, res) {

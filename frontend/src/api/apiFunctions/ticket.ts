@@ -16,5 +16,8 @@ export const ticketFunctions = {
     axios.get<ticketType>(BACKEND_URL + `/ticket/${id}`),
 
   renameTicket: ({ id, newName }: { id: string; newName: string }) =>
-    axios.put<void>(BACKEND_URL + `/common/${id}`, { newName, itemType:'ticket' }),
+    axios.put<void>(BACKEND_URL + `/common/${id}`, {
+      newName,
+      itemType: 'ticket',
+    }),
 };

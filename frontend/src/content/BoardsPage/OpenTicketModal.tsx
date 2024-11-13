@@ -35,14 +35,16 @@ const Title = ({ data }: { data: ticketType | undefined }) => {
       justifyContent="center"
       alignItems="center"
     >
-      <EditableName {...{
-        value, 
-        setValue,
-        initValue:value,
-        isLoading,
-        onClickAway: handleSave,
-        className: 'w-full bg-transparent border-none shadow-none'
-      }}/>
+      <EditableName
+        {...{
+          value,
+          setValue,
+          initValue: value,
+          isLoading,
+          onClickAway: handleSave,
+          className: 'w-full bg-transparent border-none shadow-none',
+        }}
+      />
     </Stack>
   );
 };
@@ -77,26 +79,35 @@ export const OpenTicketModal = () => {
     >
       <ProgressPanel {...{ isLoading }}>
         <Stack className="w-full h-full gap-1" direction="row">
-          
           <Stack className="w-full h-full gap-2" direction="col">
             <Stack className="w-full h-1/2 border-[1px]">
               {data?.description}
               {/* todo: use rich text editor */}
             </Stack>
-            <Stack className="w-full h-1/2 border-[1px]" alignItems='center' justifyContent='center'>
+            <Stack
+              className="w-full h-1/2 border-[1px]"
+              alignItems="center"
+              justifyContent="center"
+            >
               chat
             </Stack>
           </Stack>
-          <Stack className="w-[500px] h-full p-2 border-[1px]" direction="col" alignItems='start'>
-            <Stack className='h-fit p-1 rounded-md hover:bg-gray-100 hover:cursor-pointer' direction='row' alignItems='center'>
-            <p>{t('Tickets.groupBtn')} {data?.groupName}</p>
-            <Icon
-            size="sm"
-            hoverable={false}
+          <Stack
+            className="w-[500px] h-full p-2 border-[1px]"
+            direction="col"
+            alignItems="start"
           >
-            
-              <PencilIcon color="gray" />
-          </Icon>
+            <Stack
+              className="h-fit p-1 rounded-md hover:bg-gray-100 hover:cursor-pointer"
+              direction="row"
+              alignItems="center"
+            >
+              <p>
+                {t('Tickets.groupBtn')} {data?.groupName}
+              </p>
+              <Icon size="sm" hoverable={false}>
+                <PencilIcon color="gray" />
+              </Icon>
             </Stack>
           </Stack>
         </Stack>

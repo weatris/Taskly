@@ -6,5 +6,8 @@ export const groupFunctions = {
     axios.post<void>(BACKEND_URL + `/groups/${id}`, { name }),
 
   renameGroup: ({ id, newName }: { id: string; newName: string }) =>
-    axios.put<void>(BACKEND_URL + `/common/${id}`, { newName, itemType:'group' }),
+    axios.put<void>(BACKEND_URL + `/common/${id}`, {
+      newName,
+      itemType: 'group',
+    }),
 };
