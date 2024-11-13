@@ -42,6 +42,8 @@ export function useApiQuery<K extends keyof typeof apiFunctions>(
         addNotification({ title: t('Errors.default'), tp: 'alert' });
       }
     },
+    retry: 2,
+    staleTime: 1000 * 10,
     ...options,
   });
 }

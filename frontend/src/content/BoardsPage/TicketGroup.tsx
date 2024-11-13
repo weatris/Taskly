@@ -12,6 +12,7 @@ import { Spinner } from '../../components/Spinner';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
+import { EditableName } from '../../components/EditableName';
 
 type ticketGroupType = {
   groupId: string;
@@ -28,9 +29,7 @@ export const TicketGroup = ({
   boardData: boardType;
   refetch: () => void;
 }) => {
-  const [showEditName, setShowEditName] = useState(false);
   const [value, setValue] = useState(item.groupName);
-  const ref = useRef(null);
   const { addNotification } = useNotification();
   const tickets = item.tickets || [];
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ export const TicketGroup = ({
     },
     onError: () => {
       addNotification({
-        title: t('Errors.default'),
+        title: t('Tickets.cantCreate'),
         tp: 'alert',
       });
     },
@@ -62,7 +61,7 @@ export const TicketGroup = ({
       },
       onError: () => {
         addNotification({
-          title: t('Errors.default'),
+          title: t('Groups.cantRename'),
           tp: 'alert',
         });
       },
@@ -74,67 +73,28 @@ export const TicketGroup = ({
     }
 
     mutateRenameGroup({
-      id: boardData.id,
-      newName
+      id: item.groupId,
+      newName,
     });
   };
 
-  const handleSave = ()=>{
-    setShowEditName(false);
+  const handleSave = () => {
     if (item.groupName !== value) {
       onGroupRename?.(item.groupId, value);
     }
-  }
-
-  useClickAway(ref, () => {
-    handleSave();
-  });
+  };
 
   return (
     <Stack className="w-[260px] h-full gap-2" direction="col">
-      <div
-        ref={ref}
-        className="w-[260px] h-[40px] flex flex-col bg-gray-200 rounded-lg border shadow-md gap-2"
-      >
-        {showEditName ? (
-        <Stack className='w-full h-full gap-1'>
-          <Input {...{ value, setValue }} />
-          {value!== item.groupName&&<Button {...{text:'+', className:'px-0', onClick: ()=>{
-            handleSave();
-          }}}/>}
-          </Stack>
-        ) : (
-          <Stack
-            className="w-full px-2 pb-2"
-            direction="row"
-            alignItems="center"
-            justifyContent="between"
-          >
-            <p
-              className={classNames(
-                'leading-[40px] truncate',
-                isLoadingRenameGroup && 'invisible',
-              )}
-            >
-              {item.groupName}
-            </p>
-            <Icon
-              size="md"
-              onClick={() => {
-                setShowEditName(true);
-              }}
-            >
-              {isLoadingRenameGroup ? (
-                <>
-                  <Spinner />
-                </>
-              ) : (
-                <PencilIcon color="gray" />
-              )}
-            </Icon>
-          </Stack>
-        )}
-      </div>
+      <EditableName
+        {...{
+          value,
+          setValue,
+          initValue: value,
+          isLoading: isLoadingRenameGroup,
+          onClickAway: handleSave,
+        }}
+      />
       {tickets.map((ticket) => (
         <Stack
           key={ticket.id}
@@ -145,9 +105,6 @@ export const TicketGroup = ({
             navigate(`tickets/${ticket.id}`);
           }}
         >
-          {ticket.id == '1' && (
-            <div className="w-full h-[20px] rounded-t-lg bg-red-200" />
-          )}
           <p className="leading-[40px] px-2">{ticket.name}</p>
         </Stack>
       ))}

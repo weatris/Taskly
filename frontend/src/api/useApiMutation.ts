@@ -40,6 +40,7 @@ export function useApiMutation<K extends keyof typeof apiFunctions>(
         console.log(error);
         addNotification({ title: t('Errors.default'), tp: 'alert' });
       },
+      retry: 2,
       ...options,
     },
   });

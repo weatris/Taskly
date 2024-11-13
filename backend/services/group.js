@@ -1,4 +1,5 @@
 import { sequelize, Board, Group } from "../config/db.js";
+import { generateId } from "../utils/generateId.js";
 
 export async function createGroup(req, res) {
     const transaction = await sequelize.transaction();
@@ -14,6 +15,7 @@ export async function createGroup(req, res) {
   
       await Group.create(
         {
+          id: generateId(10),
           name,
           boardId: board.id,
         },
@@ -30,31 +32,6 @@ export async function createGroup(req, res) {
     }
   }
 
-export async function renameGroup(req, res) {
-  const transaction = await sequelize.transaction();
-    try {
-      const { id } = req.params;
-      const { newName } = req.body;
-  
-      const group = await Group.findByPk(id);
-  
-      if (!group) {
-        return res.status(404).json({ message: "Group not found" });
-      }
-    
-      group.name = newName;
-      await group.save({ transaction });
-      await transaction.commit();
-  
-      res.status(200).json({ message: "Group renamed successfully" });;
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Error updating group" });
-    }
-  }
-
-
   export default {
-    createGroup,
-    renameGroup
+    createGroup
   }

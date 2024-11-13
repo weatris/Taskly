@@ -6,9 +6,8 @@ export default (sequelize) => {
   Ticket.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
       },
       groupId: {
         type: DataTypes.STRING,

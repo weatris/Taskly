@@ -19,13 +19,13 @@ export const Board = () => {
     { id },
   ]);
 
-  const { mutate : mutateCreateGroup } = useApiMutation('createGroup', {
+  const { mutate: mutateCreateGroup } = useApiMutation('createGroup', {
     onSuccess: () => {
       refetch();
     },
     onError: () => {
       addNotification({
-        title: t('Errors.default'),
+        title: t('Groups.cantCreate'),
         tp: 'alert',
       });
     },
@@ -35,7 +35,7 @@ export const Board = () => {
     if (name) {
       mutateCreateGroup({
         id,
-        name
+        name,
       });
     }
   };
@@ -85,7 +85,7 @@ export const Board = () => {
             </Stack>
           )}
         </Stack>
-        <OpenTicketModal/>
+        <OpenTicketModal />
       </ProgressPanel>
     </>
   );

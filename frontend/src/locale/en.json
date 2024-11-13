@@ -56,6 +56,15 @@
       "createList": "Create list",
       "createTicket": "Create ticket"
     },
+    "Groups": {
+      "cantCreate": "Can`t create group",
+      "cantRename": "Can`t rename group"
+    },
+    "Tickets": {
+      "cantLoadError": "Can`t load ticket data",
+      "cantCreate": "Can`t create ticket",
+      "groupBtn": "Group: "
+    },
     "common": {
       "submit": "Submit",
       "create": "Create",

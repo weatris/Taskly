@@ -12,6 +12,7 @@ export const Modal = ({
   onAccept,
   children,
   modalType = 'sidebar',
+  titleClasssnames = '',
 }: {
   isVisible?: boolean;
   title: string | React.ReactNode;
@@ -19,6 +20,7 @@ export const Modal = ({
   onAccept?: () => void;
   children?: React.ReactNode;
   modalType?: 'info' | 'modal' | 'sidebar';
+  titleClasssnames?: string;
 }) => {
   if (!isVisible) {
     return <></>;
@@ -53,6 +55,7 @@ export const Modal = ({
             className={classNames(
               'w-full pl-4 pr-2 relative bg-gray-100 border-b',
               modalType == 'modal' ? 'h-[40px]' : 'h-[60px]',
+              titleClasssnames,
             )}
             direction="row"
           >
