@@ -63,11 +63,13 @@
     "Tickets": {
       "cantLoadError": "Can`t load ticket data",
       "cantCreate": "Can`t create ticket",
-      "groupBtn": "Group: "
+      "groupBtn": "Group: ",
+      "description": "Description: "
     },
     "common": {
       "submit": "Submit",
       "create": "Create",
+      "save": "Save",
       "cancel": "Cancel",
       "refresh": "Refresh",
       "nothingFound": "Nothing found, please change filters",

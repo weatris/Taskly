@@ -11,4 +11,5 @@ export {
   XMarkIcon,
   ExclamationTriangleIcon,
   InformationCircleIcon,
+  PencilIcon,
 } from '@heroicons/react/24/solid';

@@ -9,7 +9,9 @@ import { useEffect, useState } from 'react';
 import { useApiMutation } from '../../api/useApiMutation';
 import { EditableName } from '../../components/EditableName';
 import { Icon } from '../../images/Icon';
-import { PencilIcon } from '@heroicons/react/24/solid';
+import RichTextEditor from '../../components/RichTextEditor';
+import { Bars3Icon, PencilIcon } from '../../images/icons';
+import { Button } from '../../components/Button';
 
 const Title = ({ data }: { data: ticketType | undefined }) => {
   const [value, setValue] = useState(data?.name || '');
@@ -25,7 +27,7 @@ const Title = ({ data }: { data: ticketType | undefined }) => {
   }
 
   const handleSave = () => {
-    handleRename({ id: data.id, newName: value });
+    handleRename({ id: data.id, newValue: value });
   };
 
   return (
@@ -49,21 +51,120 @@ const Title = ({ data }: { data: ticketType | undefined }) => {
   );
 };
 
+const Description = ({
+  data,
+  refetch,
+}: {
+  data?: ticketType;
+  refetch: () => void;
+}) => {
+  const [content, setContent] = useState<string>(data?.description || '');
+  const [isEditMode, setIsEditMode] = useState(false);
+  const { addNotification } = useNotification();
+
+  const { mutate } = useApiMutation('setTicketDescription', {
+    onError: () => {
+      addNotification({
+        title: 'Cant edit description',
+        tp: 'alert',
+      });
+    },
+    onSuccess: () => {
+      refetch();
+      setIsEditMode(false);
+    },
+  });
+
+  const editDescription = () => {
+    if (data?.id)
+      mutate({
+        id: data?.id,
+        newValue: content,
+      });
+  };
+
+  const cancel = () => {
+    setContent(data?.description || '');
+    setIsEditMode(false);
+  };
+
+  return (
+    <Stack className="w-full h-full" direction="col" alignItems="start">
+      <Stack
+        className="w-full h-[40px] min-h-[40px] px-2 border-b"
+        direction="row"
+        justifyContent="between"
+      >
+        <Stack className="w-full" direction="row" alignItems="center">
+          <Icon size="md" hoverable={false}>
+            <Bars3Icon color="gray" />
+          </Icon>
+          <p>{t('Tickets.description')}</p>
+        </Stack>
+        {isEditMode ? (
+          <Stack className="gap-2">
+            <Button
+              {...{
+                text: t('common.cancel'),
+                variant: 'primary',
+                className: 'h-[30px] [&>span]:p-0',
+                onClick: cancel,
+              }}
+            />
+            <Button
+              {...{
+                text: t('common.save'),
+                className: 'h-[30px] [&>span]:p-0',
+                onClick: editDescription,
+              }}
+            />
+          </Stack>
+        ) : (
+          <Icon
+            size="md"
+            onClick={() => {
+              setIsEditMode((prev) => !prev);
+            }}
+          >
+            <PencilIcon color="gray" />
+          </Icon>
+        )}
+      </Stack>
+      {isEditMode ? (
+        <RichTextEditor
+          value={content}
+          onChange={setContent}
+          className="h-[calc(100%-80px)]"
+        />
+      ) : (
+        <div
+          className="ql-editor p-1"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      )}
+    </Stack>
+  );
+};
+
 export const OpenTicketModal = () => {
   const { id = '', ticketId = '' } = useParams();
   const { addNotification } = useNotification();
   const navigate = useNavigate();
 
-  const { data, isLoading } = useApiQuery('getTicketById', [{ id: ticketId }], {
-    enabled: !!ticketId,
-    onError: () => {
-      addNotification({
-        title: t('Tickets.cantLoadError'),
-        tp: 'alert',
-      });
-      navigate(`/boards/${id}`);
+  const { data, isLoading, refetch } = useApiQuery(
+    'getTicketById',
+    [{ id: ticketId }],
+    {
+      enabled: !!ticketId,
+      onError: () => {
+        addNotification({
+          title: t('Tickets.cantLoadError'),
+          tp: 'alert',
+        });
+        navigate(`/boards/${id}`);
+      },
     },
-  });
+  );
 
   return (
     <Modal
@@ -80,16 +181,15 @@ export const OpenTicketModal = () => {
       <ProgressPanel {...{ isLoading }}>
         <Stack className="w-full h-full gap-1" direction="row">
           <Stack className="w-full h-full gap-2" direction="col">
-            <Stack className="w-full h-1/2 border-[1px]">
-              {data?.description}
-              {/* todo: use rich text editor */}
-            </Stack>
-            <Stack
-              className="w-full h-1/2 border-[1px]"
-              alignItems="center"
-              justifyContent="center"
-            >
-              chat
+            <Stack className="w-full h-full relative border-[1px]">
+              <Description
+                {...{
+                  data,
+                  refetch: () => {
+                    refetch();
+                  },
+                }}
+              />
             </Stack>
           </Stack>
           <Stack

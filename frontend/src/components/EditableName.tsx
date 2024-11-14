@@ -6,7 +6,7 @@ import { Button } from './Button';
 import classNames from 'classnames';
 import { Icon } from '../images/Icon';
 import { Spinner } from './Spinner';
-import { PencilIcon } from '@heroicons/react/24/solid';
+import { PencilIcon } from '../images/icons';
 
 export const EditableName = ({
   onClickAway,

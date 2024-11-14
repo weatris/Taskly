@@ -15,9 +15,16 @@ export const ticketFunctions = {
   getTicketById: ({ id }: { id: string }) =>
     axios.get<ticketType>(BACKEND_URL + `/ticket/${id}`),
 
-  renameTicket: ({ id, newName }: { id: string; newName: string }) =>
+  renameTicket: ({ id, newValue }: { id: string; newValue: string }) =>
     axios.put<void>(BACKEND_URL + `/common/${id}`, {
-      newName,
+      newValue,
       itemType: 'ticket',
+    }),
+
+  setTicketDescription: ({ id, newValue }: { id: string; newValue: string }) =>
+    axios.put<void>(BACKEND_URL + `/common/${id}`, {
+      newValue,
+      itemType: 'ticket',
+      param: 'description',
     }),
 };

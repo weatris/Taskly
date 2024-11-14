@@ -1,18 +1,11 @@
 import { t } from 'i18next';
 import Stack from '../../components/Stack/Stack';
 import { ButtonInputForm } from './ButtonInputForm';
-import { Icon } from '../../images/Icon';
-import { PencilIcon } from '@heroicons/react/24/solid';
-import { useRef, useState } from 'react';
-import { Input } from '../../components/Input';
-import { useClickAway } from 'react-use';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { Spinner } from '../../components/Spinner';
-import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../../components/Button';
 import { EditableName } from '../../components/EditableName';
+import { useState } from 'react';
 
 type ticketGroupType = {
   groupId: string;
@@ -67,14 +60,14 @@ export const TicketGroup = ({
       },
     });
 
-  const onGroupRename = (groupId: string, newName: string) => {
-    if (!boardData?.id || !newName || !groupId) {
+  const onGroupRename = (groupId: string, newValue: string) => {
+    if (!boardData?.id || !newValue || !groupId) {
       return;
     }
 
     mutateRenameGroup({
       id: item.groupId,
-      newName,
+      newValue,
     });
   };
 
