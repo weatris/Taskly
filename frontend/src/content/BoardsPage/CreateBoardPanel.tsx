@@ -64,6 +64,7 @@ export const CreateBoardPanel = ({
         />
         <Select
           options={options}
+          initValue="public"
           onChange={(value) => {
             setSelectedOption(value);
           }}

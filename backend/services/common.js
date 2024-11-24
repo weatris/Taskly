@@ -20,6 +20,7 @@ export async function renameItem(req, res) {
 
     if (param == "name") item.name = newValue;
     else if (param == "description") item.description = newValue;
+    else if (param == "groupId") item.groupId = newValue;
     else throw "undefined param";
 
     await item.save({ transaction });

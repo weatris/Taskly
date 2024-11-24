@@ -12,11 +12,26 @@ import { Icon } from '../../images/Icon';
 import RichTextEditor from '../../components/RichTextEditor';
 import { Bars3Icon, PencilIcon } from '../../images/icons';
 import { Button } from '../../components/Button';
+import { useInvalidateQuery } from '../../api/useInvalidateQuery';
 
 const Title = ({ data }: { data: ticketType | undefined }) => {
   const [value, setValue] = useState(data?.name || '');
+  const invalidateQuery = useInvalidateQuery();
+  const { addNotification } = useNotification();
 
-  const { mutate: handleRename, isLoading } = useApiMutation('renameTicket');
+  const { mutate: handleRename, isLoading } = useApiMutation('renameTicket', {
+    onSuccess: () => {
+      invalidateQuery('getTicketById');
+      invalidateQuery('getBoardById');
+    },
+    onError: () => {
+      addNotification({
+        title: t('Tickets.cantUpdate'),
+        tp: 'alert',
+      });
+      setValue(data?.name || '');
+    },
+  });
 
   useEffect(() => {
     setValue(data?.name || '');
@@ -193,21 +208,19 @@ export const OpenTicketModal = () => {
             </Stack>
           </Stack>
           <Stack
-            className="w-[500px] h-full p-2 border-[1px]"
+            className="w-[400px] !min-w-[400px] !max-w-[400px] h-full p-2 border-[1px]"
             direction="col"
             alignItems="start"
           >
             <Stack
-              className="h-fit p-1 rounded-md hover:bg-gray-100 hover:cursor-pointer"
+              className="w-full h-fit p-1 rounded-md border-b"
               direction="row"
               alignItems="center"
             >
-              <p>
+              <p className='truncate'>
                 {t('Tickets.groupBtn')} {data?.groupName}
               </p>
-              <Icon size="sm" hoverable={false}>
-                <PencilIcon color="gray" />
-              </Icon>
+             
             </Stack>
           </Stack>
         </Stack>

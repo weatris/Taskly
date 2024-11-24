@@ -44,6 +44,7 @@
     },
     "Boards": {
       "noBoardCreated": "No Board created",
+      "cantLoad": "Can`t load boards",
       "createBoard": {
         "title": "Create Board",
         "name": "Name",
@@ -53,6 +54,7 @@
       "settings": "Settings"
     },
     "Board": {
+      "cantLoad": "Can`t load board",
       "createList": "Create list",
       "createTicket": "Create ticket"
     },
@@ -64,7 +66,8 @@
       "cantLoadError": "Can`t load ticket data",
       "cantCreate": "Can`t create ticket",
       "groupBtn": "Group: ",
-      "description": "Description: "
+      "description": "Description: ",
+      "cantUpdate": "Can`t update ticket"
     },
     "common": {
       "submit": "Submit",

@@ -10,6 +10,7 @@ import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 import { SearchInput } from '../../components/SearchInput';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { InfoPanel } from '../../components/StatePanels/InfoPanel';
+import { useNotification } from '../../stateProvider/notification/useNotification';
 
 const NoBoardCreated = () => {
   const { toggleCreateBoardModal } = useStateProvider().actions;
@@ -47,20 +48,32 @@ export const Boards = () => {
   const { showCreateBoardModal } = state.board;
   const { toggleCreateBoardModal } = actions;
   const [searchValue, setSearchValue] = useState('');
+  const { addNotification } = useNotification();
 
   const {
     data = [],
     isLoading,
     isError,
     refetch,
-  } = useApiQuery('searchBoards', [
+  } = useApiQuery(
+    'searchBoards',
+    [
+      {
+        params: {
+          name: searchValue,
+          type: 'public',
+        },
+      },
+    ],
     {
-      params: {
-        name: searchValue,
-        type: 'public',
+      onError: () => {
+        addNotification({
+          title: t('Boards.cantLoad'),
+          tp: 'alert',
+        });
       },
     },
-  ]);
+  );
 
   return (
     <Stack

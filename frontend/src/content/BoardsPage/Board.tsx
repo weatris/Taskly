@@ -9,15 +9,42 @@ import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { TicketGroup } from './TicketGroup';
 import { OpenTicketModal } from './OpenTicketModal';
+import { useState } from 'react';
+
+type ticketDataType = {
+  groupId: string;
+  groupName: string;
+  tickets: ticketType[];
+};
 
 export const Board = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
+  const [ticketData, setTicketData] = useState<ticketDataType[]>([]);
   const { addNotification } = useNotification();
 
-  const { data, isLoading, isError, refetch } = useApiQuery('getBoardById', [
-    { id },
-  ]);
+  const { data, isLoading, isError, refetch } = useApiQuery(
+    'getBoardById',
+    [{ id }],
+    {
+      onSuccess: (data) => {
+        debugger;
+        const tickets = (data?.groups || []).map((group) => ({
+          groupId: group.id,
+          groupName: group.name,
+          tickets:
+            data?.tickets.filter((ticket) => ticket.groupId === group.id) || [],
+        }));
+        setTicketData(tickets);
+      },
+      onError: () => {
+        addNotification({
+          title: t('Board.cantLoad'),
+          tp: 'alert',
+        });
+      },
+    },
+  );
 
   const { mutate: mutateCreateGroup } = useApiMutation('createGroup', {
     onSuccess: () => {
@@ -39,15 +66,6 @@ export const Board = () => {
       });
     }
   };
-
-  const groups = data?.groups || [];
-
-  const ticketData = groups.map((group) => ({
-    groupId: group.id,
-    groupName: group.name,
-    tickets:
-      data?.tickets.filter((ticket) => ticket.groupId === group.id) || [],
-  }));
 
   return (
     <>
@@ -76,7 +94,10 @@ export const Board = () => {
             >
               <>
                 {ticketData.map((item) => (
-                  <TicketGroup {...{ item, boardData: data, refetch }} />
+                  <TicketGroup
+                    key={`${item.groupId}_${item.tickets.length}`}
+                    {...{ item, boardData: data }}
+                  />
                 ))}
               </>
               <ButtonInputForm
