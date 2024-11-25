@@ -35,7 +35,7 @@ export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
       !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
     ) {
       addNotification({
-        title: 'Invalid email address',
+        title: t('Errors.invalidEmail'),
         tp: 'alert',
       });
       return;
@@ -43,7 +43,7 @@ export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
 
     if (!name || name.trim() === '') {
       addNotification({
-        title: 'Name cannot be empty',
+        title: t('Errors.emptyName'),
         tp: 'alert',
       });
       return;
@@ -65,7 +65,7 @@ export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
 
     if (password !== confirmPassword) {
       addNotification({
-        title: 'Passwords do not match',
+        title: t('Errors.passwordsDontMatch'),
         tp: 'alert',
       });
       return;

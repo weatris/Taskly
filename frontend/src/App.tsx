@@ -9,7 +9,7 @@ function App() {
     <Stack className="w-screen h-screen" direction="col">
       <Navbar />
       <Stack className="w-full h-full" direction="row">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <Stack className="w-full h-full">
           <Stack className="w-full h-full flex-1">
             <AppRoutes />

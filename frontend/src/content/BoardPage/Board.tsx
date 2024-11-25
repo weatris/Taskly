@@ -4,7 +4,7 @@ import { useApiQuery } from '../../api/useApiQuery';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 import { Button } from '../../components/Button';
 import { t } from 'i18next';
-import { ButtonInputForm } from './ButtonInputForm';
+import { ButtonInputForm } from '../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { TicketGroup } from './TicketGroup';
@@ -28,12 +28,12 @@ export const Board = () => {
     [{ id }],
     {
       onSuccess: (data) => {
-        debugger;
         const tickets = (data?.groups || []).map((group) => ({
           groupId: group.id,
           groupName: group.name,
-          tickets:
-            data?.tickets.filter((ticket) => ticket.groupId === group.id) || [],
+          tickets: (
+            data?.tickets.filter((ticket) => ticket.groupId === group.id) || []
+          ).sort((a, b) => a.order - b.order),
         }));
         setTicketData(tickets);
       },

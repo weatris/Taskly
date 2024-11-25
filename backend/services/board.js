@@ -56,7 +56,7 @@ export async function searchBoards(req, res) {
         [Op.iLike]: `%${name}%`,
       };
     }
-    if (type) {
+    if (type && type != "all") {
       where.type = type;
     }
 
@@ -117,6 +117,7 @@ export async function getBoardById(req, res) {
           attributes: [
             "id",
             "groupId",
+            "order",
             "name",
             "description",
             "assignedTo",
@@ -133,7 +134,7 @@ export async function getBoardById(req, res) {
 
     const isMember = board.members.some((member) => member.id === user.id);
 
-    if (!isMember) {
+    if (!isMember && board.type !== "public") {
       return res.status(404).json({ message: "Board not found" });
     }
 

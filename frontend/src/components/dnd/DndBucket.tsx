@@ -24,8 +24,11 @@ export const DndBucket = ({
 
   return (
     <div
+      className="rounded-lg"
       ref={drop}
-      style={{ backgroundColor: isOver && canAcceptItem ? 'red' : 'white' }}
+      style={{
+        boxShadow: isOver && canAcceptItem ? '0px 1px 2px gray' : 'none',
+      }}
     >
       {children}
     </div>

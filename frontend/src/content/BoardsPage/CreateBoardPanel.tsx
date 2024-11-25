@@ -6,6 +6,7 @@ import { t } from 'i18next';
 import Stack from '../../components/Stack/Stack';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
+import { Button } from '../../components/Button';
 
 export const CreateBoardPanel = ({
   showCreateBoardModal,
@@ -62,13 +63,21 @@ export const CreateBoardPanel = ({
           className={inputStyle}
           placeholder={t('Boards.createBoard.name')}
         />
-        <Select
-          options={options}
-          initValue="public"
-          onChange={(value) => {
-            setSelectedOption(value);
-          }}
-        />
+        <Stack className="w-full gap-2" direction="row">
+          {options.map((item) => {
+            return (
+              <Button
+                key={item.key}
+                className="w-full"
+                text={item.title}
+                variant={item.key == selectedOption ? 'default' : 'primary'}
+                onClick={() => {
+                  setSelectedOption(item.key);
+                }}
+              />
+            );
+          })}
+        </Stack>
       </Stack>
     </Modal>
   );

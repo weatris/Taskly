@@ -4,5 +4,7 @@ const router = express.Router();
 
 router.post("/:id", ticketService.createTicket);
 router.get("/:id", ticketService.getTicketById);
+router.put("/change_order", ticketService.changeTicketOrder);
+router.put("/change_group", ticketService.changeTicketGroup);
 
 export default router;

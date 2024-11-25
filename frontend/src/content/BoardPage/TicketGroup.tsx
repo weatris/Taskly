@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import Stack from '../../components/Stack/Stack';
-import { ButtonInputForm } from './ButtonInputForm';
+import { ButtonInputForm } from '../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useInvalidateQuery } from '../../api/useInvalidateQuery';
 import { DndItem } from '../../components/dnd/DndItem';
 import { DndBucket } from '../../components/dnd/DndBucket';
+import { TicketRowItem } from './TicketRowItem';
 
 type ticketGroupType = {
   groupId: string;
@@ -26,7 +27,6 @@ export const TicketGroup = ({
   const [value, setValue] = useState(item.groupName);
   const { addNotification } = useNotification();
   const tickets = item.tickets || [];
-  const navigate = useNavigate();
   const invalidateQuery = useInvalidateQuery();
   const [isTicketDragged, setIsTicketDragged] = useState(false);
 
@@ -74,20 +74,20 @@ export const TicketGroup = ({
     });
   };
 
-  const {
-    mutate: mutateChangeTicketGroup,
-    isLoading: isLoadingChangeTicketGroup,
-  } = useApiMutation('changeTicketGroup', {
-    onSuccess: () => {
-      invalidateQuery('getBoardById');
+  const { mutate: mutateChangeTicketGroup } = useApiMutation(
+    'changeTicketGroup',
+    {
+      onSuccess: () => {
+        invalidateQuery('getBoardById');
+      },
+      onError: () => {
+        addNotification({
+          title: t('Groups.cantUpdate'),
+          tp: 'alert',
+        });
+      },
     },
-    onError: () => {
-      addNotification({
-        title: t('Groups.cantUpdate'),
-        tp: 'alert',
-      });
-    },
-  });
+  );
 
   const handleSave = () => {
     if (item.groupName !== value) {
@@ -100,7 +100,6 @@ export const TicketGroup = ({
       target="ticket"
       canAcceptItem={!isTicketDragged}
       onDrop={(id) => {
-        debugger;
         if (item.tickets.map((itm) => itm.id).includes(id)) {
           return;
         }
@@ -120,7 +119,7 @@ export const TicketGroup = ({
             onClickAway: handleSave,
           }}
         />
-        {tickets.map((ticket) => (
+        {tickets.map((ticket, idx) => (
           <DndItem
             key={ticket.id}
             itemData={ticket.id}
@@ -129,16 +128,13 @@ export const TicketGroup = ({
               setIsTicketDragged(value);
             }}
           >
-            <Stack
-              className="w-full min-h-[40px] bg-white rounded-lg border cursor-pointer hover:border-gray-400"
-              direction="col"
-              alignItems="start"
-              onClick={() => {
-                navigate(`tickets/${ticket.id}`);
+            <TicketRowItem
+              {...{
+                ticket,
+                position:
+                  idx == 0 ? 'first' : idx == tickets.length - 1 ? 'last' : '',
               }}
-            >
-              <p className="leading-[40px] px-2">{ticket.name}</p>
-            </Stack>
+            />
           </DndItem>
         ))}
         <ButtonInputForm

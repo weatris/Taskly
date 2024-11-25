@@ -29,9 +29,14 @@ export const ticketFunctions = {
     }),
 
   changeTicketGroup: ({ id, groupId }: { id: string; groupId: string }) =>
-    axios.put<void>(BACKEND_URL + `/common/${id}`, {
-      newValue: groupId,
-      itemType: 'ticket',
-      param: 'groupId',
+    axios.put<void>(BACKEND_URL + `/ticket/change_group`, {
+      id,
+      groupId,
+    }),
+
+  changeOrder: ({ id, order }: { id: string; order: number }) =>
+    axios.put<void>(BACKEND_URL + `/ticket/change_order`, {
+      id,
+      order,
     }),
 };

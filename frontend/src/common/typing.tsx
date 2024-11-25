@@ -42,6 +42,7 @@ type boardType = {
 type ticketType = {
   id: string;
   groupId: string;
+  order: number;
   groupName?: string;
   name: string;
   description?: string;

@@ -12,4 +12,6 @@ export {
   ExclamationTriangleIcon,
   InformationCircleIcon,
   PencilIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
 } from '@heroicons/react/24/solid';

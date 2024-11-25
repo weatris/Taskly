@@ -28,9 +28,12 @@
       "default": "Something went wrong",
       "invalidData": "Invalid Data",
       "invalidEmail": "Invalid email address",
-      "passwordNotSafe": "Password must have at least 8 characters, 1 number, and 1 special character"
+      "passwordNotSafe": "Password must have at least 8 characters, 1 number, and 1 special character",
+      "passwordsDontMatch": "Passwords do not match",
+      "emptyName": "Name cannot be empty"
     },
     "accessTypes": {
+      "all": "all",
       "public": "public",
       "private": "private",
       "closed": "closed"
@@ -67,7 +70,8 @@
       "cantCreate": "Can`t create ticket",
       "groupBtn": "Group: ",
       "description": "Description: ",
-      "cantUpdate": "Can`t update ticket"
+      "cantUpdate": "Can`t update ticket",
+      "cantChangeOrder": "Can`t change order"
     },
     "common": {
       "submit": "Submit",

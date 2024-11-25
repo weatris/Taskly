@@ -17,6 +17,10 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      order: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       description: {
         type: DataTypes.TEXT,
         allowNull: true,

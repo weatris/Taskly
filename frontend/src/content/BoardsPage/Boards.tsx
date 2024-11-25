@@ -50,6 +50,14 @@ export const Boards = () => {
   const [searchValue, setSearchValue] = useState('');
   const { addNotification } = useNotification();
 
+  const [selectedOption, setSelectedOption] = useState('public');
+  const options = [
+    { title: t('accessTypes.all'), key: 'all' },
+    { title: t('accessTypes.public'), key: 'public' },
+    { title: t('accessTypes.private'), key: 'private' },
+    { title: t('accessTypes.closed'), key: 'closed' },
+  ];
+
   const {
     data = [],
     isLoading,
@@ -61,7 +69,7 @@ export const Boards = () => {
       {
         params: {
           name: searchValue,
-          type: 'public',
+          type: selectedOption as boardAccessType,
         },
       },
     ],
@@ -95,6 +103,21 @@ export const Boards = () => {
             debounce: true,
           }}
         />
+        <Stack className="gap-2" direction="row">
+          {options.map((item) => {
+            return (
+              <Button
+                key={item.key}
+                className="w-full"
+                text={item.title}
+                variant={item.key == selectedOption ? 'default' : 'primary'}
+                onClick={() => {
+                  setSelectedOption(item.key);
+                }}
+              />
+            );
+          })}
+        </Stack>
         <Button
           text={t('Boards.createBoard.title')}
           onClick={() => {
@@ -126,7 +149,9 @@ export const Boards = () => {
               className="w-[200px] h-[300px] min-w-[200px] min-h-[300px] relative border rounded-lg shadow-sm cursor-pointer"
               direction="col"
               onClick={() => {
-                navigate(`/boards/${item.id}`);
+                navigate(
+                  `/boards/${item.id}/${item.name.replaceAll('/* ', '_')}`,
+                );
               }}
             >
               <div className="w-full rounded-t-lg overflow-hidden">

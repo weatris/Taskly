@@ -80,7 +80,7 @@ const Description = ({
   const { mutate } = useApiMutation('setTicketDescription', {
     onError: () => {
       addNotification({
-        title: 'Cant edit description',
+        title: t('Tickets.cantUpdate'),
         tp: 'alert',
       });
     },
@@ -162,7 +162,7 @@ const Description = ({
 };
 
 export const OpenTicketModal = () => {
-  const { id = '', ticketId = '' } = useParams();
+  const { id = '', boardName = '', ticketId = '' } = useParams();
   const { addNotification } = useNotification();
   const navigate = useNavigate();
 
@@ -188,7 +188,7 @@ export const OpenTicketModal = () => {
         title: <Title {...{ data }} />,
         modalType: 'info',
         onClose: () => {
-          navigate(`/boards/${id}`);
+          navigate(`/boards/${id}/${boardName}`);
         },
         titleClasssnames: 'h-[80px]',
       }}
@@ -217,10 +217,9 @@ export const OpenTicketModal = () => {
               direction="row"
               alignItems="center"
             >
-              <p className='truncate'>
+              <p className="truncate">
                 {t('Tickets.groupBtn')} {data?.groupName}
               </p>
-             
             </Stack>
           </Stack>
         </Stack>
