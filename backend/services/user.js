@@ -1,9 +1,11 @@
-import { User } from "../config/db.js";
+import { Token, User } from "../config/db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { generateToken } from "./../utils.js";
 import { sequelize } from "../config/db.js";
 import { decodeToken } from "../utils/decodeToken.js";
+import { transporter } from "./../config/mail.js";
+import { generateId } from "./../utils/generateId.js";
 
 const tokenLifeTime = "1h";
 
@@ -85,11 +87,11 @@ async function login(req, res) {
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) {
-      res.status(401).json({ message: "Invalid email or password" });
+      res.status(400).json({ message: "Invalid email or password" });
     } else {
       const isValid = await user.comparePassword(req.body.password);
       if (!isValid) {
-        res.status(401).json({ message: "Invalid email or password" });
+        res.status(400).json({ message: "Invalid email or password" });
       } else {
         const { token, expirationDate } = generateToken(user.id, tokenLifeTime);
 
@@ -175,6 +177,106 @@ async function refreshToken(req, res) {
   }
 }
 
+async function sendRecoverPasswordForm(req, res) {
+  const transaction = await sequelize.transaction();
+
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+    if (!user) {
+      await transaction.rollback();
+      return res.status(200).json({ message: "Code sent" });
+    }
+
+    const token = await Token.findOne({ where: { key: req.body.email } });
+    if (token) {
+      await token.destroy();
+    }
+
+    const id = generateId(10);
+
+    await Token.create(
+      {
+        value: id,
+        type: "recoverPassword",
+        key: req.body.email,
+      },
+      { transaction },
+    );
+
+    const info = await transporter.sendMail({
+      from: "Test message",
+      to: process.env.MAIL_USER,
+      // to: req.body.email,
+      subject: "Recovery code",
+      text: `Go to this link to recover your account: ${process.env.FRONTEND_URL}/recover/${id}`, // Plain text fallback
+      html: `<p>Go to this link to recover your account:</p>
+            <a href="${process.env.FRONTEND_URL}/recover/${id}" target="_blank">Recover Your Account</a>`,
+    });
+
+    await transaction.commit();
+
+    return res.status(200).json({ message: "Code sent", info });
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error" });
+  }
+}
+
+async function validateRecoverPasswordForm(req, res) {
+  const transaction = await sequelize.transaction();
+
+  try {
+    const token = await Token.findOne({
+      where: { value: req.body.id, type: "recoverPassword" },
+    });
+    const lifetime = new Date(
+      Date.now() - (process.env.TOKEN_LIFE_TIME || 15) * 60 * 1000,
+    );
+
+    if (!token) {
+      return res.status(400).json({ message: "Invalid code" });
+    }
+
+    if (token.createdAt <= lifetime) {
+      await token.destroy();
+      await transaction.commit();
+      return res.status(400).json({ message: "Invalid code" });
+    }
+
+    // await token.destroy();
+    await transaction.commit();
+    return res.status(200).json(token.key);
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error" });
+  }
+}
+
+async function changePassword(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+    if (!user) {
+      res.status(401).json({ message: "Invalid email or password" });
+    } else {
+      user.password = await bcrypt.hash(req.body.password, 10);
+      const token = await Token.findOne({ where: { key: user.email } });
+
+      await user.save({ transaction });
+      await token.destroy({ transaction });
+
+      await transaction.commit();
+      return res.status(200).json({ message: "Success" });
+    }
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    return res.status(500).json({ message: "Error" });
+  }
+}
+
 export default {
   createUser,
   getUserById,
@@ -184,4 +286,7 @@ export default {
   refreshToken,
   authenticate,
   validateToken,
+  sendRecoverPasswordForm,
+  validateRecoverPasswordForm,
+  changePassword,
 };

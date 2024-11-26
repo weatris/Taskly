@@ -6,6 +6,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RequestInterceptor } from './RequestInterceptor';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { Route, Routes } from 'react-router-dom';
+import { RecoverPassword } from '../content/UserControl/RecoverPassword';
+import { ChangePassword } from '../content/UserControl/ChangePassword';
 
 const queryClient = new QueryClient();
 

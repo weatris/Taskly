@@ -18,4 +18,13 @@ export const userFunctions = {
 
   validateToken: (token: string) =>
     axios.post<LoginResponse>(BACKEND_URL + '/users/validate', { token }),
+
+  sendRecoverPasswordForm: ({ email }: { email: string }) =>
+    axios.post(BACKEND_URL + '/users/recover', { email }),
+
+  validateRecoverPasswordForm: ({ id }: { id: string }) =>
+    axios.post<string>(BACKEND_URL + '/users/recover/validate', { id }),
+
+  changePassword: ({ email, password }: { email: string; password: string }) =>
+    axios.post(BACKEND_URL + '/users/change_password', { email, password }),
 };

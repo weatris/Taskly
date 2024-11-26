@@ -6,12 +6,14 @@ import { useRef } from 'react';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { inputStyle } from '../../common/styles';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
   const { addNotification } = useNotification();
   const { setAuthData } = useStateProvider().actions;
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const { mutate } = useApiMutation('login', {
     onSuccess: (data) => {
@@ -80,9 +82,24 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
             text={t('common.submit')}
             onClick={onSubmit}
           />
-          <button className="text-blue-500 ml-auto" onClick={toggleMode}>
-            {t('Login.noAccount')}
-          </button>
+          <Stack
+            className="w-full px-2"
+            direction="row"
+            alignItems="center"
+            justifyContent="between"
+          >
+            <button
+              className="text-red-700"
+              onClick={() => {
+                navigate('/recover');
+              }}
+            >
+              {t('Login.forgotPassword')}
+            </button>
+            <button className="text-blue-500" onClick={toggleMode}>
+              {t('Login.noAccount')}
+            </button>
+          </Stack>
         </Stack>
       </Stack>
     </Stack>

@@ -14,7 +14,8 @@
       "header": "Login",
       "email": "Email",
       "password": "Password",
-      "noAccount": "No account? Create one"
+      "noAccount": "No account? Create one",
+      "forgotPassword": "Forgot password?"
     },
     "Register": {
       "header": "Register",
@@ -23,6 +24,10 @@
       "password": "Password",
       "confirmPassword": "Confirm Password",
       "haveAccount": "Use existing account"
+    },
+    "RecoverPassword": {
+      "header": "Recover password",
+      "checkEmail": "Check your email"
     },
     "Errors": {
       "default": "Something went wrong",

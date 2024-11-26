@@ -4,6 +4,9 @@ import { Spinner } from '../../components/Spinner';
 import { UserControl } from '../../content/UserControl/UserControl';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useEffectOnce } from 'react-use';
+import { Routes, Route } from 'react-router-dom';
+import { ChangePassword } from '../../content/UserControl/ChangePassword';
+import { RecoverPassword } from '../../content/UserControl/RecoverPassword';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { state, actions } = useStateProvider();
@@ -96,14 +99,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         };
       }
     }
-  }, [expirationDate, mutate]);
+  }, [expirationDate]);
 
   if (isDataLoading || isLoading || isValidating) {
     return <Spinner />;
   }
 
   if (!token) {
-    return <UserControl />;
+    return (
+      <Routes>
+        <Route path="/" element={<UserControl />} />
+        <Route path="/recover" element={<RecoverPassword />} />
+        <Route path="/recover/:id" element={<ChangePassword />} />
+      </Routes>
+    );
   }
 
   return <>{children}</>;

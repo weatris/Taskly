@@ -5,6 +5,7 @@ import createBoardModel from "../models/board.js";
 import createBoardMemberModel from "../models/BoardMember.js";
 import createTicketModel from "../models/ticket.js";
 import createGroupModel from "../models/group.js";
+import createTokenModel from "../models/token.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ export const sequelize = new Sequelize(
 );
 
 export const User = createUserModel(sequelize);
+export const Token = createTokenModel(sequelize);
 export const Board = createBoardModel(sequelize);
 export const Group = createGroupModel(sequelize);
 export const BoardMember = createBoardMemberModel(sequelize);
