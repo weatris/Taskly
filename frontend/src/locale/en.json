@@ -58,13 +58,19 @@
         "name": "Name",
         "fillData": "Fill missing data",
         "cantCreate": "Can`t create board"
-      },
-      "settings": "Settings"
+      }
     },
     "Board": {
       "cantLoad": "Can`t load board",
       "createList": "Create list",
-      "createTicket": "Create ticket"
+      "createTicket": "Create ticket",
+      "settings": "Settings",
+      "share": "Share board",
+      "createLink": "Create Link",
+      "copyLink": "Copy Link",
+      "linkCopied": "Link copied",
+      "deleteLink": "Delete Link",
+      "linkActiveFor": "Link will be active for {{lifetime}} minutes."
     },
     "Groups": {
       "cantCreate": "Can`t create group",
@@ -82,6 +88,7 @@
       "submit": "Submit",
       "create": "Create",
       "save": "Save",
+      "send": "Send",
       "cancel": "Cancel",
       "refresh": "Refresh",
       "nothingFound": "Nothing found, please change filters",

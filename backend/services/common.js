@@ -1,6 +1,6 @@
-import { sequelize, Board, Group, Ticket } from "../config/db.js";
+import { sequelize, Board, Group, Ticket, Token } from "../config/db.js";
 
-export async function renameItem(req, res) {
+export async function updateItem(req, res) {
   const transaction = await sequelize.transaction();
   try {
     const { id } = req.params;
@@ -33,5 +33,5 @@ export async function renameItem(req, res) {
 }
 
 export default {
-  renameItem,
+  updateItem,
 };

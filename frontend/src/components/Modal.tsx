@@ -13,6 +13,7 @@ export const Modal = ({
   children,
   modalType = 'sidebar',
   titleClasssnames = '',
+  showButtons = true,
 }: {
   isVisible?: boolean;
   title: string | React.ReactNode;
@@ -21,6 +22,7 @@ export const Modal = ({
   children?: React.ReactNode;
   modalType?: 'info' | 'modal' | 'sidebar';
   titleClasssnames?: string;
+  showButtons?: boolean;
 }) => {
   if (!isVisible) {
     return <></>;
@@ -74,7 +76,7 @@ export const Modal = ({
               {children}
             </div>
           )}
-          {modalType !== 'info' && (
+          {modalType !== 'info' && showButtons && (
             <Stack className="w-full p-2 gap-2 border-t">
               <Button
                 className="w-full"

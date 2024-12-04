@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   if (!token) {
     return (
       <Routes>
-        <Route path="/" element={<UserControl />} />
+        <Route path="*" element={<UserControl />} />
         <Route path="/recover" element={<RecoverPassword />} />
         <Route path="/recover/:id" element={<ChangePassword />} />
       </Routes>

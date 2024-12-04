@@ -10,6 +10,7 @@ import { useNotification } from '../../stateProvider/notification/useNotificatio
 import { TicketGroup } from './TicketGroup';
 import { OpenTicketModal } from './OpenTicketModal';
 import { useState } from 'react';
+import { ShareBoardModal } from './ShareBoardModal';
 
 type ticketDataType = {
   groupId: string;
@@ -22,6 +23,7 @@ export const Board = () => {
   const navigate = useNavigate();
   const [ticketData, setTicketData] = useState<ticketDataType[]>([]);
   const { addNotification } = useNotification();
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const { data, isLoading, isError, refetch } = useApiQuery(
     'getBoardById',
@@ -76,14 +78,25 @@ export const Board = () => {
             justifyContent="between"
           >
             <p>{data?.name}</p>
-            <Button
-              {...{
-                text: t('Boards.settings'),
-                onClick: () => {
-                  navigate('settings');
-                },
-              }}
-            />
+            <Stack className="gap-2" direction="row" alignItems="center">
+              <Button
+                {...{
+                  text: t('Board.settings'),
+                  variant: 'primary',
+                  onClick: () => {
+                    navigate('settings');
+                  },
+                }}
+              />
+              <Button
+                {...{
+                  text: t('Board.share'),
+                  onClick: () => {
+                    setShowShareModal(true);
+                  },
+                }}
+              />
+            </Stack>
           </Stack>
           {!!data && (
             <Stack
@@ -108,6 +121,14 @@ export const Board = () => {
         </Stack>
         <OpenTicketModal />
       </ProgressPanel>
+      <ShareBoardModal
+        {...{
+          show: showShareModal,
+          onClose: () => {
+            setShowShareModal(false);
+          },
+        }}
+      />
     </>
   );
 };

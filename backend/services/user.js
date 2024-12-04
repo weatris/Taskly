@@ -6,8 +6,7 @@ import { sequelize } from "../config/db.js";
 import { decodeToken } from "../utils/decodeToken.js";
 import { transporter } from "./../config/mail.js";
 import { generateId } from "./../utils/generateId.js";
-
-const tokenLifeTime = "1h";
+import { tokenTypes } from "./../config/tokenTypes.js";
 
 async function createUser(req, res) {
   const transaction = await sequelize.transaction();
@@ -22,7 +21,10 @@ async function createUser(req, res) {
       { transaction },
     );
 
-    const { token, expirationDate } = generateToken(user.id, tokenLifeTime);
+    const { token, expirationDate } = generateToken(
+      user.id,
+      process.env.AUTH_TOKEN_LIFE_TIME,
+    );
 
     await transaction.commit();
 
@@ -93,7 +95,10 @@ async function login(req, res) {
       if (!isValid) {
         res.status(400).json({ message: "Invalid email or password" });
       } else {
-        const { token, expirationDate } = generateToken(user.id, tokenLifeTime);
+        const { token, expirationDate } = generateToken(
+          user.id,
+          process.env.AUTH_TOKEN_LIFE_TIME,
+        );
 
         res.json({ token, expirationDate, email: user.email, name: user.name });
       }
@@ -159,7 +164,7 @@ async function refreshToken(req, res) {
     if (tokenExpiration - currentTime < 15 * 60) {
       const { token: newToken, expirationDate } = generateToken(
         user.id,
-        tokenLifeTime,
+        process.env.AUTH_TOKEN_LIFE_TIME,
       );
 
       return res.json({
@@ -228,7 +233,7 @@ async function validateRecoverPasswordForm(req, res) {
 
   try {
     const token = await Token.findOne({
-      where: { value: req.body.id, type: "recoverPassword" },
+      where: { value: req.body.id, type: tokenTypes.recoverPassword },
     });
     const lifetime = new Date(
       Date.now() - (process.env.TOKEN_LIFE_TIME || 15) * 60 * 1000,

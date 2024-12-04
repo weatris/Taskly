@@ -5,8 +5,12 @@ import {
   BoardMember,
   Ticket,
   Group,
+  Token,
 } from "../config/db.js";
 import { Op } from "sequelize";
+import { generateId } from "./../utils/generateId.js";
+import { tokenTypes } from "./../config/tokenTypes.js";
+import {boardMemberTypes} from "./../config/boardMemberTypes.js";
 
 export async function createBoard(req, res) {
   const transaction = await sequelize.transaction();
@@ -31,7 +35,7 @@ export async function createBoard(req, res) {
       {
         boardId: board.id,
         userId: user.id,
-        level: "member",
+        level: boardMemberTypes.owner,
       },
       { transaction },
     );
@@ -48,6 +52,7 @@ export async function createBoard(req, res) {
 
 export async function searchBoards(req, res) {
   try {
+    const user = req.user;
     const { name, type } = req.body;
 
     const where = {};
@@ -74,15 +79,19 @@ export async function searchBoards(req, res) {
       ],
     });
 
-    const formattedBoards = boards.map((board) => ({
-      ...board.toJSON(),
-      members: board.members.map((member) => ({
-        id: member.id,
-        name: member.name,
-        email: member.email,
-        level: member.BoardMember.level,
-      })),
-    }));
+    const formattedBoards = boards
+      .filter((board) => {
+        return board.members.some((member) => member.id === user.id);
+      })
+      .map((board) => ({
+        ...board.toJSON(),
+        members: board.members.map((member) => ({
+          id: member.id,
+          name: member.name,
+          email: member.email,
+          level: member.BoardMember.level,
+        })),
+      }));
 
     res.json(formattedBoards);
   } catch (err) {
@@ -145,8 +154,159 @@ export async function getBoardById(req, res) {
   }
 }
 
+export async function createBoardShareLink(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id } = req.params;
+    const token = await Token.findOne({
+      where: { key: id, type: tokenTypes.shareBoard },
+    });
+
+    if (token) {
+      await token.destroy({ transaction });
+    }
+
+    await Token.create(
+      {
+        value: generateId(20),
+        type: tokenTypes.shareBoard,
+        key: id,
+      },
+      { transaction },
+    );
+
+    await transaction.commit();
+
+    return res.status(200).json({});
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error sharing board" });
+  }
+}
+
+export async function getTokenById(id, type, lifetime) {
+  try {
+    const token = await Token.findOne({ where: { key: id, type } });
+
+    if (token) {
+      const tokenAgeInMinutes =
+        (Date.now() - new Date(token.createdAt).getTime()) / (1000 * 60);
+
+      if (tokenAgeInMinutes > lifetime) {
+        await token.destroy();
+        return { value: "" };
+      }
+
+      return { value: token.value, key: token.key };
+    }
+
+    return { value: "" };
+  } catch (err) {
+    console.error(err);
+    return { value: "" };
+  }
+}
+
+export async function getBoardShareLink(req, res) {
+  const lifetime = parseInt(process.env.SHARE_TOKEN_LIFE_TIME) || 60;
+
+  try {
+    const { id } = req.params;
+    const { value } = await getTokenById(id, tokenTypes.shareBoard, lifetime);
+
+    return res.status(200).json({ value, lifetime });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "Error sharing board", value: "", lifetime });
+  }
+}
+
+export async function deleteBoardShareLink(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id } = req.params;
+
+    const token = await Token.findOne({
+      where: { key: id, type: "shareBoard" },
+    });
+
+    if (!token) {
+      await transaction.rollback();
+      return res.status(404).json({ message: "Link not found" });
+    }
+
+    await token.destroy({ transaction });
+
+    await transaction.commit();
+
+    return res.status(200).json({ message: "Token deleted successfully" });
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error deleting token" });
+  }
+}
+
+export async function joinBoardByLink(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id, token } = req.params;
+    const lifetime = parseInt(process.env.SHARE_TOKEN_LIFE_TIME) || 60;
+
+    const { value, key } = await getTokenById(
+      id,
+      tokenTypes.shareBoard,
+      lifetime,
+    );
+
+    if (value == token) {
+      const user = req.user;
+      const board = await Board.findByPk(key, {
+        include: [
+          {
+            model: User,
+            as: "members",
+            attributes: ["id", "name", "email"],
+            through: {
+              attributes: ["level"],
+            },
+          },
+        ],
+      });
+
+      const isMember = board.members.some((member) => member.id === user.id);
+
+      if (!isMember) {
+        await BoardMember.create(
+          {
+            boardId: board.id,
+            userId: user.id,
+            level: boardMemberTypes.member,
+          },
+          { transaction },
+        );
+      }
+      await transaction.commit();
+      return res.status(200).json(board.id);
+    }
+
+    return res.status(400);
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error sharing board", value: "" });
+  }
+}
+
 export default {
   createBoard,
   searchBoards,
   getBoardById,
+  createBoardShareLink,
+  getBoardShareLink,
+  deleteBoardShareLink,
+  joinBoardByLink,
 };
