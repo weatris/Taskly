@@ -8,7 +8,7 @@ import { ButtonInputForm } from '../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { TicketGroup } from './TicketGroup';
-import { OpenTicketModal } from './OpenTicketModal';
+import { OpenTicketModal } from './OpenTicketModal/OpenTicketModal';
 import { useState } from 'react';
 import { ShareBoardModal } from './ShareBoardModal';
 

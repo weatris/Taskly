@@ -12,7 +12,7 @@ export const TicketRowItem = ({
   position,
 }: {
   ticket: ticketType;
-  position: '' | 'first' | 'last';
+  position: '' | 'first' | 'last' | 'only';
 }) => {
   const navigate = useNavigate();
   const invalidateQuery = useInvalidateQuery();
@@ -42,40 +42,42 @@ export const TicketRowItem = ({
       <Stack className="w-full">
         <p className="leading-[40px] px-2">{ticket.name}</p>
       </Stack>
-      <Stack
-        className="h-full pr-1"
-        direction="col"
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {position !== 'first' && (
-          <Icon
-            size="sm"
-            onClick={() => {
-              mutatechangeOrder({
-                id: ticket.id,
-                order: ticket.order - 1,
-              });
-            }}
-          >
-            <ChevronUpIcon />
-          </Icon>
-        )}
-        {position !== 'last' && (
-          <Icon
-            size="sm"
-            onClick={() => {
-              mutatechangeOrder({
-                id: ticket.id,
-                order: ticket.order + 1,
-              });
-            }}
-          >
-            <ChevronDownIcon />
-          </Icon>
-        )}
-      </Stack>
+      {position !== 'only' && (
+        <Stack
+          className="h-full pr-1"
+          direction="col"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          {position !== 'first' && (
+            <Icon
+              size="sm"
+              onClick={() => {
+                mutatechangeOrder({
+                  id: ticket.id,
+                  order: ticket.order - 1,
+                });
+              }}
+            >
+              <ChevronUpIcon />
+            </Icon>
+          )}
+          {position !== 'last' && (
+            <Icon
+              size="sm"
+              onClick={() => {
+                mutatechangeOrder({
+                  id: ticket.id,
+                  order: ticket.order + 1,
+                });
+              }}
+            >
+              <ChevronDownIcon />
+            </Icon>
+          )}
+        </Stack>
+      )}
     </Stack>
   );
 };

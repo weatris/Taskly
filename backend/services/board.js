@@ -10,7 +10,7 @@ import {
 import { Op } from "sequelize";
 import { generateId } from "./../utils/generateId.js";
 import { tokenTypes } from "./../config/tokenTypes.js";
-import {boardMemberTypes} from "./../config/boardMemberTypes.js";
+import { boardMemberTypes } from "./../config/boardMemberTypes.js";
 
 export async function createBoard(req, res) {
   const transaction = await sequelize.transaction();

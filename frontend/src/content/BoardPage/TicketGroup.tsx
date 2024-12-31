@@ -132,7 +132,13 @@ export const TicketGroup = ({
               {...{
                 ticket,
                 position:
-                  idx == 0 ? 'first' : idx == tickets.length - 1 ? 'last' : '',
+                  idx == 0
+                    ? tickets.length == 1
+                      ? 'only'
+                      : 'first'
+                    : idx == tickets.length - 1
+                      ? 'last'
+                      : '',
               }}
             />
           </DndItem>

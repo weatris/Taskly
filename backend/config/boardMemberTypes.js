@@ -1,4 +1,4 @@
 export const boardMemberTypes = {
-    'member': 'member',
-    'owner': 'owner',
-}
+  member: "member",
+  owner: "owner",
+};
