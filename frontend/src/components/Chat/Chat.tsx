@@ -19,9 +19,7 @@ export const Chat = ({
   const { addNotification } = useNotification();
   const [message, setMessage] = useState('');
   const { id, name } = useStateProvider().state.auth;
-  const [messages, setMessages] = useState<
-  chatMessageType[]
-  >([]);
+  const [messages, setMessages] = useState<chatMessageType[]>([]);
 
   const queryParams = useApiInfiniteQuery(
     'getTicketChatDataById',
@@ -61,38 +59,47 @@ export const Chat = ({
       isLoading: true,
       user: {
         id,
-        name
+        name,
       },
     } as chatMessageType;
 
-    setMessages(prev=>[...prev, newMessage]);
+    setMessages((prev) => [...prev, newMessage]);
     mutate({ id: ticketId, message, boardId });
   };
 
-  const {isFetching, isFetched, loadNext} = queryParams;
+  const { isFetching, isFetched, loadNext } = queryParams;
 
   const renderItem = (_: number, item: chatMessageType) => {
-    return <>{item.content} {item.isLoading&&"tester"}</>;
+    return (
+      <>
+        {item.content} {item.isLoading && 'tester'}
+      </>
+    );
   };
 
   const atTopStateChange = () => {
     !isFetching && loadNext();
   };
 
-  useEffect(()=>{
-    setMessages(queryParams.data.data)
-  }, [isFetched, isFetching, queryParams.data.data.length])
+  useEffect(() => {
+    setMessages(queryParams.data.data);
+  }, [isFetched, isFetching, queryParams.data.data.length]);
 
   return (
     <Stack className="w-full h-full" direction="col">
       <Virtuoso
-          data={messages}
-          followOutput={'smooth'}
-          initialTopMostItemIndex={99999}
-          atTopStateChange={atTopStateChange}
-          itemContent={renderItem}
-          style={{ height: '100%', width: '100%', flex:'1 1 auto', overscrollBehavior: 'contain' }}
-        />
+        data={messages}
+        followOutput={'smooth'}
+        initialTopMostItemIndex={99999}
+        atTopStateChange={atTopStateChange}
+        itemContent={renderItem}
+        style={{
+          height: '100%',
+          width: '100%',
+          flex: '1 1 auto',
+          overscrollBehavior: 'contain',
+        }}
+      />
       <Stack
         className="w-full max-h-[80px] h-[80px] border-t-[1px] gap-3 p-3"
         direction="row"

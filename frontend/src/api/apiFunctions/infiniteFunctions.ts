@@ -13,7 +13,5 @@ export type infiniteDataType<itemType> = {
 
 export const infiniteFunctions = {
   getTicketChatDataById: ({ id, page = 0 }: { id: string; page?: number }) =>
-    axios.get<chatMessageType>(
-      BACKEND_URL + `/ticket/${id}/chat/${page}`,
-    ),
+    axios.get<chatMessageType>(BACKEND_URL + `/ticket/${id}/chat/${page}`),
 };

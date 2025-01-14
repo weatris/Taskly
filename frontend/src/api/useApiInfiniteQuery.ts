@@ -21,7 +21,7 @@ export function useApiInfiniteQuery<K extends keyof typeof apiFunctions>(
   const [page, setPage] = useState(0);
   const [data, setData] = useState<infiniteDataType<returnTp>>({ data: [] });
   const direction = options?.direction || 'end';
-  
+
   const query = useApiQuery(key, [{ ...(variables[0] as any), page }] as any, {
     ...options,
     onSuccess: (dt: returnTp) => {

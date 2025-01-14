@@ -1,10 +1,4 @@
-import {
-  sequelize,
-  User,
-  Ticket,
-  Group,
-  ChatMessage
-} from "../config/db.js";
+import { sequelize, User, Ticket, Group, ChatMessage } from "../config/db.js";
 import { Op } from "sequelize";
 import { generateId } from "../utils/generateId.js";
 
@@ -120,28 +114,14 @@ export async function changeTicketGroup(req, res) {
 export async function getTicketChatDataById(req, res) {
   try {
     const { id, page } = req.params;
-    const { lastMessageId } = req.body; 
     const pageSize = process.env.PAGE_SIZE;
 
     const limit = parseInt(pageSize, 10);
     const offset = parseInt(page, 10) * limit;
 
-    const whereClause = { ticketId: id };
-
-    if (lastMessageId) {
-      const lastMessage = await ChatMessage.findOne({
-        where: { id: lastMessageId },
-        attributes: ["createdAt"],
-      });
-
-      if (lastMessage) {
-        whereClause.createdAt = { [Op.lt]: lastMessage.createdAt };
-      }
-    }
-
     const { rows: messages, count: totalMessages } =
       await ChatMessage.findAndCountAll({
-        where: whereClause,
+        where: { ticketId: id },
         include: [
           {
             model: User,
@@ -153,16 +133,16 @@ export async function getTicketChatDataById(req, res) {
         limit,
         offset,
       });
-    
-      const remainingItems = Math.max(
-        totalMessages - (offset + messages.length),
-        0,
-      );
+
+    const remainingItems = Math.max(
+      totalMessages - (offset + messages.length),
+      0,
+    );
 
     res.status(200).json({
       data: messages,
       meta: {
-        totalNumber:totalMessages,
+        totalNumber: totalMessages,
         remainingItems,
         currentPage: parseInt(page, 10),
         totalPages: Math.ceil(totalMessages / limit),

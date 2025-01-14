@@ -42,9 +42,7 @@ export function VirtualizedList<itemType>({
   };
 
   return (
-    <div
-      className="w-full h-full flex flex-col items-start p-2 gap-2 overflow-auto"
-    >
+    <div className="w-full h-full flex flex-col items-start p-2 gap-2 overflow-auto">
       <Virtuoso
         data={data}
         followOutput={'auto'}
@@ -52,7 +50,12 @@ export function VirtualizedList<itemType>({
         atBottomStateChange={endReached}
         atTopStateChange={startReached}
         itemContent={itemContent}
-        style={{ height: '100%', width: '100%', flex:'1 1 auto', overscrollBehavior: 'contain' }}
+        style={{
+          height: '100%',
+          width: '100%',
+          flex: '1 1 auto',
+          overscrollBehavior: 'contain',
+        }}
       />
       <Button {...{ text: 'Load next', onClick: loadNext }} />
     </div>
