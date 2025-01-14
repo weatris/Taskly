@@ -1,5 +1,6 @@
 import { boardFunctions } from './boards';
 import { groupFunctions } from './group';
+import { infiniteFunctions } from './infiniteFunctions';
 import { ticketFunctions } from './ticket';
 import { userFunctions } from './user';
 
@@ -11,4 +12,5 @@ export const apiFunctions = {
   ...boardFunctions,
   ...groupFunctions,
   ...ticketFunctions,
+  ...infiniteFunctions,
 };

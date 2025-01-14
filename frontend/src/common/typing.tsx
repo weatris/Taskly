@@ -50,3 +50,12 @@ type ticketType = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+type chatMessageType = {
+  id?: string;
+  content?: string;
+  ticketId?: string;
+  boardId: string;
+  isLoading?: boolean;
+  user: { id: number; name: string };
+};

@@ -78,6 +78,7 @@
     },
     "Tickets": {
       "cantLoadError": "Can`t load ticket data",
+      "cantLoadChatError": "Can`t load ticket chat data",
       "cantCreate": "Can`t create ticket",
       "groupBtn": "Group: ",
       "description": "Description: ",

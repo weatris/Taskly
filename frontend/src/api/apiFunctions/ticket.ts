@@ -39,4 +39,15 @@ export const ticketFunctions = {
       id,
       order,
     }),
+
+  createTicketChatMessage: ({
+    id,
+    message,
+    boardId,
+  }: {
+    id: string;
+    message: string;
+    boardId: string;
+  }) =>
+    axios.post<void>(BACKEND_URL + `/ticket/${id}/chat`, { message, boardId }),
 };

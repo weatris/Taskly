@@ -7,4 +7,7 @@ router.get("/:id", ticketService.getTicketById);
 router.put("/change_order", ticketService.changeTicketOrder);
 router.put("/change_group", ticketService.changeTicketGroup);
 
+router.get("/:id/chat/:page", ticketService.getTicketChatDataById);
+router.post("/:id/chat", ticketService.createTicketChatMessage);
+
 export default router;

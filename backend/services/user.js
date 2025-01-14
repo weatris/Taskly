@@ -100,7 +100,13 @@ async function login(req, res) {
           process.env.AUTH_TOKEN_LIFE_TIME,
         );
 
-        res.json({ token, expirationDate, email: user.email, name: user.name });
+        res.json({
+          token,
+          expirationDate,
+          email: user.email,
+          name: user.name,
+          id: user.id,
+        });
       }
     }
   } catch (err) {

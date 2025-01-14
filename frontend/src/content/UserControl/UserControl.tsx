@@ -8,7 +8,6 @@ export const UserControl = () => {
   const toggleMode = () => {
     setIsLogin(!isLogin);
   };
-  console.log('wqdqwd');
 
   return isLogin ? (
     <Login toggleMode={toggleMode} />

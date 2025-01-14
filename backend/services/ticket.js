@@ -1,4 +1,11 @@
-import { sequelize, User, Board, Ticket, Group } from "../config/db.js";
+import {
+  sequelize,
+  User,
+  Ticket,
+  Group,
+  ChatMessage
+} from "../config/db.js";
+import { Op } from "sequelize";
 import { generateId } from "../utils/generateId.js";
 
 export async function createTicket(req, res) {
@@ -110,9 +117,94 @@ export async function changeTicketGroup(req, res) {
   }
 }
 
+export async function getTicketChatDataById(req, res) {
+  try {
+    const { id, page } = req.params;
+    const { lastMessageId } = req.body; 
+    const pageSize = process.env.PAGE_SIZE;
+
+    const limit = parseInt(pageSize, 10);
+    const offset = parseInt(page, 10) * limit;
+
+    const whereClause = { ticketId: id };
+
+    if (lastMessageId) {
+      const lastMessage = await ChatMessage.findOne({
+        where: { id: lastMessageId },
+        attributes: ["createdAt"],
+      });
+
+      if (lastMessage) {
+        whereClause.createdAt = { [Op.lt]: lastMessage.createdAt };
+      }
+    }
+
+    const { rows: messages, count: totalMessages } =
+      await ChatMessage.findAndCountAll({
+        where: whereClause,
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["id", "name"],
+          },
+        ],
+        order: [["createdAt", "DESC"]],
+        limit,
+        offset,
+      });
+    
+      const remainingItems = Math.max(
+        totalMessages - (offset + messages.length),
+        0,
+      );
+
+    res.status(200).json({
+      data: messages,
+      meta: {
+        totalNumber:totalMessages,
+        remainingItems,
+        currentPage: parseInt(page, 10),
+        totalPages: Math.ceil(totalMessages / limit),
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error retrieving ticket chat data" });
+  }
+}
+
+export async function createTicketChatMessage(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id } = req.params;
+    const { message, boardId } = req.body;
+
+    await ChatMessage.create(
+      {
+        id: generateId(10),
+        boardId,
+        content: message,
+        ticketId: id,
+        userId: req.user.id,
+      },
+      { transaction },
+    );
+
+    await transaction.commit();
+
+    res.status(200).json({ message: "Success" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error creating ticket chat message" });
+  }
+}
+
 export default {
   createTicket,
   getTicketById,
   changeTicketOrder,
   changeTicketGroup,
+  getTicketChatDataById,
+  createTicketChatMessage,
 };

@@ -61,7 +61,7 @@ export const Modal = ({
             )}
             direction="row"
           >
-            <p className="w-full text-xl truncate">{title}</p>
+            <div className="w-full text-xl truncate">{title}</div>
             <Icon onClick={onClose}>
               <XMarkIcon color="gray" />
             </Icon>

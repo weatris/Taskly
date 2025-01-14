@@ -5,12 +5,14 @@ export interface AuthState {
   email: string;
   name: string;
   expirationDate?: Date;
+  id: number;
 }
 
 const initialState: AuthState = {
   token: '',
   email: '',
   name: '',
+  id: -1,
 };
 
 export const AuthSlice = createSlice({
@@ -25,6 +27,7 @@ export const AuthSlice = createSlice({
       state.token = action.payload.token;
       state.email = action.payload.email;
       state.name = action.payload.name;
+      state.id = action.payload.id;
       const expirationDate = action.payload.expirationDate;
       if (expirationDate) state.expirationDate = new Date(expirationDate);
     },

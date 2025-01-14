@@ -1,57 +1,59 @@
-import {
-  useInfiniteQuery,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
-} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { infiniteFunctions } from './apiFunctions/infiniteFunctions';
-import { useNotification } from '../stateProvider/notification/useNotification';
-import { t } from 'i18next';
+import { apiFunctions } from './apiFunctions/apiFunctions';
+import { UseQueryOptions } from '@tanstack/react-query';
+import { useApiQuery } from './useApiQuery';
+import { useState } from 'react';
+import { infiniteDataType } from './apiFunctions/infiniteFunctions';
 
 type ExtractDataType<T> = T extends Promise<infer R> ? R : never;
 type ExtractVariablesType<T> = T extends (...args: infer A) => any ? A : never;
 
-export function useApiInfiniteQuery<K extends keyof typeof infiniteFunctions>(
+export function useApiInfiniteQuery<K extends keyof typeof apiFunctions>(
   key: K,
-  variables: ExtractVariablesType<(typeof infiniteFunctions)[K]>[0],
-  options?: UseInfiniteQueryOptions<
-    ExtractDataType<ReturnType<(typeof infiniteFunctions)[K]>>['data'],
-    AxiosError,
-    ExtractDataType<ReturnType<(typeof infiniteFunctions)[K]>>['data'],
-    [K, ExtractVariablesType<(typeof infiniteFunctions)[K]>]
-  > & { onError?: (error: any) => void },
-  getNextPageParam?: (
-    lastPage: ExtractDataType<
-      ReturnType<(typeof infiniteFunctions)[K]>
-    >['data'],
-  ) => any,
+  variables: ExtractVariablesType<(typeof apiFunctions)[K]>,
+  options?: UseQueryOptions<
+    ExtractDataType<ReturnType<(typeof apiFunctions)[K]>>['data'],
+    AxiosError
+  > & { onError?: (error: any) => void; direction?: 'start' | 'end' },
 ) {
-  const { addNotification } = useNotification();
+  type returnTp = ExtractDataType<ReturnType<(typeof apiFunctions)[K]>>['data'];
 
-  const queryFn = async ({ pageParam }: { pageParam: typeof variables }) => {
-    const response = await infiniteFunctions[key](pageParam);
-    return response.data;
+  const [page, setPage] = useState(0);
+  const [data, setData] = useState<infiniteDataType<returnTp>>({ data: [] });
+  const direction = options?.direction || 'end';
+  
+  const query = useApiQuery(key, [{ ...(variables[0] as any), page }] as any, {
+    ...options,
+    onSuccess: (dt: returnTp) => {
+      setData((prev) => {
+        return {
+          data:
+            direction === 'start'
+              ? [...[...dt.data].reverse(), ...prev.data]
+              : [...prev.data, ...dt.data],
+          meta: dt.meta,
+        };
+      });
+      options?.onSuccess?.(dt);
+    },
+  });
+
+  return {
+    ...query,
+    data,
+    loadNext: () => {
+      const meta = query.data?.meta;
+
+      if (meta?.remainingItems !== 0) {
+        setPage((prev) => prev + 1);
+      } else {
+        console.log('no more items');
+      }
+    },
+    refetch: () => {
+      setData({ data: [] });
+      setPage(0);
+      return query.refetch();
+    },
   };
-
-  // return useInfiniteQuery<
-  //   ExtractDataType<ReturnType<(typeof infiniteFunctions)[K]>>['data'],
-  //   AxiosError
-  // >({
-  //   queryKey: [key, variables],
-  //   queryFn,
-  //   getNextPageParam,
-  //   onError: (error: any) => {
-  //     console.error(error);
-
-  //     if (options?.onError) {
-  //       options.onError(error);
-  //     } else {
-  //       addNotification({ title: t('Errors.default'), tp: 'alert' });
-  //     }
-  //   },
-  //   retry: 2,
-  //   staleTime: 1000 * 10,
-  //   ...options,
-  // });
-  return 0;
 }

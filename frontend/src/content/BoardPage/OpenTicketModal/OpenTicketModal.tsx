@@ -7,7 +7,8 @@ import { useNotification } from '../../../stateProvider/notification/useNotifica
 import { t } from 'i18next';
 import { Description } from './Description';
 import { Title } from './Title';
-import { Chat } from './Chat';
+import { Chat } from '../../../components/Chat/Chat';
+import { TicketDetails } from './TicketDetails';
 
 export const OpenTicketModal = () => {
   const { id = '', boardName = '', ticketId = '' } = useParams();
@@ -43,37 +44,30 @@ export const OpenTicketModal = () => {
     >
       <ProgressPanel {...{ isLoading }}>
         <Stack className="w-full h-full gap-1" direction="row">
-          <Stack className="w-full h-full gap-2" direction="col">
+          <Stack className="w-full h-full relative" direction="col">
             <Stack
-              className="w-full h-full relative border-[1px] overflow-auto"
+              className="w-full h-full gap-2 absolute top-0 bottom-0"
               direction="col"
             >
-              <Description
-                {...{
-                  data,
-                  refetch: () => {
-                    refetch();
-                  },
-                }}
-              />
-              <Chat {...{ id }} />
+              <Stack
+                className="w-full h-full max-h-[50%] border-[1px]"
+                direction="col"
+              >
+                <Description
+                  {...{
+                    data,
+                    refetch: () => {
+                      refetch();
+                    },
+                  }}
+                />
+              </Stack>
+              <Stack className="w-full h-full max-h-[50%] border-[1px]">
+                <Chat {...{ ticketId, boardId: id }} />
+              </Stack>
             </Stack>
           </Stack>
-          <Stack
-            className="w-[400px] !min-w-[400px] !max-w-[400px] h-full p-2 border-[1px]"
-            direction="col"
-            alignItems="start"
-          >
-            <Stack
-              className="w-full h-fit p-1 rounded-md border-b"
-              direction="row"
-              alignItems="center"
-            >
-              <p className="truncate">
-                {t('Tickets.groupBtn')} {data?.groupName}
-              </p>
-            </Stack>
-          </Stack>
+          <TicketDetails {...{ data }} />
         </Stack>
       </ProgressPanel>
     </Modal>
