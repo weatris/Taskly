@@ -59,3 +59,11 @@ type chatMessageType = {
   isLoading?: boolean;
   user: { id: number; name: string };
 };
+
+type markerType = {
+  id: string;
+  name: string;
+  color: string;
+  description: string;
+  boardId: string;
+};

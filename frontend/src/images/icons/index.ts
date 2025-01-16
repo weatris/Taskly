@@ -14,4 +14,5 @@ export {
   PencilIcon,
   ChevronUpIcon,
   ChevronDownIcon,
+  TrashIcon,
 } from '@heroicons/react/24/solid';

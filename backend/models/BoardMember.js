@@ -12,7 +12,7 @@ export default (sequelize) => {
         autoIncrement: true,
       },
       boardId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         references: {
           model: "boards",
           key: "id",

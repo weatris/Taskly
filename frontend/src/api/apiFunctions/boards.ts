@@ -44,4 +44,47 @@ export const boardFunctions = {
 
   joinBoardByLink: ({ id, token }: { id: string; token: string }) =>
     axios.post<string>(BACKEND_URL + `/boards/${id}/join/${token}`),
+
+  getMarkers: ({ id }: { id: string }) =>
+    axios.get<markerType[]>(BACKEND_URL + `/boards/${id}/markers`),
+
+  createMarker: ({
+    id,
+    name,
+    color,
+    description,
+  }: {
+    id: string;
+    name: string;
+    color: string;
+    description: string;
+  }) =>
+    axios.post(BACKEND_URL + `/boards/${id}/markers`, {
+      name,
+      color,
+      description,
+    }),
+
+  updateMarker: ({
+    id,
+    name,
+    color,
+    description,
+    selectedMarker,
+  }: {
+    id: string;
+    name: string;
+    color: string;
+    description: string;
+    selectedMarker: string;
+  }) =>
+    axios.put(BACKEND_URL + `/boards/${id}/markers`, {
+      name,
+      color,
+      description,
+      selectedMarker,
+    }),
+
+  deleteMarker: ({ boardId, id }: { boardId: string; id: string }) =>
+    axios.delete(BACKEND_URL + `/boards/${boardId}/markers/${id}`),
 };

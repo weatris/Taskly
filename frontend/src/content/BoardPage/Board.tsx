@@ -81,7 +81,7 @@ export const Board = () => {
             <Stack className="gap-2" direction="row" alignItems="center">
               <Button
                 {...{
-                  text: t('Board.settings'),
+                  text: t('Board.settings.title'),
                   variant: 'primary',
                   onClick: () => {
                     navigate('settings');

@@ -64,13 +64,24 @@
       "cantLoad": "Can`t load board",
       "createList": "Create list",
       "createTicket": "Create ticket",
-      "settings": "Settings",
       "share": "Share board",
       "createLink": "Create Link",
       "copyLink": "Copy Link",
       "linkCopied": "Link copied",
       "deleteLink": "Delete Link",
-      "linkActiveFor": "Link will be active for {{lifetime}} minutes."
+      "linkActiveFor": "Link will be active for {{lifetime}} minutes.",
+      "settings": {
+        "title": "Settings",
+        "markers": {
+          "header": "Markers",
+          "create": "Create new",
+          "update": "Update existing",
+          "name": "Name",
+          "description": "Description (optional)",
+          "delete": "Delete marker",
+          "deleteText": "Are you sure you want to delete `{{name}}`?"
+        }
+      }
     },
     "Groups": {
       "cantCreate": "Can`t create group",

@@ -6,6 +6,7 @@ import {
   Ticket,
   Group,
   Token,
+  Marker,
 } from "../config/db.js";
 import { Op } from "sequelize";
 import { generateId } from "./../utils/generateId.js";
@@ -24,6 +25,7 @@ export async function createBoard(req, res) {
     const { name, type, config } = req.body;
     const board = await Board.create(
       {
+        id: generateId(10),
         name,
         type,
         config,
@@ -301,6 +303,86 @@ export async function joinBoardByLink(req, res) {
   }
 }
 
+export async function createMarker(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id: boardId } = req.params;
+    const { name, color, description } = req.body;
+
+    await Marker.create(
+      {
+        id: generateId(10),
+        name,
+        color,
+        description,
+        boardId,
+      },
+      { transaction },
+    );
+    await transaction.commit();
+
+    res.status(200).json({ message: "Success" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error creating marker" });
+  }
+}
+
+export async function updateMarker(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id: boardId } = req.params;
+    const { name, color, description, selectedMarker } = req.body;
+
+    const marker = await Marker.findByPk(selectedMarker);
+
+    if (marker.boardId !== boardId) {
+      throw "Error";
+    }
+
+    marker.name = name;
+    marker.color = color;
+    marker.description = description;
+
+    await marker.save({ transaction });
+    await transaction.commit();
+
+    res.status(200).json({ message: "Success" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error updating marker" });
+  }
+}
+
+export async function deleteMarker(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { marker_id: id } = req.params;
+    const marker = await Marker.findByPk(id);
+
+    await marker.destroy({ transaction });
+    await transaction.commit();
+
+    res.status(200).json({ message: "Success" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error deleting marker" });
+  }
+}
+
+export async function getMarkers(req, res) {
+  try {
+    const { id } = req.params;
+
+    const markers = await Marker.findAll({ where: { boardId: id } });
+
+    res.status(200).json(markers);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error retrieving board" });
+  }
+}
+
 export default {
   createBoard,
   searchBoards,
@@ -309,4 +391,8 @@ export default {
   getBoardShareLink,
   deleteBoardShareLink,
   joinBoardByLink,
+  createMarker,
+  updateMarker,
+  deleteMarker,
+  getMarkers,
 };

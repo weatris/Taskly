@@ -7,6 +7,7 @@ import createTicketModel from "../models/ticket.js";
 import createGroupModel from "../models/group.js";
 import createTokenModel from "../models/token.js";
 import createChatMessageModel from "../models/chatMessage.js";
+import createMarkerModel from "../models/marker.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ export const Group = createGroupModel(sequelize);
 export const BoardMember = createBoardMemberModel(sequelize);
 export const Ticket = createTicketModel(sequelize);
 export const ChatMessage = createChatMessageModel(sequelize);
+export const Marker = createMarkerModel(sequelize);
 
 User.belongsToMany(Board, {
   through: BoardMember,
@@ -48,6 +50,7 @@ Ticket.belongsTo(Board, { foreignKey: "boardId", as: "board" });
 ChatMessage.belongsTo(Board, { foreignKey: "boardId", as: "board" });
 ChatMessage.belongsTo(User, { foreignKey: "userId", as: "user" });
 Group.belongsTo(Board, { foreignKey: "boardId", as: "board" });
+Marker.belongsTo(Board, { foreignKey: "boardId", as: "board" });
 
 User.hasMany(BoardMember, { foreignKey: "userId", as: "boardMemberships" });
 Board.hasMany(BoardMember, { foreignKey: "boardId", as: "memberShips" });

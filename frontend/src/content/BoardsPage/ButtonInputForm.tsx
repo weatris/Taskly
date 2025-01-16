@@ -37,6 +37,7 @@ export const ButtonInputForm = ({
           {...{
             value,
             setValue,
+            className: 'h-full',
             placeholder: t('common.ButtonInputForm'),
           }}
         />

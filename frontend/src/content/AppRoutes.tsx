@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Boards } from './BoardsPage/Boards';
 import { Board } from './BoardPage/Board';
-import { BoardSettings } from './BoardPage/BoardSettings';
+import { BoardSettings } from './BoardSettings/BoardSettings';
 import { BoardShare } from './SpecialPages/BoardShare';
 
 export const AppRoutes = () => {
