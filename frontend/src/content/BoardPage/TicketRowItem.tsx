@@ -5,7 +5,9 @@ import { useInvalidateQuery } from '../../api/useInvalidateQuery';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { t } from 'i18next';
 import { Icon } from '../../images/Icon';
-import { ChevronDownIcon, ChevronUpIcon } from '../../images/icons';
+import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from '../../images/icons';
+import { useStateProvider } from '../../stateProvider/useStateProvider';
+import { MarkerBadge } from '../../components/Markers/MarkerBadge';
 
 export const TicketRowItem = ({
   ticket,
@@ -17,6 +19,10 @@ export const TicketRowItem = ({
   const navigate = useNavigate();
   const invalidateQuery = useInvalidateQuery();
   const { addNotification } = useNotification();
+  const { markers } = useStateProvider().state.board;
+  const ticketMarkers = markers.filter((item) =>
+    ticket.markers.includes(item.id),
+  );
 
   const { mutate: mutatechangeOrder } = useApiMutation('changeOrder', {
     onSuccess: () => {
@@ -39,7 +45,23 @@ export const TicketRowItem = ({
         navigate(`tickets/${ticket.id}`);
       }}
     >
-      <Stack className="w-full">
+      <Stack className="w-full" direction="col" alignItems="start">
+        {!!ticketMarkers.length && (
+          <Stack
+            className="w-full h-[20px] overflow-hidden px-1 pt-1 gap-2"
+            direction="row"
+            alignItems="center"
+          >
+            {ticketMarkers.slice(0, 3).map((item) => (
+              <MarkerBadge key={item.id} {...{ item, displayType: 'small' }} />
+            ))}
+            {ticketMarkers.length > 2 && (
+              <Icon size="sm" hoverable={false}>
+                <PlusIcon color="gray" />
+              </Icon>
+            )}
+          </Stack>
+        )}
         <p className="leading-[40px] px-2">{ticket.name}</p>
       </Stack>
       {position !== 'only' && (

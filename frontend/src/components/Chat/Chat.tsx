@@ -32,7 +32,7 @@ export const Chat = ({
       },
       onError: () => {
         addNotification({
-          title: t('Tickets.cantLoadChatError'),
+          title: t('Tickets.errors.cantLoadChatError'),
           tp: 'alert',
         });
       },
@@ -45,7 +45,7 @@ export const Chat = ({
     },
     onError: () => {
       addNotification({
-        title: t('Tickets.cantLoadChatError'),
+        title: t('Tickets.errors.cantLoadChatError'),
         tp: 'alert',
       });
     },

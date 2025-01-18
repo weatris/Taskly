@@ -1,5 +1,4 @@
-// BoardMember.js
-import { Sequelize, DataTypes, Model } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 
 export default (sequelize) => {
   class BoardMember extends Model {}

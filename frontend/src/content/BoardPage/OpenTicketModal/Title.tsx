@@ -18,7 +18,7 @@ export const Title = ({ data }: { data: ticketType | undefined }) => {
     },
     onError: () => {
       addNotification({
-        title: t('Tickets.cantUpdate'),
+        title: t('Tickets.errors.cantUpdate'),
         tp: 'alert',
       });
       setValue(data?.name || '');

@@ -28,6 +28,12 @@ export default (sequelize) => {
       assignedTo: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
+        defaultValue: [],
+      },
+      markers: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+        defaultValue: [],
       },
     },
     {

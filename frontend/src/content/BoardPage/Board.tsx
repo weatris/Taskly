@@ -11,6 +11,7 @@ import { TicketGroup } from './TicketGroup';
 import { OpenTicketModal } from './OpenTicketModal/OpenTicketModal';
 import { useState } from 'react';
 import { ShareBoardModal } from './ShareBoardModal';
+import { useStateProvider } from '../../stateProvider/useStateProvider';
 
 type ticketDataType = {
   groupId: string;
@@ -24,6 +25,7 @@ export const Board = () => {
   const [ticketData, setTicketData] = useState<ticketDataType[]>([]);
   const { addNotification } = useNotification();
   const [showShareModal, setShowShareModal] = useState(false);
+  const { setMarkers } = useStateProvider().actions;
 
   const { data, isLoading, isError, refetch } = useApiQuery(
     'getBoardById',
@@ -47,6 +49,12 @@ export const Board = () => {
       },
     },
   );
+
+  const {} = useApiQuery('getMarkers', [{ id }], {
+    onSuccess: (data) => {
+      setMarkers(data);
+    },
+  });
 
   const { mutate: mutateCreateGroup } = useApiMutation('createGroup', {
     onSuccess: () => {

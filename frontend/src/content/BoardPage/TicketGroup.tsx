@@ -36,7 +36,7 @@ export const TicketGroup = ({
     },
     onError: () => {
       addNotification({
-        title: t('Tickets.cantCreate'),
+        title: t('Tickets.errors.cantCreate'),
         tp: 'alert',
       });
     },

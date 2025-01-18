@@ -26,14 +26,14 @@ export const Navbar = () => {
 
   return (
     <Stack
-      className="w-full h-[60px] border-b bg-gray-50 px-5 py-2"
-      justifyContent="end"
+      className="w-full !h-[60px] border-b bg-gray-50 px-5 py-2"
+      justifyContent="between"
       direction="row"
     >
-      {/* <Stack className="gap-x-2">
+      <Stack className="gap-x-2">
         <Icon
           onClick={() => {
-            toggleSidebar(!isFull);
+            navigate('/');
           }}
         >
           <Bars3Icon />
@@ -49,7 +49,7 @@ export const Navbar = () => {
         >
           {t('appName')}
         </p>
-      </Stack> */}
+      </Stack>
 
       <Dropdown
         label={

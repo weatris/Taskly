@@ -8,7 +8,7 @@ export const Input = ({
   className,
   type = 'text',
 }: {
-  value?: string;
+  value?: any;
   setValue: (value: SetStateAction<string>) => void;
   placeholder?: string;
   className?: string;

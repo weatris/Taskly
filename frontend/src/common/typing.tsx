@@ -49,6 +49,7 @@ type ticketType = {
   assignedTo?: string[];
   createdAt?: string;
   updatedAt?: string;
+  markers: string[];
 };
 
 type chatMessageType = {

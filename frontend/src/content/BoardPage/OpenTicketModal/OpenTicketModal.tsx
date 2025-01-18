@@ -9,23 +9,28 @@ import { Description } from './Description';
 import { Title } from './Title';
 import { Chat } from '../../../components/Chat/Chat';
 import { TicketDetails } from './TicketDetails';
+import { useStateProvider } from '../../../stateProvider/useStateProvider';
 
 export const OpenTicketModal = () => {
   const { id = '', boardName = '', ticketId = '' } = useParams();
   const { addNotification } = useNotification();
   const navigate = useNavigate();
+  const { setOpenTicketData } = useStateProvider().actions;
 
   const { data, isLoading, refetch } = useApiQuery(
     'getTicketById',
     [{ id: ticketId }],
     {
       enabled: !!ticketId,
+      onSuccess: (data) => {
+        setOpenTicketData(data);
+      },
       onError: () => {
         addNotification({
-          title: t('Tickets.cantLoadError'),
+          title: t('Tickets.errors.cantLoadError'),
           tp: 'alert',
         });
-        navigate(`/boards/${id}`);
+        navigate(`/boards/${id}/${boardName}`);
       },
     },
   );
@@ -38,6 +43,7 @@ export const OpenTicketModal = () => {
         modalType: 'info',
         onClose: () => {
           navigate(`/boards/${id}/${boardName}`);
+          setOpenTicketData(undefined);
         },
         titleClasssnames: 'h-[80px]',
       }}

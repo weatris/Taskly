@@ -134,6 +134,7 @@ export async function getBoardById(req, res) {
             "assignedTo",
             "createdAt",
             "updatedAt",
+            "markers",
           ],
         },
       ],

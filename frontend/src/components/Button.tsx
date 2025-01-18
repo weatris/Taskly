@@ -6,12 +6,14 @@ export const Button = ({
   onClick,
   variant = 'default',
   className,
+  size = 'md',
   disabled = false,
 }: {
   text: string | React.ReactNode;
   onClick?: (e: any) => void;
   variant?: 'default' | 'primary';
   className?: string;
+  size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
 }) => {
   const classes = classNames(
@@ -22,7 +24,12 @@ export const Button = ({
     className,
   );
   return (
-    <FlowbiteButton className={classes} onClick={onClick} disabled={disabled}>
+    <FlowbiteButton
+      className={classes}
+      onClick={onClick}
+      disabled={disabled}
+      size={size}
+    >
       {text}
     </FlowbiteButton>
   );

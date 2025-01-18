@@ -50,4 +50,11 @@ export const ticketFunctions = {
     boardId: string;
   }) =>
     axios.post<void>(BACKEND_URL + `/ticket/${id}/chat`, { message, boardId }),
+
+  changeTicketMarkers: ({ id, newValue }: { id: string; newValue: string[] }) =>
+    axios.put<void>(BACKEND_URL + `/common/${id}`, {
+      newValue,
+      itemType: 'ticket',
+      param: 'markers',
+    }),
 };

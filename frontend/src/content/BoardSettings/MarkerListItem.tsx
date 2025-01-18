@@ -8,7 +8,7 @@ export const MarkerListItem = ({
   children,
 }: {
   item: markerType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (

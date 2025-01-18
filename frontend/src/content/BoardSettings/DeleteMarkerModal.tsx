@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 import { Modal } from '../../components/Modal';
 import { useApiMutation } from '../../api/useApiMutation';
+import { useNotification } from '../../stateProvider/notification/useNotification';
 
 export const DeleteMarkerModal = ({
   isVisible,
@@ -13,10 +14,18 @@ export const DeleteMarkerModal = ({
   onClose: () => void;
   onAccept: () => void;
 }) => {
+  const { addNotification } = useNotification();
+
   const { mutate } = useApiMutation('deleteMarker', {
     onSuccess: () => {
       onAccept();
       onClose();
+    },
+    onError: () => {
+      addNotification({
+        title: t('Board.settings.markers.errors.cantDelete'),
+        tp: 'alert',
+      });
     },
   });
 

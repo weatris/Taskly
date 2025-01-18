@@ -1,5 +1,4 @@
 import { sequelize, User, Ticket, Group, ChatMessage } from "../config/db.js";
-import { Op } from "sequelize";
 import { generateId } from "../utils/generateId.js";
 
 export async function createTicket(req, res) {

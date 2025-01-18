@@ -42,7 +42,7 @@ export function useApiQuery<K extends keyof typeof apiFunctions>(
       }
     },
     retry: 2,
-    staleTime: 1000 * 10,
+    // staleTime: 1000 * 10,
     ...options,
   });
 }

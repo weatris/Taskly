@@ -72,6 +72,7 @@
       "linkActiveFor": "Link will be active for {{lifetime}} minutes.",
       "settings": {
         "title": "Settings",
+        "return": "Return to board",
         "markers": {
           "header": "Markers",
           "create": "Create new",
@@ -79,7 +80,13 @@
           "name": "Name",
           "description": "Description (optional)",
           "delete": "Delete marker",
-          "deleteText": "Are you sure you want to delete `{{name}}`?"
+          "deleteText": "Are you sure you want to delete `{{name}}`?",
+          "errors": {
+            "cantGet": "Can`t get markers",
+            "cantCreate": "Can`t create marker",
+            "cantUpdate": "Can`t update marker",
+            "cantDelete": "Can`t delete marker"
+          }
         }
       }
     },
@@ -88,13 +95,17 @@
       "cantRename": "Can`t rename group"
     },
     "Tickets": {
-      "cantLoadError": "Can`t load ticket data",
-      "cantLoadChatError": "Can`t load ticket chat data",
-      "cantCreate": "Can`t create ticket",
       "groupBtn": "Group: ",
       "description": "Description: ",
-      "cantUpdate": "Can`t update ticket",
-      "cantChangeOrder": "Can`t change order"
+      "markers": "Markers",
+      "saveChanges": "Please save changes",
+      "errors": {
+        "cantCreate": "Can`t create ticket",
+        "cantUpdate": "Can`t update ticket",
+        "cantChangeOrder": "Can`t change order",
+        "cantLoadError": "Can`t load ticket data",
+        "cantLoadChatError": "Can`t load ticket chat data"
+      }
     },
     "common": {
       "submit": "Submit",

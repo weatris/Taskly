@@ -22,7 +22,7 @@ export const Description = ({
   const { mutate } = useApiMutation('setTicketDescription', {
     onError: () => {
       addNotification({
-        title: t('Tickets.cantUpdate'),
+        title: t('Tickets.errors.cantUpdate'),
         tp: 'alert',
       });
     },
@@ -47,7 +47,7 @@ export const Description = ({
 
   return (
     <Stack
-      className="w-full h-full max-h-[60%]"
+      className="w-full h-[calc(100%-40px)]"
       direction="col"
       alignItems="start"
     >
@@ -67,15 +67,17 @@ export const Description = ({
             <Button
               {...{
                 text: t('common.cancel'),
+                className: 'px-0 py-1',
                 variant: 'primary',
-                className: 'h-[30px] [&>span]:p-0',
+                size: 'sm',
                 onClick: cancel,
               }}
             />
             <Button
               {...{
                 text: t('common.save'),
-                className: 'h-[30px] [&>span]:p-0',
+                className: 'px-0 py-1',
+                size: 'sm',
                 onClick: editDescription,
               }}
             />
@@ -95,7 +97,7 @@ export const Description = ({
         <RichTextEditor
           value={content}
           onChange={setContent}
-          className="h-[calc(100%-80px)]"
+          className="h-full"
         />
       ) : (
         <div

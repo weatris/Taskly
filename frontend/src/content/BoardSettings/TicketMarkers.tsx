@@ -11,6 +11,7 @@ import { t } from 'i18next';
 import { Icon } from '../../images/Icon';
 import { PencilIcon, TrashIcon } from '../../images/icons';
 import { DeleteMarkerModal } from './DeleteMarkerModal';
+import { useNotification } from '../../stateProvider/notification/useNotification';
 
 const defaultState = {
   color: '#000000',
@@ -20,7 +21,7 @@ const defaultState = {
 
 export const TicketMarkers = () => {
   const { id = '' } = useParams();
-  const { data, refetch } = useApiQuery('getMarkers', [{ id }]);
+  const { addNotification } = useNotification();
 
   const [selectedMarker, setSelectedMarker] = useState('');
   const [name, setName] = useState('');
@@ -34,16 +35,37 @@ export const TicketMarkers = () => {
     setColor(defaultState.color);
   };
 
+  const { data, refetch } = useApiQuery('getMarkers', [{ id }], {
+    onError: () => {
+      addNotification({
+        title: t('Board.settings.markers.errors.cantGet'),
+        tp: 'alert',
+      });
+    },
+  });
+
   const { mutate: createMarker } = useApiMutation('createMarker', {
     onSuccess: () => {
       clearFields();
       refetch();
+    },
+    onError: () => {
+      addNotification({
+        title: t('Board.settings.markers.errors.cantCreate'),
+        tp: 'alert',
+      });
     },
   });
   const { mutate: updateMarker } = useApiMutation('updateMarker', {
     onSuccess: () => {
       clearFields();
       refetch();
+    },
+    onError: () => {
+      addNotification({
+        title: t('Board.settings.markers.errors.cantUpdate'),
+        tp: 'alert',
+      });
     },
   });
 
