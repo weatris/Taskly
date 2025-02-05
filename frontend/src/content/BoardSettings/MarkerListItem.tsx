@@ -6,14 +6,17 @@ import { ChevronDownIcon, ChevronUpIcon } from '../../images/icons';
 export const MarkerListItem = ({
   item,
   children,
+  childrenFirst = false,
 }: {
   item: markerType;
   children?: React.ReactNode;
+  childrenFirst?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Stack className="w-full" direction="col">
       <Stack className="w-full h-[40px] p-2 gap-2 border" direction="row">
+        {childrenFirst && children}
         <div
           className="!min-w-[20px] !min-h-[20px] rounded-full"
           style={{
@@ -21,7 +24,7 @@ export const MarkerListItem = ({
           }}
         />
         <p className="w-full truncate">{item.name}</p>
-        {children}
+        {!childrenFirst && children}
         {!!item.description && (
           <Icon
             size="md"

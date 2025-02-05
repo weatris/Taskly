@@ -35,6 +35,14 @@ export default (sequelize) => {
         allowNull: true,
         defaultValue: [],
       },
+      startDate: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      endDate: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       sequelize,

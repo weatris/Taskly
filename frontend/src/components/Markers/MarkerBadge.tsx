@@ -16,7 +16,7 @@ export const MarkerBadge = ({
     );
   return (
     <div
-      className="min-w-[30px] p-1 font-bold text-white rounded-lg cursor-default"
+      className="min-w-[30px] p-1 font-bold text-white text-nowrap rounded-lg cursor-default"
       style={{
         backgroundColor: item.color,
       }}

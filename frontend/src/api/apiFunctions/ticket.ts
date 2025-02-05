@@ -57,4 +57,18 @@ export const ticketFunctions = {
       itemType: 'ticket',
       param: 'markers',
     }),
+
+  setDates: ({
+    id,
+    startDate,
+    endDate,
+  }: {
+    id: string;
+    startDate: dateType;
+    endDate: dateType;
+  }) =>
+    axios.put<ticketType>(BACKEND_URL + `/ticket/${id}/dates`, {
+      startDate,
+      endDate,
+    }),
 };

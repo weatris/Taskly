@@ -77,16 +77,17 @@ export const TicketMarkers = () => {
   return (
     <div ref={ref} className="w-full relative flex flex-col">
       <Stack
-        className="w-full h-[60px] p-2 border"
+        className="w-full p-2 border"
         justifyContent="between"
         alignItems="center"
       >
         <ProgressPanel {...{ isLoading }}>
           {!!selectedMarkers.length ? (
             <Stack
-              className="w-full overflow-hidden px-1 pt-1 gap-2"
+              className="w-full h-auto max-h-[150px] flex-wrap overflow-y-auto overflow-x-hidden scrollbar-thin px-1 pt-1 gap-2"
               direction="row"
               alignItems="center"
+              wrap="wrap"
             >
               {markers
                 .filter((item) => selectedMarkers.includes(item.id))
@@ -126,21 +127,22 @@ export const TicketMarkers = () => {
       </Stack>
       {isOpen && (
         <Stack
-          className="w-full h-[140px] absolute top-[60px] right-0 left-0 overflow-y-scroll p-2 gap-1 bg-white shadow-md border border-t-0"
+          className="w-full h-[140px] absolute top-[60px] z-[2] right-0 left-0 overflow-y-scroll p-2 gap-1 bg-white shadow-md border"
           direction="col"
           alignItems="end"
         >
           {markers.map((item) => (
             <Stack key={item.id} className="w-full gap-2">
-              <Checkbox
-                {...{
-                  value: ticketMarkers.includes(item.id),
-                  onClick: () => {
-                    handleSelect(item.id);
-                  },
-                }}
-              />
-              <MarkerListItem {...{ item }} />
+              <MarkerListItem {...{ item, childrenFirst: true }}>
+                <Checkbox
+                  {...{
+                    value: ticketMarkers.includes(item.id),
+                    onClick: () => {
+                      handleSelect(item.id);
+                    },
+                  }}
+                />
+              </MarkerListItem>
             </Stack>
           ))}
         </Stack>

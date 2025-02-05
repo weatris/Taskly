@@ -179,6 +179,27 @@ export async function createTicketChatMessage(req, res) {
   }
 }
 
+export async function setDates(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id } = req.params;
+    const { startDate, endDate } = req.body;
+
+    const ticketToUpdate = await Ticket.findByPk(id);
+    ticketToUpdate.startDate = startDate;
+    ticketToUpdate.endDate = endDate;
+
+    await ticketToUpdate.save({ transaction });
+    await transaction.commit();
+
+    return getTicketById(req, res);
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error updating ticket dates" });
+  }
+}
+
 export default {
   createTicket,
   getTicketById,
@@ -186,4 +207,5 @@ export default {
   changeTicketGroup,
   getTicketChatDataById,
   createTicketChatMessage,
+  setDates,
 };

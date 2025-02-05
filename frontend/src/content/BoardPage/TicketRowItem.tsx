@@ -9,6 +9,8 @@ import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from '../../images/icons';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { MarkerBadge } from '../../components/Markers/MarkerBadge';
 
+const markerDisplayLimit = 3;
+
 export const TicketRowItem = ({
   ticket,
   position,
@@ -52,10 +54,10 @@ export const TicketRowItem = ({
             direction="row"
             alignItems="center"
           >
-            {ticketMarkers.slice(0, 3).map((item) => (
+            {ticketMarkers.slice(0, markerDisplayLimit).map((item) => (
               <MarkerBadge key={item.id} {...{ item, displayType: 'small' }} />
             ))}
-            {ticketMarkers.length > 2 && (
+            {ticketMarkers.length > markerDisplayLimit && (
               <Icon size="sm" hoverable={false}>
                 <PlusIcon color="gray" />
               </Icon>

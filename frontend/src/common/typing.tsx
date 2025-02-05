@@ -39,6 +39,8 @@ type boardType = {
   tickets: ticketType[];
 };
 
+type dateType = Date | null | undefined;
+
 type ticketType = {
   id: string;
   groupId: string;
@@ -50,6 +52,8 @@ type ticketType = {
   createdAt?: string;
   updatedAt?: string;
   markers: string[];
+  startDate?: dateType;
+  endDate?: dateType;
 };
 
 type chatMessageType = {

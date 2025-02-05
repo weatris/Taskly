@@ -105,7 +105,9 @@
         "cantChangeOrder": "Can`t change order",
         "cantLoadError": "Can`t load ticket data",
         "cantLoadChatError": "Can`t load ticket chat data"
-      }
+      },
+      "startDate": "Start Date",
+      "endDate": "End Date"
     },
     "common": {
       "submit": "Submit",
