@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BACKEND_URL } from './apiFunctions';
+import { boardAccessType, boardType, markerType } from '../../common/typing';
 
 export const boardFunctions = {
   createBoard: ({
@@ -44,6 +45,9 @@ export const boardFunctions = {
 
   joinBoardByLink: ({ id, token }: { id: string; token: string }) =>
     axios.post<string>(BACKEND_URL + `/boards/${id}/join/${token}`),
+
+  excludeUserFromBoard: ({ id, userId }: { id: string; userId: number }) =>
+    axios.post<string>(BACKEND_URL + `/boards/${id}/exclude/${userId}`),
 
   getMarkers: ({ id }: { id: string }) =>
     axios.get<markerType[]>(BACKEND_URL + `/boards/${id}/markers`),

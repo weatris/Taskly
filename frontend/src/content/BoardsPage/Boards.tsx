@@ -11,6 +11,7 @@ import { SearchInput } from '../../components/SearchInput';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { InfoPanel } from '../../components/StatePanels/InfoPanel';
 import { useNotification } from '../../stateProvider/notification/useNotification';
+import { boardAccessType } from '../../common/typing';
 
 const NoBoardCreated = () => {
   const { toggleCreateBoardModal } = useStateProvider().actions;
@@ -69,7 +70,7 @@ export const Boards = () => {
       {
         params: {
           name: searchValue,
-          type: selectedOption as boardAccessType,
+          type: selectedOption as boardAccessType | 'all',
         },
       },
     ],

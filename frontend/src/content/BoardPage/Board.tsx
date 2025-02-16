@@ -10,8 +10,8 @@ import { useNotification } from '../../stateProvider/notification/useNotificatio
 import { TicketGroup } from './TicketGroup';
 import { OpenTicketModal } from './OpenTicketModal/OpenTicketModal';
 import { useState } from 'react';
-import { ShareBoardModal } from './ShareBoardModal';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
+import { ticketType } from '../../common/typing';
 
 type ticketDataType = {
   groupId: string;
@@ -24,8 +24,8 @@ export const Board = () => {
   const navigate = useNavigate();
   const [ticketData, setTicketData] = useState<ticketDataType[]>([]);
   const { addNotification } = useNotification();
-  const [showShareModal, setShowShareModal] = useState(false);
-  const { setMarkers } = useStateProvider().actions;
+  const { setMarkers, setShareBoardId, setBoardData } =
+    useStateProvider().actions;
 
   const { data, isLoading, isError, refetch } = useApiQuery(
     'getBoardById',
@@ -40,6 +40,7 @@ export const Board = () => {
           ).sort((a, b) => a.order - b.order),
         }));
         setTicketData(tickets);
+        setBoardData(data);
       },
       onError: () => {
         addNotification({
@@ -78,65 +79,55 @@ export const Board = () => {
   };
 
   return (
-    <>
-      <ProgressPanel {...{ isLoading, isError }}>
-        <Stack className="w-full h-full" direction="col">
-          <Stack
-            className="w-full h-[60px] min-h-[60px] px-3 py-2 border-b"
-            justifyContent="between"
-          >
-            <p>{data?.name}</p>
-            <Stack className="gap-2" direction="row" alignItems="center">
-              <Button
-                {...{
-                  text: t('Board.settings.title'),
-                  variant: 'primary',
-                  onClick: () => {
-                    navigate('settings');
-                  },
-                }}
-              />
-              <Button
-                {...{
-                  text: t('Board.share'),
-                  onClick: () => {
-                    setShowShareModal(true);
-                  },
-                }}
-              />
-            </Stack>
+    <ProgressPanel {...{ isLoading, isError }}>
+      <Stack className="w-full h-full" direction="col">
+        <Stack
+          className="w-full h-[60px] min-h-[60px] px-3 py-2 border-b"
+          justifyContent="between"
+        >
+          <p>{data?.name}</p>
+          <Stack className="gap-2" direction="row" alignItems="center">
+            <Button
+              {...{
+                text: t('Board.settings.title'),
+                variant: 'primary',
+                onClick: () => {
+                  navigate('settings');
+                },
+              }}
+            />
+            <Button
+              {...{
+                text: t('Board.share'),
+                onClick: () => {
+                  setShareBoardId(id);
+                },
+              }}
+            />
           </Stack>
-          {!!data && (
-            <Stack
-              className="w-full h-full overlow-x-auto p-4 gap-3"
-              direction="row"
-              alignItems="start"
-              justifyContent="start"
-            >
-              <>
-                {ticketData.map((item) => (
-                  <TicketGroup
-                    key={`${item.groupId}_${item.tickets.length}`}
-                    {...{ item, boardData: data }}
-                  />
-                ))}
-              </>
-              <ButtonInputForm
-                {...{ onAccept: onCreateNewGroup, text: t('Board.createList') }}
-              />
-            </Stack>
-          )}
         </Stack>
-        <OpenTicketModal />
-      </ProgressPanel>
-      <ShareBoardModal
-        {...{
-          show: showShareModal,
-          onClose: () => {
-            setShowShareModal(false);
-          },
-        }}
-      />
-    </>
+        {!!data && (
+          <Stack
+            className="w-full h-full overlow-x-auto p-4 gap-3"
+            direction="row"
+            alignItems="start"
+            justifyContent="start"
+          >
+            <>
+              {ticketData.map((item) => (
+                <TicketGroup
+                  key={`${item.groupId}_${item.tickets.length}`}
+                  {...{ item, boardData: data }}
+                />
+              ))}
+            </>
+            <ButtonInputForm
+              {...{ onAccept: onCreateNewGroup, text: t('Board.createList') }}
+            />
+          </Stack>
+        )}
+      </Stack>
+      <OpenTicketModal />
+    </ProgressPanel>
   );
 };

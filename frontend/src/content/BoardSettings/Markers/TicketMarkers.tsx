@@ -1,17 +1,17 @@
 import { useParams } from 'react-router-dom';
-import { useApiQuery } from '../../api/useApiQuery';
-import Stack from '../../components/Stack/Stack';
-import { useApiMutation } from '../../api/useApiMutation';
+import { useApiQuery } from '../../../api/useApiQuery';
+import Stack from '../../../components/Stack/Stack';
+import { useApiMutation } from '../../../api/useApiMutation';
 import { useEffect, useState } from 'react';
-import { Input } from '../../components/Input';
-import { Textarea } from '../../components/Textarea';
-import { Button } from '../../components/Button';
+import { Input } from '../../../components/Input';
+import { Textarea } from '../../../components/Textarea';
+import { Button } from '../../../components/Button';
 import { MarkerListItem } from './MarkerListItem';
 import { t } from 'i18next';
-import { Icon } from '../../images/Icon';
-import { PencilIcon, TrashIcon } from '../../images/icons';
+import { Icon } from '../../../images/Icon';
+import { PencilIcon, TrashIcon } from '../../../images/icons';
 import { DeleteMarkerModal } from './DeleteMarkerModal';
-import { useNotification } from '../../stateProvider/notification/useNotification';
+import { useNotification } from '../../../stateProvider/notification/useNotification';
 
 const defaultState = {
   color: '#000000',
@@ -19,7 +19,7 @@ const defaultState = {
   description: '',
 };
 
-export const TicketMarkers = () => {
+export const Markers = () => {
   const { id = '' } = useParams();
   const { addNotification } = useNotification();
 

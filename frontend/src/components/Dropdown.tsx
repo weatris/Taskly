@@ -11,11 +11,9 @@ export type dropdownItemType = {
 export const Dropdown = ({
   label,
   items,
-  hideArrow = false,
 }: {
   label: React.ReactNode;
   items: dropdownItemType[];
-  hideArrow?: boolean;
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const ref = useRef<HTMLDivElement>(null);

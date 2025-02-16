@@ -61,7 +61,6 @@ export const Navbar = () => {
           </Stack>
         }
         items={items}
-        hideArrow={true}
       />
     </Stack>
   );

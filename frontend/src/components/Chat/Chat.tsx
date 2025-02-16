@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useApiInfiniteQuery } from '../../api/useApiInfiniteQuery';
 import { Virtuoso } from 'react-virtuoso';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
+import { chatMessageType } from '../../common/typing';
 
 //finish it
 export const Chat = ({

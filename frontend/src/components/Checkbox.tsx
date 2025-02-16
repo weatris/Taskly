@@ -1,10 +1,5 @@
 import classNames from 'classnames';
-import {
-  HTMLInputTypeAttribute,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 import Stack from './Stack/Stack';
 import { Icon } from '../images/Icon';
 import { CheckIcon } from '../images/icons';

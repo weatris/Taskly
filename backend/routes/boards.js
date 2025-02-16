@@ -10,6 +10,7 @@ router.post("/:id/share", boardService.createBoardShareLink);
 router.get("/:id/share", boardService.getBoardShareLink);
 router.delete("/:id/share", boardService.deleteBoardShareLink);
 router.post("/:id/join/:token", boardService.joinBoardByLink);
+router.post("/:id/exclude/:userId", boardService.excludeUserFromBoard);
 
 router.post("/:id/markers", boardService.createMarker);
 router.put("/:id/markers", boardService.updateMarker);

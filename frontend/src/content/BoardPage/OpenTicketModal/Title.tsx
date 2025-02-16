@@ -5,6 +5,7 @@ import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { EditableName } from '../../../components/EditableName';
 import Stack from '../../../components/Stack/Stack';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
+import { ticketType } from '../../../common/typing';
 
 export const Title = ({ data }: { data: ticketType | undefined }) => {
   const [value, setValue] = useState(data?.name || '');

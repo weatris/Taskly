@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BACKEND_URL } from './apiFunctions';
+import { chatMessageType } from '../../common/typing';
 
 export type infiniteDataType<itemType> = {
   data: itemType[];

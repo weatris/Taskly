@@ -1,17 +1,24 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useApiQuery } from '../../api/useApiQuery';
 import Stack from '../../components/Stack/Stack';
-import { TicketMarkers } from './TicketMarkers';
+import { Markers } from './Markers/TicketMarkers';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { t } from 'i18next';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 import { Button } from '../../components/Button';
+import { Members } from './Members/Members';
+import { t } from 'i18next';
+import { useStateProvider } from '../../stateProvider/useStateProvider';
 
 export const BoardSettings = () => {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const { addNotification } = useNotification();
+  const { setBoardData } = useStateProvider().actions;
+
   const { data, isLoading, isError } = useApiQuery('getBoardById', [{ id }], {
+    onSuccess: (data) => {
+      setBoardData(data);
+    },
     onError: () => {
       addNotification({
         title: t('Board.cantLoad'),
@@ -41,7 +48,9 @@ export const BoardSettings = () => {
           </Stack>
         </Stack>
         <Stack className="w-full h-full" direction="row">
-          <TicketMarkers />
+          <Markers />
+          <div className="w-full h-full" />
+          <Members {...{ data }} />
         </Stack>
       </Stack>
     </ProgressPanel>

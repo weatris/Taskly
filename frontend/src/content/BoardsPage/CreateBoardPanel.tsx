@@ -7,6 +7,7 @@ import Stack from '../../components/Stack/Stack';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { Button } from '../../components/Button';
+import { boardAccessType } from '../../common/typing';
 
 export const CreateBoardPanel = ({
   showCreateBoardModal,

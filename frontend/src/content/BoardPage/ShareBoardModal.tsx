@@ -1,15 +1,13 @@
 import { t } from 'i18next';
 import { Modal } from '../../components/Modal';
 import Stack from '../../components/Stack/Stack';
-import { useRef } from 'react';
-import { inputStyle } from '../../common/styles';
 import { useApiQuery } from '../../api/useApiQuery';
 import { Button } from '../../components/Button';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { useParams } from 'react-router-dom';
 import { Spinner } from '../../components/Spinner';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
+import { useStateProvider } from '../../stateProvider/useStateProvider';
 
 export const ShareBoardModal = ({
   show,
@@ -19,7 +17,7 @@ export const ShareBoardModal = ({
   onClose: () => void;
 }) => {
   const { addNotification } = useNotification();
-  const { id = '' } = useParams();
+  const { shareBoardId: id } = useStateProvider().state.board;
 
   const {
     data,

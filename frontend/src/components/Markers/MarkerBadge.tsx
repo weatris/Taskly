@@ -1,3 +1,5 @@
+import { markerType } from '../../common/typing';
+
 export const MarkerBadge = ({
   item,
   displayType = 'default',

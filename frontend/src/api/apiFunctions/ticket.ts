@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BACKEND_URL } from './apiFunctions';
+import { dateType, ticketType } from '../../common/typing';
 
 export const ticketFunctions = {
   createTicket: ({

@@ -2,12 +2,7 @@ import Stack from './Stack/Stack';
 import classNames from 'classnames';
 import { useStateProvider } from '../stateProvider/useStateProvider';
 import { t } from 'i18next';
-import {
-  BookOpenIcon,
-  CalendarIcon,
-  ClipboardIcon,
-  HomeIcon,
-} from '../images/icons';
+import { CalendarIcon, ClipboardIcon, HomeIcon } from '../images/icons';
 import { Icon } from '../images/Icon';
 import { useNavigate, useLocation } from 'react-router-dom';
 

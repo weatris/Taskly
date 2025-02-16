@@ -1,7 +1,8 @@
-import Stack from '../../components/Stack/Stack';
+import Stack from '../../../components/Stack/Stack';
 import { useState } from 'react';
-import { Icon } from '../../images/Icon';
-import { ChevronDownIcon, ChevronUpIcon } from '../../images/icons';
+import { Icon } from '../../../images/Icon';
+import { ChevronDownIcon, ChevronUpIcon } from '../../../images/icons';
+import { markerType } from '../../../common/typing';
 
 export const MarkerListItem = ({
   item,

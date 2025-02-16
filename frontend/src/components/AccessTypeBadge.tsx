@@ -1,12 +1,13 @@
 import { t } from 'i18next';
 import Stack from './Stack/Stack';
 import classNames from 'classnames';
+import { boardAccessType } from '../common/typing';
 
 export const AccessTypeBadge = ({
   tp,
   className,
 }: {
-  tp: 'public' | 'private' | 'closed' | undefined;
+  tp?: boardAccessType | 'all';
   className?: string;
 }) => {
   if (!tp) {

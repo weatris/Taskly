@@ -8,6 +8,7 @@ import { Icon } from '../../images/Icon';
 import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from '../../images/icons';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { MarkerBadge } from '../../components/Markers/MarkerBadge';
+import { ticketType } from '../../common/typing';
 
 const markerDisplayLimit = 3;
 

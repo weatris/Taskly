@@ -1,7 +1,8 @@
+import { Modal } from 'flowbite-react';
 import { t } from 'i18next';
-import { Modal } from '../../components/Modal';
-import { useApiMutation } from '../../api/useApiMutation';
-import { useNotification } from '../../stateProvider/notification/useNotification';
+import { useApiMutation } from '../../../api/useApiMutation';
+import { markerType } from '../../../common/typing';
+import { useNotification } from '../../../stateProvider/notification/useNotification';
 
 export const DeleteMarkerModal = ({
   isVisible,

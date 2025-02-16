@@ -5,10 +5,10 @@ import { workplaces } from '../../mock';
 import { Icon } from '../../images/Icon';
 import { LockClosedIcon } from '../../images/icons';
 import { useNavigate, useParams } from 'react-router-dom';
-import { t } from 'i18next';
 import { Button } from '../../components/Button';
 import { WorkPlace } from './WorkPlace';
 import classNames from 'classnames';
+import { WorkPlaceType } from '../../common/typing';
 
 export const WorkPlaces = () => {
   const [search, setSearchValue] = useState('');

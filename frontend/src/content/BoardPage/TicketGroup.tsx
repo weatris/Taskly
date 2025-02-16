@@ -10,6 +10,7 @@ import { useInvalidateQuery } from '../../api/useInvalidateQuery';
 import { DndItem } from '../../components/dnd/DndItem';
 import { DndBucket } from '../../components/dnd/DndBucket';
 import { TicketRowItem } from './TicketRowItem';
+import { boardType, ticketType } from '../../common/typing';
 
 type ticketGroupType = {
   groupId: string;

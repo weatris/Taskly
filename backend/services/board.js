@@ -150,7 +150,16 @@ export async function getBoardById(req, res) {
       return res.status(404).json({ message: "Board not found" });
     }
 
-    res.status(200).json(board);
+    res.status(200).json({
+      ...board.toJSON(),
+      members: board.members.map((member) => {
+        const { BoardMember, ...rest } = member.dataValues;
+        return {
+          ...rest,
+          ...BoardMember?.dataValues,
+        };
+      }),
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error retrieving board" });
@@ -304,6 +313,58 @@ export async function joinBoardByLink(req, res) {
   }
 }
 
+export async function excludeUserFromBoard(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id, userId } = req.params;
+    const user = req.user;
+
+    const board = await Board.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: "members",
+          attributes: ["id"],
+          through: {
+            attributes: ["level"],
+          },
+        },
+      ],
+    });
+
+    if (!board) {
+      return res.status(404).json({ message: "Board not found" });
+    }
+
+    if (!board.members.some((member) => member.id === parseInt(userId))) {
+      return res
+        .status(400)
+        .json({ message: "User is not a member of this board" });
+    }
+
+    if (
+      !board.members.find((item) => item.id == user.id).BoardMember.level ==
+      boardMemberTypes.owner
+    ) {
+      return res.status(403).json({ message: "Permission denied" });
+    }
+
+    await BoardMember.destroy({
+      where: { boardId: id, userId },
+      transaction,
+    });
+
+    await transaction.commit();
+    return res
+      .status(200)
+      .json({ message: "User removed from board successfully" });
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error removing user from board" });
+  }
+}
+
 export async function createMarker(req, res) {
   const transaction = await sequelize.transaction();
   try {
@@ -392,6 +453,7 @@ export default {
   getBoardShareLink,
   deleteBoardShareLink,
   joinBoardByLink,
+  excludeUserFromBoard,
   createMarker,
   updateMarker,
   deleteMarker,

@@ -3,7 +3,7 @@ import Stack from '../../../components/Stack/Stack';
 import { Icon } from '../../../images/Icon';
 import { ChevronUpIcon, PencilIcon } from '../../../images/icons';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
-import { MarkerListItem } from '../../BoardSettings/MarkerListItem';
+import { MarkerListItem } from '../../BoardSettings/Markers/MarkerListItem';
 import { Checkbox } from '../../../components/Checkbox';
 import { useClickAway } from 'react-use';
 import { haveSameElements } from '../../../utils/utils';

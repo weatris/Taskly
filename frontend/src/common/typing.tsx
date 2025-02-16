@@ -1,4 +1,4 @@
-type WorkPlaceType = {
+export type WorkPlaceType = {
   id: string;
   name: string;
   type: 'public' | 'private' | 'closed';
@@ -6,31 +6,39 @@ type WorkPlaceType = {
   members?: userType[];
 };
 
-type userType = {
+export type userType = {
   id: string;
   name: string;
   email: string;
 };
 
-type permissionLevelType = 'member' | 'manager' | 'admin' | 'userUser';
+export const permissionLevels = [
+  'member',
+  'manager',
+  'admin',
+  'owner',
+] as const;
+export type permissionLevelType = (typeof permissionLevels)[number];
 
-type groupType = {
+export type groupType = {
   id: string;
   name: string;
 };
 
-type configType = {
+export type configType = {
   groupTypes?: groupType[];
 };
 
-type memberType = {
-  id: string;
+export type memberType = {
+  id: number;
+  email: string;
+  name: string;
   level: permissionLevelType;
 };
 
-type boardAccessType = 'public' | 'private' | 'closed';
+export type boardAccessType = 'public' | 'private' | 'closed';
 
-type boardType = {
+export type boardType = {
   id: string;
   name: string;
   type?: boardAccessType;
@@ -39,9 +47,9 @@ type boardType = {
   tickets: ticketType[];
 };
 
-type dateType = Date | null | undefined;
+export type dateType = Date | null | undefined;
 
-type ticketType = {
+export type ticketType = {
   id: string;
   groupId: string;
   order: number;
@@ -56,7 +64,7 @@ type ticketType = {
   endDate?: dateType;
 };
 
-type chatMessageType = {
+export type chatMessageType = {
   id?: string;
   content?: string;
   ticketId?: string;
@@ -65,7 +73,7 @@ type chatMessageType = {
   user: { id: number; name: string };
 };
 
-type markerType = {
+export type markerType = {
   id: string;
   name: string;
   color: string;

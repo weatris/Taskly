@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RequestInterceptor } from './RequestInterceptor';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { ModalProvider } from './ModalProvider';
 
 const queryClient = new QueryClient();
 
@@ -13,6 +14,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
+        <ModalProvider />
         <NotificationProvider />
         <RequestInterceptor>
           <AuthProvider>

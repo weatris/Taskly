@@ -7,6 +7,7 @@ import Stack from '../../../components/Stack/Stack';
 import { Icon } from '../../../images/Icon';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { Button } from '../../../components/Button';
+import { ticketType } from '../../../common/typing';
 
 export const Description = ({
   data,

@@ -87,6 +87,12 @@
             "cantUpdate": "Can`t update marker",
             "cantDelete": "Can`t delete marker"
           }
+        },
+        "members": {
+          "header": "Members",
+          "editTitle": "Edit member",
+          "excludeTitle": "Exclude member",
+          "excludeConfirm": "Are you sure you want to exclude {{username}}?"
         }
       }
     },

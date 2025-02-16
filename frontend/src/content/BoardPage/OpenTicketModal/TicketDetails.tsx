@@ -4,6 +4,7 @@ import { TicketMarkers } from './TicketMarkers';
 import { TicketDates } from './TicketDates';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
+import { ticketType } from '../../../common/typing';
 
 export const TicketDetails = ({ data }: { data: ticketType | undefined }) => {
   const { openTicketData } = useStateProvider().state.board;

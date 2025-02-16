@@ -8,6 +8,7 @@ import { t } from 'i18next';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
+import { dateType } from '../../../common/typing';
 
 export const TicketDates = () => {
   const { openTicketData } = useStateProvider().state.board;

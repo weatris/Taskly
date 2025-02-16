@@ -4,13 +4,11 @@ import Stack from '../../components/Stack/Stack';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { useRef } from 'react';
 import { useApiMutation } from '../../api/useApiMutation';
-import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { inputStyle } from '../../common/styles';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
   const { addNotification } = useNotification();
-  const { setAuthData } = useStateProvider().actions;
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -18,7 +16,7 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
   const { mutate } = useApiMutation('login', {
     onSuccess: (data) => {
       localStorage.setItem('authData', JSON.stringify(data));
-      setAuthData(data);
+      window.location.reload();
     },
     onError: () => {
       addNotification({ title: t('Errors.invalidData') });
