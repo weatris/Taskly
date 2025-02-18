@@ -34,6 +34,7 @@ export type memberType = {
   email: string;
   name: string;
   level: permissionLevelType;
+  description: string;
 };
 
 export type boardAccessType = 'public' | 'private' | 'closed';

@@ -98,7 +98,7 @@ export const Markers = () => {
         <p className="text-xl">{t('Board.settings.markers.header')}</p>
         <Stack className="w-full h-full gap-2" direction="col">
           {data?.map((item) => (
-            <MarkerListItem {...{ item }}>
+            <MarkerListItem key={item.id} {...{ item }}>
               <Icon
                 size="md"
                 onClick={() => {

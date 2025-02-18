@@ -2,49 +2,33 @@ import Stack from '../../../components/Stack/Stack';
 import { t } from 'i18next';
 import { Button } from '../../../components/Button';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
-import { boardType, permissionLevels } from '../../../common/typing';
-import { Modal } from '../../../components/Modal';
+import { permissionLevels } from '../../../common/typing';
 import { MembersItem } from './MembersItem';
-import { useApiMutation } from '../../../api/useApiMutation';
-import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
+import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 
-export const Members = ({ data }: { data?: boardType }) => {
-  const invalidateQuery = useInvalidateQuery();
+export const Members = () => {
   const { state, actions } = useStateProvider();
-  const { userToExclude } = state.board;
-  const { setShareBoardId, setUserToExclude } = actions;
-
-  const { mutate } = useApiMutation('excludeUserFromBoard', {
-    onSuccess: () => {
-      invalidateQuery('getBoardById');
-      setUserToExclude(undefined);
-    },
-  });
-
-  const onSubmit = () => {
-    if (data?.id && userToExclude)
-      mutate({
-        id: data?.id,
-        userId: userToExclude,
-      });
-  };
+  const { setShareBoardId } = actions;
+  const { boardData: data } = state.board;
 
   const membersSorted = [...(data?.members || [])].sort(
     (a, b) =>
       permissionLevels.indexOf(b.level) - permissionLevels.indexOf(a.level),
   );
-  const memberToExclude = membersSorted.find(
-    (item) => item.id == userToExclude,
-  );
 
   return (
-    <>
+    <ProgressPanel {...{ isLoading: !data?.id }}>
       <Stack className="w-[400px] h-full p-2 gap-2 border-l" direction="col">
         <p className="text-xl">{t('Board.settings.members.header')}</p>
-        <Stack className="w-full h-full pt-1 gap-4" direction="col">
-          {membersSorted.map((item) => (
-            <MembersItem key={item.id} {...{ item }} />
-          ))}
+        <Stack className="w-full h-full relative" direction="col">
+          <Stack
+            className="w-full h-full absolute p-2 py-3 overflow-y-auto gap-5"
+            direction="col"
+          >
+            {membersSorted.map((item) => (
+              <MembersItem key={item.id} {...{ item }} />
+            ))}
+          </Stack>
         </Stack>
         <Button
           {...{
@@ -56,21 +40,6 @@ export const Members = ({ data }: { data?: boardType }) => {
           }}
         />
       </Stack>
-      <Modal
-        title={t('Board.settings.members.excludeTitle')}
-        isVisible={!!userToExclude}
-        onClose={() => {
-          setUserToExclude(0);
-        }}
-        onAccept={onSubmit}
-        modalType="modal"
-      >
-        <>
-          {t('Board.settings.members.excludeConfirm', {
-            username: memberToExclude?.name,
-          })}
-        </>
-      </Modal>
-    </>
+    </ProgressPanel>
   );
 };

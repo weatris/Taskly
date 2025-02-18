@@ -50,6 +50,7 @@ export const Options = ({
           {items.map((item, idx) => {
             return (
               <Stack
+                key={item.text}
                 className={classNames(
                   'w-full h-[30px] px-2 text-nowrap hover:bg-gray-100 cursor-pointer',
                   idx !== 0 && 'border-t',

@@ -75,7 +75,7 @@ export async function searchBoards(req, res) {
           as: "members",
           attributes: ["id", "name", "email"],
           through: {
-            attributes: ["level"],
+            attributes: ["level", "description"],
           },
         },
       ],
@@ -114,7 +114,7 @@ export async function getBoardById(req, res) {
           as: "members",
           attributes: ["id", "name", "email"],
           through: {
-            attributes: ["level"],
+            attributes: ["level", "description"],
           },
         },
         {
@@ -283,7 +283,7 @@ export async function joinBoardByLink(req, res) {
             as: "members",
             attributes: ["id", "name", "email"],
             through: {
-              attributes: ["level"],
+              attributes: ["level", "description"],
             },
           },
         ],
@@ -326,7 +326,7 @@ export async function excludeUserFromBoard(req, res) {
           as: "members",
           attributes: ["id"],
           through: {
-            attributes: ["level"],
+            attributes: ["level", "description"],
           },
         },
       ],
@@ -365,6 +365,65 @@ export async function excludeUserFromBoard(req, res) {
   }
 }
 
+export async function getBoardMemberData(req, res) {
+  try {
+    const { id, userId } = req.params;
+
+    const board = await Board.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: "members",
+          attributes: ["id", "name", "email"],
+          through: {
+            attributes: ["level", "description"],
+          },
+          where: { id: userId },
+        },
+      ],
+    });
+
+    if (!board || board.members.length === 0) {
+      return res.status(404).json({ message: "Board member not found" });
+    }
+
+    const member = board.members[0];
+    const { BoardMember, ...rest } = member.dataValues;
+
+    return res.status(200).json({
+      ...rest,
+      ...BoardMember?.dataValues,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error retrieving board member data" });
+  }
+}
+
+export async function updateMemberInfoFromBoard(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const { id, userId } = req.params;
+    const { description } = req.body;
+
+    const member = await BoardMember.findOne({ userId, boardId: id });
+
+    if (!member) {
+      return res.status(404).json({ message: "Board member not found" });
+    }
+
+    member.description = description;
+    await member.save({ transaction });
+    await transaction.commit();
+
+    return res.status(200).json({ message: "Success" });
+  } catch (err) {
+    console.error(err);
+    await transaction.rollback();
+    res.status(500).json({ message: "Error updating board member data" });
+  }
+}
+
 export async function createMarker(req, res) {
   const transaction = await sequelize.transaction();
   try {
@@ -386,6 +445,7 @@ export async function createMarker(req, res) {
     res.status(200).json({ message: "Success" });
   } catch (err) {
     console.error(err);
+    await transaction.rollback();
     res.status(500).json({ message: "Error creating marker" });
   }
 }
@@ -412,6 +472,7 @@ export async function updateMarker(req, res) {
     res.status(200).json({ message: "Success" });
   } catch (err) {
     console.error(err);
+    await transaction.rollback();
     res.status(500).json({ message: "Error updating marker" });
   }
 }
@@ -428,6 +489,7 @@ export async function deleteMarker(req, res) {
     res.status(200).json({ message: "Success" });
   } catch (err) {
     console.error(err);
+    await transaction.rollback();
     res.status(500).json({ message: "Error deleting marker" });
   }
 }
@@ -454,6 +516,8 @@ export default {
   deleteBoardShareLink,
   joinBoardByLink,
   excludeUserFromBoard,
+  getBoardMemberData,
+  updateMemberInfoFromBoard,
   createMarker,
   updateMarker,
   deleteMarker,

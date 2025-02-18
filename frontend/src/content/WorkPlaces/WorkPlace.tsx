@@ -7,6 +7,8 @@ import { Icon } from '../../images/Icon';
 import { EllipsisHorizontalIcon } from '../../images/icons';
 import { workplaces } from '../../mock';
 import { ChatTab } from './ChatTab/ChatTab';
+import classNames from 'classnames';
+import { defaultTextStyle } from '../../common/styles';
 
 export const WorkPlace = ({ id }: { id: string }) => {
   // todo: make api call to get all WorkPlace data (boards list included)
@@ -49,7 +51,9 @@ export const WorkPlace = ({ id }: { id: string }) => {
               direction="row"
               alignItems="center"
             >
-              <p className="text-2xl truncate">{data?.name}</p>{' '}
+              <p className={classNames(defaultTextStyle, 'text-2xl')}>
+                {data?.name}
+              </p>{' '}
               <AccessTypeBadge tp={data?.type} />
             </Stack>
             <Icon className="!w-10 px-1 border border-gray-200">

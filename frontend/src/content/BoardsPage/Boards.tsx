@@ -12,6 +12,8 @@ import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { InfoPanel } from '../../components/StatePanels/InfoPanel';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { boardAccessType } from '../../common/typing';
+import classNames from 'classnames';
+import { defaultTextStyle } from '../../common/styles';
 
 const NoBoardCreated = () => {
   const { toggleCreateBoardModal } = useStateProvider().actions;
@@ -105,19 +107,17 @@ export const Boards = () => {
           }}
         />
         <Stack className="gap-2" direction="row">
-          {options.map((item) => {
-            return (
-              <Button
-                key={item.key}
-                className="w-full"
-                text={item.title}
-                variant={item.key == selectedOption ? 'default' : 'primary'}
-                onClick={() => {
-                  setSelectedOption(item.key);
-                }}
-              />
-            );
-          })}
+          {options.map((item) => (
+            <Button
+              key={item.key}
+              className="w-full"
+              text={item.title}
+              variant={item.key == selectedOption ? 'default' : 'primary'}
+              onClick={() => {
+                setSelectedOption(item.key);
+              }}
+            />
+          ))}
         </Stack>
         <Button
           text={t('Boards.createBoard.title')}
@@ -156,7 +156,12 @@ export const Boards = () => {
               }}
             >
               <div className="w-full rounded-t-lg overflow-hidden">
-                <p className="w-full bg-gray-50 truncate border-b py-2 px-1 text-lg">
+                <p
+                  className={classNames(
+                    defaultTextStyle,
+                    'bg-gray-50 border-b py-2 px-1 text-lg',
+                  )}
+                >
                   {item.name}
                 </p>
               </div>

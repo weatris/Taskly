@@ -4,6 +4,7 @@ import { XMarkIcon } from '../images/icons';
 import { Button } from './Button';
 import Stack from './Stack/Stack';
 import { t } from 'i18next';
+import { defaultTextStyle } from '../common/styles';
 
 export const Modal = ({
   isVisible,
@@ -36,9 +37,9 @@ export const Modal = ({
 
   return (
     <>
-      <div className="w-full h-full absolute top-0 left-0 right-0 bottom-0 bg-gray-500 opacity-25" />
+      <div className="w-full h-full absolute top-0 left-0 right-0 bottom-0 z-[1] bg-gray-500 opacity-25" />
       <Stack
-        className="w-full h-full absolute top-0 left-0 right-0 bottom-0"
+        className="w-full h-full absolute top-0 left-0 right-0 bottom-0 z-[2]"
         direction="col"
         alignItems={alignItems[modalType] as any}
         justifyContent="center"
@@ -61,7 +62,9 @@ export const Modal = ({
             )}
             direction="row"
           >
-            <div className="w-full text-xl truncate">{title}</div>
+            <div className={classNames(defaultTextStyle, 'text-xl')}>
+              {title}
+            </div>
             <Icon onClick={onClose}>
               <XMarkIcon color="gray" />
             </Icon>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Icon } from '../../../images/Icon';
 import { ChevronDownIcon, ChevronUpIcon } from '../../../images/icons';
 import { markerType } from '../../../common/typing';
+import { defaultTextStyle } from '../../../common/styles';
 
 export const MarkerListItem = ({
   item,
@@ -24,7 +25,7 @@ export const MarkerListItem = ({
             backgroundColor: item.color,
           }}
         />
-        <p className="w-full truncate">{item.name}</p>
+        <p className={defaultTextStyle}>{item.name}</p>
         {!childrenFirst && children}
         {!!item.description && (
           <Icon

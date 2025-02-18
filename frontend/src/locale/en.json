@@ -90,8 +90,9 @@
         },
         "members": {
           "header": "Members",
-          "editTitle": "Edit member",
           "excludeTitle": "Exclude member",
+          "infoTitle": "Member info",
+          "infoDescription": "Some info about position/job of this member",
           "excludeConfirm": "Are you sure you want to exclude {{username}}?"
         }
       }

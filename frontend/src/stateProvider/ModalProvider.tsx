@@ -1,21 +1,13 @@
 import { ShareBoardModal } from '../content/BoardPage/ShareBoardModal';
-import { useStateProvider } from './useStateProvider';
+import { ExcludeMemberModal } from '../content/BoardSettings/Members/ExcludeMemberModal';
+import { MemberInfoModal } from '../content/BoardSettings/Members/MemberInfoModal';
 
 export const ModalProvider = () => {
-  const { state, actions } = useStateProvider();
-  const { shareBoardId } = state.board;
-  const { setShareBoardId } = actions;
-
   return (
     <>
-      <ShareBoardModal
-        {...{
-          show: !!shareBoardId,
-          onClose: () => {
-            setShareBoardId('');
-          },
-        }}
-      />
+      <ShareBoardModal />
+      <ExcludeMemberModal />
+      <MemberInfoModal />
     </>
   );
 };

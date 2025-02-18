@@ -50,7 +50,7 @@ export const BoardSettings = () => {
         <Stack className="w-full h-full" direction="row">
           <Markers />
           <div className="w-full h-full" />
-          <Members {...{ data }} />
+          <Members />
         </Stack>
       </Stack>
     </ProgressPanel>

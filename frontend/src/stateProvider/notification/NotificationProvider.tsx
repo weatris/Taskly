@@ -3,6 +3,7 @@ import Stack from '../../components/Stack/Stack';
 import { useStateProvider } from '../useStateProvider';
 import { Icon } from '../../images/Icon';
 import { XMarkIcon } from '../../images/icons';
+import { defaultTextStyle } from '../../common/styles';
 
 const typeMapping = {
   alert: 'bg-orange-300',
@@ -26,6 +27,7 @@ export const NotificationProvider = () => {
         const className = typeMapping[item.type || 'info'];
         return (
           <Stack
+            key={item.id}
             className={classNames(
               'w-auto min-w-[240px] min-h-[30px] overflow-x-hidden cursor-pointer relative border border-gray-300 rounded-lg py-1 px-2 pr-8',
               className,
@@ -39,8 +41,10 @@ export const NotificationProvider = () => {
             <Icon className="absolute -top-1 -right-2" hoverable={false}>
               <XMarkIcon className="h-5 w-5" color="gray" />
             </Icon>
-            <p className="w-full font-semibold truncate">{item.title}</p>
-            <p className="w-full truncate">{item.subtitle}</p>
+            <p className={classNames(defaultTextStyle, 'font-semibold')}>
+              {item.title}
+            </p>
+            <p className={classNames(defaultTextStyle)}>{item.subtitle}</p>
           </Stack>
         );
       })}

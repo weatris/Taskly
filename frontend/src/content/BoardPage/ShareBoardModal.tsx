@@ -9,15 +9,12 @@ import { Spinner } from '../../components/Spinner';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 
-export const ShareBoardModal = ({
-  show,
-  onClose,
-}: {
-  show: boolean;
-  onClose: () => void;
-}) => {
+export const ShareBoardModal = () => {
   const { addNotification } = useNotification();
-  const { shareBoardId: id } = useStateProvider().state.board;
+  const { state, actions } = useStateProvider();
+  const { shareBoardId: id } = state.board;
+  const { setShareBoardId } = actions;
+  const show = !!id;
 
   const {
     data,
@@ -65,6 +62,10 @@ export const ShareBoardModal = ({
       title: t('Board.linkCopied'),
       tp: 'success',
     });
+  };
+
+  const onClose = () => {
+    setShareBoardId('');
   };
 
   return (

@@ -178,6 +178,7 @@ async function refreshToken(req, res) {
         expirationDate,
         email: user.email,
         name: user.name,
+        id: user.id,
       });
     } else {
       return res.status(400).json({ message: "Token still valid" });

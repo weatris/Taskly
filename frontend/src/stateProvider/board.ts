@@ -8,6 +8,7 @@ interface BoardState {
   openTicketData?: ticketType;
   shareBoardId: string;
   userToExclude?: number;
+  userToInfo?: number;
 }
 
 const initialState: BoardState = {
@@ -40,6 +41,9 @@ export const BoardSlice = createSlice({
     },
     setUserToExclude: (state, action: PayloadAction<number | undefined>) => {
       state.userToExclude = action.payload;
+    },
+    setUserInfo: (state, action: PayloadAction<number | undefined>) => {
+      state.userToInfo = action.payload;
     },
   },
 });

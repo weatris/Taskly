@@ -21,8 +21,8 @@ export const Select = ({
     >
       {options.map((option) => (
         <option
-          className="hover:bg-green-700"
           key={option.key}
+          className="hover:bg-green-700"
           value={option.key}
         >
           {option.title}

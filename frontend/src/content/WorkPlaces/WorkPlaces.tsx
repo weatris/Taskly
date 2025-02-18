@@ -9,6 +9,7 @@ import { Button } from '../../components/Button';
 import { WorkPlace } from './WorkPlace';
 import classNames from 'classnames';
 import { WorkPlaceType } from '../../common/typing';
+import { defaultTextStyle } from '../../common/styles';
 
 export const WorkPlaces = () => {
   const [search, setSearchValue] = useState('');
@@ -54,7 +55,9 @@ export const WorkPlaces = () => {
                     navigate(`/workplaces/${item.id}`);
                   }}
                 >
-                  <div className="w-full text-lg truncate">{item.name}</div>
+                  <div className={classNames(defaultTextStyle, 'text-lg')}>
+                    {item.name}
+                  </div>
                   {item.type === 'private' && (
                     <Icon hoverable={false}>
                       <LockClosedIcon className="w-5 h-4" color="gray" />

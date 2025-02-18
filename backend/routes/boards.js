@@ -11,6 +11,8 @@ router.get("/:id/share", boardService.getBoardShareLink);
 router.delete("/:id/share", boardService.deleteBoardShareLink);
 router.post("/:id/join/:token", boardService.joinBoardByLink);
 router.post("/:id/exclude/:userId", boardService.excludeUserFromBoard);
+router.get("/:id/user/:userId", boardService.getBoardMemberData);
+router.put("/:id/user/:userId", boardService.updateMemberInfoFromBoard);
 
 router.post("/:id/markers", boardService.createMarker);
 router.put("/:id/markers", boardService.updateMarker);

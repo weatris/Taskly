@@ -6,26 +6,22 @@ import { useStateProvider } from '../../../stateProvider/useStateProvider';
 
 export const MembersItem = ({ item }: { item: memberType }) => {
   const { state, actions } = useStateProvider();
-  const { setUserToExclude } = actions;
+  const { setUserToExclude, setUserInfo } = actions;
   const { boardData } = state.board;
   const { id } = state.auth;
 
   // todo: make functions that take member data and decide if user can perform some actions
-  const canEdit =
-    boardData?.members.find((item) => item.id === id)?.level == 'owner';
   const canExclude =
     item.id !== id &&
     boardData?.members.find((item) => item.id === id)?.level == 'owner';
 
   const optionsList: optionType[] = [
-    ...(canEdit
-      ? [
-          {
-            text: t('Board.settings.members.editTitle'),
-            onClick: () => {},
-          },
-        ]
-      : []),
+    {
+      text: t('Board.settings.members.infoTitle'),
+      onClick: () => {
+        setUserInfo(item.id);
+      },
+    },
     ...(canExclude
       ? [
           {

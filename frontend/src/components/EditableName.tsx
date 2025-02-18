@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { Icon } from '../images/Icon';
 import { Spinner } from './Spinner';
 import { PencilIcon } from '../images/icons';
+import { defaultTextStyle } from '../common/styles';
 
 export const EditableName = ({
   onClickAway,
@@ -67,7 +68,8 @@ export const EditableName = ({
         >
           <p
             className={classNames(
-              'leading-[40px] truncate',
+              defaultTextStyle,
+              'leading-[40px]',
               isLoading && 'invisible',
             )}
           >

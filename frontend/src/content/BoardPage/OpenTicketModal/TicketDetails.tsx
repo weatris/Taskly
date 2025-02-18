@@ -5,6 +5,7 @@ import { TicketDates } from './TicketDates';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 import { ticketType } from '../../../common/typing';
+import { defaultTextStyle } from '../../../common/styles';
 
 export const TicketDetails = ({ data }: { data: ticketType | undefined }) => {
   const { openTicketData } = useStateProvider().state.board;
@@ -20,7 +21,7 @@ export const TicketDetails = ({ data }: { data: ticketType | undefined }) => {
           direction="row"
           alignItems="center"
         >
-          <p className="truncate">
+          <p className={defaultTextStyle}>
             {t('Tickets.groupBtn')} {data?.groupName}
           </p>
         </Stack>
