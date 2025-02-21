@@ -17,18 +17,10 @@ export async function createBoard(req, res) {
   const transaction = await sequelize.transaction();
   try {
     const user = req.user;
-    if (!user) {
-      await transaction.rollback();
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const { name, type, config } = req.body;
     const board = await Board.create(
       {
         id: generateId(10),
-        name,
-        type,
-        config,
+        ...req.body,
       },
       { transaction },
     );
@@ -49,6 +41,26 @@ export async function createBoard(req, res) {
     await transaction.rollback();
     console.error(err);
     res.status(500).json({ message: "Error creating board" });
+  }
+}
+
+export async function updateBoard(req, res) {
+  const transaction = await sequelize.transaction();
+  try {
+    const board = await Board.findByPk(req.params.id);
+
+    board.name = req.body.name;
+    board.type = req.body.type;
+    board.description = req.body.description;
+    await board.save({ transaction });
+
+    await transaction.commit();
+
+    res.status(200).json({ message: "Success" });
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error updating board" });
   }
 }
 
@@ -509,6 +521,7 @@ export async function getMarkers(req, res) {
 
 export default {
   createBoard,
+  updateBoard,
   searchBoards,
   getBoardById,
   createBoardShareLink,

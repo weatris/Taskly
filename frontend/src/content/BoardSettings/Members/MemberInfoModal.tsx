@@ -64,7 +64,7 @@ export const MemberInfoModal = () => {
           {...{
             value,
             setValue,
-            className: 'h-[140px] p-2 border',
+            className: 'h-[140px]',
             disabled: !canEdit,
             placeholder: t('Board.settings.members.infoDescription'),
           }}

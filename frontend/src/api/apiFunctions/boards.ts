@@ -11,7 +11,7 @@ export const boardFunctions = {
   createBoard: ({
     params,
   }: {
-    params: { name: string; type: boardAccessType; config: any };
+    params: { name: string; type: boardAccessType; description?: string };
   }) => axios.post<{ id: string }>(BACKEND_URL + '/boards', params),
 
   searchBoards: ({
@@ -23,8 +23,22 @@ export const boardFunctions = {
   getBoardById: ({ id }: { id: string }) =>
     axios.get<boardType>(BACKEND_URL + `/boards/${id}`),
 
-  updateConfig: ({ id, config }: { id: string; config: any }) =>
-    axios.put<{ id: string }>(BACKEND_URL + `/boards/${id}`, { config }),
+  updateBoard: ({
+    id,
+    name,
+    description,
+    type,
+  }: {
+    id: string;
+    name: string;
+    type: boardAccessType;
+    description?: string;
+  }) =>
+    axios.put<{ id: string }>(BACKEND_URL + `/boards/${id}`, {
+      name,
+      description,
+      type,
+    }),
 
   createTicket: ({
     id,

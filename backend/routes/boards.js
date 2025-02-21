@@ -3,6 +3,7 @@ import boardService from "../services/board.js";
 const router = express.Router();
 
 router.post("/", boardService.createBoard);
+router.put("/:id", boardService.updateBoard);
 router.post("/search", boardService.searchBoards);
 router.get("/:id", boardService.getBoardById);
 

@@ -12,6 +12,7 @@ import { Icon } from '../../../images/Icon';
 import { PencilIcon, TrashIcon } from '../../../images/icons';
 import { DeleteMarkerModal } from './DeleteMarkerModal';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
+import { useStateProvider } from '../../../stateProvider/useStateProvider';
 
 const defaultState = {
   color: '#000000',
@@ -20,9 +21,9 @@ const defaultState = {
 };
 
 export const Markers = () => {
-  const { id = '' } = useParams();
   const { addNotification } = useNotification();
 
+  const id = useStateProvider().state.board?.boardData?.id || '';
   const [selectedMarker, setSelectedMarker] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -94,7 +95,10 @@ export const Markers = () => {
 
   return (
     <>
-      <Stack className="w-[300px] h-full p-2 gap-2 border-r" direction="col">
+      <Stack
+        className="w-[300px] min-w-[300px] h-full p-2 gap-4 border-r"
+        direction="col"
+      >
         <p className="text-xl">{t('Board.settings.markers.header')}</p>
         <Stack className="w-full h-full gap-2" direction="col">
           {data?.map((item) => (
@@ -143,7 +147,7 @@ export const Markers = () => {
             {...{
               value: description,
               setValue: setDescription,
-              className: '!h-[120px] border-[1px]',
+              className: '!h-[120px]',
               placeholder: t('Board.settings.markers.description'),
             }}
           />

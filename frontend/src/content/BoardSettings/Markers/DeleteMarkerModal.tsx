@@ -1,8 +1,10 @@
-import { Modal } from 'flowbite-react';
 import { t } from 'i18next';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { markerType } from '../../../common/typing';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
+import { Modal } from '../../../components/Modal';
+import { MarkerListItem } from './MarkerListItem';
+import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 
 export const DeleteMarkerModal = ({
   isVisible,
@@ -42,7 +44,12 @@ export const DeleteMarkerModal = ({
         },
       }}
     >
-      {t('Board.settings.markers.deleteText', { name: marker?.name })}
+      <ProgressPanel isLoading={!marker}>
+        <p className="w-full my-2 truncate">
+          {t('Board.settings.markers.deleteText')}
+        </p>
+        <MarkerListItem {...{ item: marker }} />
+      </ProgressPanel>
     </Modal>
   );
 };

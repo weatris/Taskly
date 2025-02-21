@@ -56,6 +56,7 @@
       "createBoard": {
         "title": "Create Board",
         "name": "Name",
+        "description": "Description",
         "fillData": "Fill missing data",
         "cantCreate": "Can`t create board"
       }
@@ -80,7 +81,7 @@
           "name": "Name",
           "description": "Description (optional)",
           "delete": "Delete marker",
-          "deleteText": "Are you sure you want to delete `{{name}}`?",
+          "deleteText": "Are you sure you want to delete this marker?",
           "errors": {
             "cantGet": "Can`t get markers",
             "cantCreate": "Can`t create marker",
@@ -94,6 +95,10 @@
           "infoTitle": "Member info",
           "infoDescription": "Some info about position/job of this member",
           "excludeConfirm": "Are you sure you want to exclude {{username}}?"
+        },
+        "basic": {
+          "header": "Basic data",
+          "cantUpdate": "Can`t update board"
         }
       }
     },
@@ -120,6 +125,7 @@
       "submit": "Submit",
       "create": "Create",
       "save": "Save",
+      "update": "Update",
       "send": "Send",
       "cancel": "Cancel",
       "refresh": "Refresh",

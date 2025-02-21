@@ -42,6 +42,7 @@ export type boardAccessType = 'public' | 'private' | 'closed';
 export type boardType = {
   id: string;
   name: string;
+  description: string;
   type?: boardAccessType;
   members: memberType[];
   groups: groupType[];

@@ -31,7 +31,7 @@ export const ButtonInputForm = ({
     return (
       <div
         ref={ref}
-        className="w-[260px] h-[40px] flex flex-row border rounded-lg shadow-md"
+        className="w-[260px] min-w-[260px] h-[40px] flex flex-row border rounded-lg shadow-md"
       >
         <Input
           {...{
@@ -58,7 +58,7 @@ export const ButtonInputForm = ({
 
   return (
     <Stack
-      className="w-[260px] h-[40px] min-h-[40px] text-center cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-lg shadow-md px-2 gap-2"
+      className="w-[260px] min-w-[260px] h-[40px] min-h-[40px] text-center cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-lg shadow-md px-2 gap-2"
       direction="row"
       justifyContent="center"
       onClick={() => {

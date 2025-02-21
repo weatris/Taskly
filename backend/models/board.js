@@ -13,6 +13,10 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       type: {
         type: DataTypes.ENUM("public", "private", "closed"),
         allowNull: true,

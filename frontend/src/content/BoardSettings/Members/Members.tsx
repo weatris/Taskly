@@ -18,7 +18,10 @@ export const Members = () => {
 
   return (
     <ProgressPanel {...{ isLoading: !data?.id }}>
-      <Stack className="w-[400px] h-full p-2 gap-2 border-l" direction="col">
+      <Stack
+        className="w-[300px] min-w-[300px] h-full p-2 gap-2 border-l"
+        direction="col"
+      >
         <p className="text-xl">{t('Board.settings.members.header')}</p>
         <Stack className="w-full h-full relative" direction="col">
           <Stack

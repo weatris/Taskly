@@ -10,11 +10,16 @@ export const MarkerListItem = ({
   children,
   childrenFirst = false,
 }: {
-  item: markerType;
+  item?: markerType;
   children?: React.ReactNode;
   childrenFirst?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  if (!item) {
+    return <></>;
+  }
+
   return (
     <Stack className="w-full" direction="col">
       <Stack className="w-full h-[40px] p-2 gap-2 border" direction="row">
