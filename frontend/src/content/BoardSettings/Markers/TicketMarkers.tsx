@@ -13,30 +13,28 @@ import { PencilIcon, TrashIcon } from '../../../images/icons';
 import { DeleteMarkerModal } from './DeleteMarkerModal';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
+import { permissionControl } from '../../../utils/permissionControl';
+import { defaultState, MarkerControlPanel } from './MarkerControlPanel';
 
-const defaultState = {
-  color: '#000000',
-  name: '',
-  description: '',
+export type markerControlType = {
+  id?: string;
+  name?: string;
+  description?: string;
+  color?: string;
 };
 
 export const Markers = () => {
   const { addNotification } = useNotification();
+  const { boardData, userAccess } = useStateProvider().state.board;
+  const id = boardData?.id || '';
 
-  const id = useStateProvider().state.board?.boardData?.id || '';
-  const [selectedMarker, setSelectedMarker] = useState('');
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [color, setColor] = useState('');
+  const [selectedMarker, setSelectedMarker] = useState<markerControlType>({});
   const [showDeleteMarkerModal, setShowDeleteMarkerModal] = useState(false);
 
-  const clearFields = () => {
-    setName(defaultState.name);
-    setDescription(defaultState.description);
-    setColor(defaultState.color);
-  };
-
   const { data, refetch } = useApiQuery('getMarkers', [{ id }], {
+    onSuccess: () => {
+      setSelectedMarker(defaultState);
+    },
     onError: () => {
       addNotification({
         title: t('Board.settings.markers.errors.cantGet'),
@@ -44,54 +42,6 @@ export const Markers = () => {
       });
     },
   });
-
-  const { mutate: createMarker } = useApiMutation('createMarker', {
-    onSuccess: () => {
-      clearFields();
-      refetch();
-    },
-    onError: () => {
-      addNotification({
-        title: t('Board.settings.markers.errors.cantCreate'),
-        tp: 'alert',
-      });
-    },
-  });
-  const { mutate: updateMarker } = useApiMutation('updateMarker', {
-    onSuccess: () => {
-      clearFields();
-      refetch();
-    },
-    onError: () => {
-      addNotification({
-        title: t('Board.settings.markers.errors.cantUpdate'),
-        tp: 'alert',
-      });
-    },
-  });
-
-  const onSubmit = () => {
-    if (selectedMarker) {
-      updateMarker({
-        id,
-        name,
-        description,
-        color,
-        selectedMarker,
-      });
-    } else {
-      createMarker({
-        id,
-        name,
-        description,
-        color,
-      });
-    }
-  };
-
-  useEffect(() => {
-    clearFields();
-  }, []);
 
   return (
     <>
@@ -103,101 +53,41 @@ export const Markers = () => {
         <Stack className="w-full h-full gap-2" direction="col">
           {data?.map((item) => (
             <MarkerListItem key={item.id} {...{ item }}>
-              <Icon
-                size="md"
-                onClick={() => {
-                  setSelectedMarker(item.id);
-                  setName(item.name);
-                  setDescription(item.description);
-                  setColor(item.color);
-                }}
-              >
-                <PencilIcon color="gray" />
-              </Icon>
-              <Icon
-                size="md"
-                onClick={() => {
-                  setSelectedMarker(item.id);
-                  setShowDeleteMarkerModal((prev) => !prev);
-                }}
-              >
-                <TrashIcon color="gray" />
-              </Icon>
+              {permissionControl({ userAccess, key: 'memberEdit' }) && (
+                <>
+                  <Icon
+                    size="md"
+                    onClick={() => {
+                      setSelectedMarker({
+                        ...item,
+                      });
+                    }}
+                  >
+                    <PencilIcon color="gray" />
+                  </Icon>
+                  <Icon
+                    size="md"
+                    onClick={() => {
+                      setSelectedMarker({ id: item.id });
+                      setShowDeleteMarkerModal((prev) => !prev);
+                    }}
+                  >
+                    <TrashIcon color="gray" />
+                  </Icon>
+                </>
+              )}
             </MarkerListItem>
           ))}
         </Stack>
 
-        <Stack className="w-full gap-2" direction="col">
-          <p className="text-xl">
-            {t(
-              selectedMarker
-                ? 'Board.settings.markers.update'
-                : 'Board.settings.markers.create',
-            )}
-          </p>
-          <Input
-            {...{
-              value: name,
-              setValue: setName,
-              className: 'border-[1px]',
-              placeholder: t('Board.settings.markers.name'),
-            }}
-          />
-          <Textarea
-            {...{
-              value: description,
-              setValue: setDescription,
-              className: '!h-[120px]',
-              placeholder: t('Board.settings.markers.description'),
-            }}
-          />
-          <Stack className="w-full gap-2" direction="row">
-            <Input
-              {...{
-                value: color,
-                setValue: setColor,
-                className: '!w-[50px] !p-0',
-                type: 'color',
-              }}
-            />
-            <Input
-              {...{
-                value: color,
-                setValue: setColor,
-                className: 'border-[1px]',
-                type: 'text',
-              }}
-            />
-          </Stack>
-          <Stack className="w-full gap-2" direction="row">
-            {!!selectedMarker && (
-              <Button
-                {...{
-                  text: t('common.cancel'),
-                  variant: 'primary',
-                  className: 'w-full',
-                  onClick: () => {
-                    setSelectedMarker('');
-                    clearFields();
-                  },
-                }}
-              />
-            )}
-            <Button
-              {...{
-                text: selectedMarker ? t('common.save') : t('common.create'),
-                className: 'w-full',
-                onClick: onSubmit,
-                disabled: !name,
-              }}
-            />
-          </Stack>
-        </Stack>
+        <MarkerControlPanel
+          {...{ selectedMarker, refetch, setSelectedMarker }}
+        />
       </Stack>
       <DeleteMarkerModal
         {...{
           isVisible: showDeleteMarkerModal,
-          marker: data?.find((item) => item.id == selectedMarker),
+          marker: data?.find((item) => item.id == selectedMarker.id),
           onClose: () => {
             setShowDeleteMarkerModal((prev) => !prev);
           },

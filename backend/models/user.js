@@ -7,9 +7,8 @@ export default (sequelize) => {
   User.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
       },
       email: {
         type: DataTypes.STRING,

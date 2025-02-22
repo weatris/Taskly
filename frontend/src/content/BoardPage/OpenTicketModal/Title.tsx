@@ -6,11 +6,14 @@ import { EditableName } from '../../../components/EditableName';
 import Stack from '../../../components/Stack/Stack';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { ticketType } from '../../../common/typing';
+import { useStateProvider } from '../../../stateProvider/useStateProvider';
+import { permissionControl } from '../../../utils/permissionControl';
 
 export const Title = ({ data }: { data: ticketType | undefined }) => {
   const [value, setValue] = useState(data?.name || '');
   const invalidateQuery = useInvalidateQuery();
   const { addNotification } = useNotification();
+  const { userAccess } = useStateProvider().state.board;
 
   const { mutate: handleRename, isLoading } = useApiMutation('renameTicket', {
     onSuccess: () => {
@@ -52,6 +55,7 @@ export const Title = ({ data }: { data: ticketType | undefined }) => {
           initValue: value,
           isLoading,
           onClickAway: handleSave,
+          isEditable: permissionControl({ userAccess, key: 'editTicket' }),
           className: 'w-full bg-transparent border-none shadow-none',
         }}
       />

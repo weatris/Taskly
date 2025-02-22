@@ -12,12 +12,7 @@ export type userType = {
   email: string;
 };
 
-export const permissionLevels = [
-  'member',
-  'manager',
-  'admin',
-  'owner',
-] as const;
+export const permissionLevels = ['member', 'admin', 'owner'] as const;
 export type permissionLevelType = (typeof permissionLevels)[number];
 
 export type groupType = {
@@ -30,7 +25,7 @@ export type configType = {
 };
 
 export type memberType = {
-  id: number;
+  id: string;
   email: string;
   name: string;
   level: permissionLevelType;
@@ -72,7 +67,7 @@ export type chatMessageType = {
   ticketId?: string;
   boardId: string;
   isLoading?: boolean;
-  user: { id: number; name: string };
+  user: { id: string; name: string };
 };
 
 export type markerType = {
@@ -81,4 +76,9 @@ export type markerType = {
   color: string;
   description: string;
   boardId: string;
+};
+
+export type possiblePermissionLevelTypes = permissionLevelType | 'guest';
+export type userAccessType = {
+  accessLevel: possiblePermissionLevelTypes;
 };

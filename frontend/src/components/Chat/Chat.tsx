@@ -8,6 +8,7 @@ import { useApiInfiniteQuery } from '../../api/useApiInfiniteQuery';
 import { Virtuoso } from 'react-virtuoso';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { chatMessageType } from '../../common/typing';
+import { permissionControl } from '../../utils/permissionControl';
 
 //finish it
 export const Chat = ({
@@ -19,7 +20,9 @@ export const Chat = ({
 }) => {
   const { addNotification } = useNotification();
   const [message, setMessage] = useState('');
-  const { id, name } = useStateProvider().state.auth;
+  const { state } = useStateProvider();
+  const { id, name } = state.auth;
+  const { userAccess } = state.board;
   const [messages, setMessages] = useState<chatMessageType[]>([]);
 
   const queryParams = useApiInfiniteQuery(
@@ -101,25 +104,27 @@ export const Chat = ({
           overscrollBehavior: 'contain',
         }}
       />
-      <Stack
-        className="w-full max-h-[80px] h-[80px] border-t-[1px] gap-3 p-3"
-        direction="row"
-      >
-        <input
-          value={message}
-          onChange={(e) => {
-            setMessage(e.target.value || '');
-          }}
-          className="w-full h-full rounded-lg border indent-2 focus:outline-none"
-        />
-        <Button
-          {...{
-            text: 'Send',
-            onClick: sendMessage,
-            disabled: !message,
-          }}
-        />
-      </Stack>
+      {permissionControl({ userAccess, key: 'boardChatWrite' }) && (
+        <Stack
+          className="w-full max-h-[80px] h-[80px] border-t-[1px] gap-3 p-3"
+          direction="row"
+        >
+          <input
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value || '');
+            }}
+            className="w-full h-full rounded-lg border indent-2 focus:outline-none"
+          />
+          <Button
+            {...{
+              text: 'Send',
+              onClick: sendMessage,
+              disabled: !message,
+            }}
+          />
+        </Stack>
+      )}
     </Stack>
   );
 };

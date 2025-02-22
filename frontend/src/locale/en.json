@@ -92,6 +92,7 @@
         "members": {
           "header": "Members",
           "excludeTitle": "Exclude member",
+          "leaveBoard": "Leave Board",
           "infoTitle": "Member info",
           "infoDescription": "Some info about position/job of this member",
           "excludeConfirm": "Are you sure you want to exclude {{username}}?"
@@ -131,6 +132,11 @@
       "refresh": "Refresh",
       "nothingFound": "Nothing found, please change filters",
       "ButtonInputForm": "Enter name"
+    },
+    "permissionLevels": {
+      "admin": "Admin",
+      "member": "Member",
+      "owner": "Owner"
     }
   }
 }

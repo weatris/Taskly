@@ -9,9 +9,10 @@ import { useApiMutation } from '../../../api/useApiMutation';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { dateType } from '../../../common/typing';
+import { permissionControl } from '../../../utils/permissionControl';
 
 export const TicketDates = () => {
-  const { openTicketData } = useStateProvider().state.board;
+  const { openTicketData, userAccess } = useStateProvider().state.board;
   const [startDate, setStartDate] = useState<dateType>(
     openTicketData?.startDate,
   );
@@ -55,6 +56,7 @@ export const TicketDates = () => {
       <ProgressPanel {...{ isLoading: !openTicketData || isLoading }}>
         <Stack className="w-full gap-2" justifyContent="between">
           <DatePicker
+            disabled={!permissionControl({ userAccess, key: 'editTicket' })}
             selected={startDate}
             startDate={startDate}
             endDate={endDate}
@@ -64,6 +66,7 @@ export const TicketDates = () => {
             }}
           />
           <DatePicker
+            disabled={!permissionControl({ userAccess, key: 'editTicket' })}
             selected={endDate}
             startDate={startDate}
             endDate={endDate}

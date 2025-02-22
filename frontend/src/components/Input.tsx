@@ -7,12 +7,14 @@ export const Input = ({
   placeholder,
   className,
   type = 'text',
+  disabled = false,
 }: {
   value?: any;
   setValue: (value: SetStateAction<string>) => void;
   placeholder?: string;
   className?: string;
   type?: HTMLInputTypeAttribute;
+  disabled?: boolean;
 }) => {
   return (
     <input
@@ -23,6 +25,7 @@ export const Input = ({
       placeholder={placeholder}
       type={type}
       value={value}
+      disabled={disabled}
       onChange={(e) => {
         setValue(e.target.value);
       }}

@@ -16,6 +16,7 @@ export const EditableName = ({
   setValue,
   isLoading,
   className,
+  isEditable = true,
 }: {
   onClickAway: () => void;
   value?: string;
@@ -23,6 +24,7 @@ export const EditableName = ({
   setValue: (value: SetStateAction<string>) => void;
   isLoading?: boolean;
   className?: string;
+  isEditable?: boolean;
 }) => {
   const [showEditName, setShowEditName] = useState(false);
   const ref = useRef(null);
@@ -44,7 +46,7 @@ export const EditableName = ({
         className,
       )}
     >
-      {showEditName ? (
+      {showEditName && isEditable ? (
         <Stack className="w-full h-full gap-1">
           <Input {...{ value, setValue }} />
           {value !== initValue && (
@@ -75,20 +77,16 @@ export const EditableName = ({
           >
             {initValue}
           </p>
-          <Icon
-            size="md"
-            onClick={() => {
-              setShowEditName(true);
-            }}
-          >
-            {isLoading ? (
-              <>
-                <Spinner />
-              </>
-            ) : (
-              <PencilIcon color="gray" />
-            )}
-          </Icon>
+          {isEditable && (
+            <Icon
+              size="md"
+              onClick={() => {
+                setShowEditName(true);
+              }}
+            >
+              {isLoading ? <Spinner /> : <PencilIcon color="gray" />}
+            </Icon>
+          )}
         </Stack>
       )}
     </div>

@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { boardType, markerType, ticketType } from '../common/typing';
+import {
+  boardType,
+  markerType,
+  ticketType,
+  userAccessType,
+} from '../common/typing';
 
 interface BoardState {
   boardData?: boardType;
@@ -7,14 +12,20 @@ interface BoardState {
   markers: markerType[];
   openTicketData?: ticketType;
   shareBoardId: string;
-  userToExclude?: number;
-  userToInfo?: number;
+  userToExclude?: string;
+  openMemberInfo?: string;
+  userAccess: userAccessType;
 }
+
+export const defaultUserPermissions: userAccessType = {
+  accessLevel: 'guest',
+};
 
 const initialState: BoardState = {
   showCreateBoardModal: false,
   markers: [],
   shareBoardId: '',
+  userAccess: defaultUserPermissions,
 };
 
 export const BoardSlice = createSlice({
@@ -39,11 +50,14 @@ export const BoardSlice = createSlice({
     setShareBoardId: (state, action: PayloadAction<string>) => {
       state.shareBoardId = action.payload;
     },
-    setUserToExclude: (state, action: PayloadAction<number | undefined>) => {
+    setUserToExclude: (state, action: PayloadAction<string | undefined>) => {
       state.userToExclude = action.payload;
     },
-    setUserInfo: (state, action: PayloadAction<number | undefined>) => {
-      state.userToInfo = action.payload;
+    setOpenMemberInfo: (state, action: PayloadAction<string | undefined>) => {
+      state.openMemberInfo = action.payload;
+    },
+    setUserAccess: (state, action: PayloadAction<userAccessType>) => {
+      state.userAccess = action.payload;
     },
   },
 });

@@ -13,11 +13,18 @@ import { BoardManagement } from './BoardManagement';
 export const BoardSettings = () => {
   const { id = '' } = useParams();
   const { addNotification } = useNotification();
-  const { setBoardData } = useStateProvider().actions;
+  const { state, actions } = useStateProvider();
+  const { id: userId } = state.auth;
+  const { setBoardData, setUserAccess } = actions;
 
   const { isLoading, isError } = useApiQuery('getBoardById', [{ id }], {
     onSuccess: (data) => {
       setBoardData(data);
+      const role =
+        data.members.find((item) => item.id === userId)?.level || 'guest';
+      setUserAccess({
+        accessLevel: role,
+      });
     },
     onError: () => {
       addNotification({

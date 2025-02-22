@@ -11,6 +11,8 @@ import { DndItem } from '../../components/dnd/DndItem';
 import { DndBucket } from '../../components/dnd/DndBucket';
 import { TicketRowItem } from './TicketRowItem';
 import { boardType, ticketType } from '../../common/typing';
+import { useStateProvider } from '../../stateProvider/useStateProvider';
+import { permissionControl } from '../../utils/permissionControl';
 
 type ticketGroupType = {
   groupId: string;
@@ -18,14 +20,8 @@ type ticketGroupType = {
   tickets: ticketType[];
 };
 
-export const TicketGroup = ({
-  item,
-  boardData,
-}: {
-  item: ticketGroupType;
-  boardData: boardType;
-}) => {
-  const [value, setValue] = useState(item.groupName);
+export const TicketGroup = ({ item }: { item: ticketGroupType }) => {
+  const { boardData, userAccess } = useStateProvider().state.board;
   const { addNotification } = useNotification();
   const tickets = item.tickets || [];
   const invalidateQuery = useInvalidateQuery();
@@ -43,38 +39,6 @@ export const TicketGroup = ({
     },
   });
 
-  const createTicket = (name: string) => {
-    mutateCreateTicket({
-      id: boardData.id,
-      groupId: item.groupId,
-      name,
-    });
-  };
-
-  const { mutate: mutateRenameGroup, isLoading: isLoadingRenameGroup } =
-    useApiMutation('renameGroup', {
-      onSuccess: () => {
-        invalidateQuery('getBoardById');
-      },
-      onError: () => {
-        addNotification({
-          title: t('Groups.cantRename'),
-          tp: 'alert',
-        });
-      },
-    });
-
-  const onGroupRename = (groupId: string, newValue: string) => {
-    if (!boardData?.id || !newValue || !groupId) {
-      return;
-    }
-
-    mutateRenameGroup({
-      id: item.groupId,
-      newValue,
-    });
-  };
-
   const { mutate: mutateChangeTicketGroup } = useApiMutation(
     'changeTicketGroup',
     {
@@ -90,10 +54,16 @@ export const TicketGroup = ({
     },
   );
 
-  const handleSave = () => {
-    if (item.groupName !== value) {
-      onGroupRename?.(item.groupId, value);
-    }
+  if (!boardData) {
+    return <></>;
+  }
+
+  const createTicket = (name: string) => {
+    mutateCreateTicket({
+      id: boardData.id,
+      groupId: item.groupId,
+      name,
+    });
   };
 
   return (
@@ -111,15 +81,10 @@ export const TicketGroup = ({
       }}
     >
       <Stack className="w-[260px] h-full gap-2" direction="col">
-        <EditableName
-          {...{
-            value,
-            setValue,
-            initValue: value,
-            isLoading: isLoadingRenameGroup,
-            onClickAway: handleSave,
-          }}
-        />
+        {/* todo: add group options (edit name, delete) */}
+        <p className="w-[260px] h-[40px] flex flex-row items-center bg-gray-200 rounded-lg border shadow-md p-2">
+          {item.groupName}
+        </p>
         {tickets.map((ticket, idx) => (
           <DndItem
             key={ticket.id}
@@ -144,9 +109,11 @@ export const TicketGroup = ({
             />
           </DndItem>
         ))}
-        <ButtonInputForm
-          {...{ onAccept: createTicket, text: t('Board.createTicket') }}
-        />
+        {permissionControl({ userAccess, key: 'createTicket' }) && (
+          <ButtonInputForm
+            {...{ onAccept: createTicket, text: t('Board.createTicket') }}
+          />
+        )}
       </Stack>
     </DndBucket>
   );

@@ -14,13 +14,15 @@ import { useApiMutation } from '../../../api/useApiMutation';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { MarkerBadge } from '../../../components/Markers/MarkerBadge';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
+import { permissionControl } from '../../../utils/permissionControl';
 
 export const TicketMarkers = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const invalidateQuery = useInvalidateQuery();
   const { addNotification } = useNotification();
-  const { markers, openTicketData } = useStateProvider().state.board;
+  const { markers, openTicketData, userAccess } =
+    useStateProvider().state.board;
   const ticketMarkers = openTicketData?.markers || [];
   const [selectedMarkers, setSelectedMarkers] =
     useState<string[]>(ticketMarkers);
@@ -98,21 +100,22 @@ export const TicketMarkers = () => {
           ) : (
             <p>{t('Tickets.markers')}</p>
           )}
-          {!isChanged && (
-            <Icon
-              size="md"
-              className="ml-auto"
-              onClick={() => {
-                setIsOpen((prev) => !prev);
-              }}
-            >
-              {isOpen ? (
-                <ChevronUpIcon color="gray" />
-              ) : (
-                <PencilIcon color="gray" />
-              )}
-            </Icon>
-          )}
+          {!isChanged &&
+            permissionControl({ userAccess, key: 'editTicket' }) && (
+              <Icon
+                size="md"
+                className="ml-auto"
+                onClick={() => {
+                  setIsOpen((prev) => !prev);
+                }}
+              >
+                {isOpen ? (
+                  <ChevronUpIcon color="gray" />
+                ) : (
+                  <PencilIcon color="gray" />
+                )}
+              </Icon>
+            )}
           {isChanged && (
             <Button
               {...{

@@ -8,6 +8,8 @@ import { Icon } from '../../../images/Icon';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { Button } from '../../../components/Button';
 import { ticketType } from '../../../common/typing';
+import { useStateProvider } from '../../../stateProvider/useStateProvider';
+import { permissionControl } from '../../../utils/permissionControl';
 
 export const Description = ({
   data,
@@ -16,6 +18,7 @@ export const Description = ({
   data?: ticketType;
   refetch: () => void;
 }) => {
+  const { userAccess } = useStateProvider().state.board;
   const [content, setContent] = useState<string>(data?.description || '');
   const [isEditMode, setIsEditMode] = useState(false);
   const { addNotification } = useNotification();
@@ -84,14 +87,18 @@ export const Description = ({
             />
           </Stack>
         ) : (
-          <Icon
-            size="md"
-            onClick={() => {
-              setIsEditMode((prev) => !prev);
-            }}
-          >
-            <PencilIcon color="gray" />
-          </Icon>
+          <>
+            {permissionControl({ userAccess, key: 'editTicket' }) && (
+              <Icon
+                size="md"
+                onClick={() => {
+                  setIsEditMode((prev) => !prev);
+                }}
+              >
+                <PencilIcon color="gray" />
+              </Icon>
+            )}
+          </>
         )}
       </Stack>
       {isEditMode ? (

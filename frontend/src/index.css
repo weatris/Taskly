@@ -11,6 +11,10 @@ html {
   width: 100%;
 }
 
+.react-datepicker-popper {
+  @apply z-[2];
+}
+
 .react-datepicker__day--selected {
   @apply bg-green-600;
 }

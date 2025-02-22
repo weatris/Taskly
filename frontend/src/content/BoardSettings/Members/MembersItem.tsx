@@ -3,29 +3,41 @@ import { memberType } from '../../../common/typing';
 import { Options, optionType } from '../../../components/Options';
 import Stack from '../../../components/Stack/Stack';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
+import { permissionControl } from '../../../utils/permissionControl';
 
 export const MembersItem = ({ item }: { item: memberType }) => {
   const { state, actions } = useStateProvider();
-  const { setUserToExclude, setUserInfo } = actions;
-  const { boardData } = state.board;
+  const { setUserToExclude, setOpenMemberInfo } = actions;
+  const { userAccess } = state.board;
   const { id } = state.auth;
 
-  // todo: make functions that take member data and decide if user can perform some actions
   const canExclude =
     item.id !== id &&
-    boardData?.members.find((item) => item.id === id)?.level == 'owner';
+    item.level !== 'owner' &&
+    permissionControl({ userAccess, key: 'memberEdit' });
 
   const optionsList: optionType[] = [
     {
       text: t('Board.settings.members.infoTitle'),
       onClick: () => {
-        setUserInfo(item.id);
+        setOpenMemberInfo(item.id);
       },
     },
     ...(canExclude
       ? [
           {
             text: t('Board.settings.members.excludeTitle'),
+            classNames: 'text-red-700',
+            onClick: () => {
+              setUserToExclude(item.id);
+            },
+          },
+        ]
+      : []),
+    ...(item.id === id
+      ? [
+          {
+            text: t('Board.settings.members.leaveBoard'),
             classNames: 'text-red-700',
             onClick: () => {
               setUserToExclude(item.id);

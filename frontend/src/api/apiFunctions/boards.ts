@@ -5,6 +5,7 @@ import {
   boardType,
   markerType,
   memberType,
+  permissionLevelType,
 } from '../../common/typing';
 
 export const boardFunctions = {
@@ -65,23 +66,26 @@ export const boardFunctions = {
   joinBoardByLink: ({ id, token }: { id: string; token: string }) =>
     axios.post<string>(BACKEND_URL + `/boards/${id}/join/${token}`),
 
-  excludeUserFromBoard: ({ id, userId }: { id: string; userId: number }) =>
+  excludeUserFromBoard: ({ id, userId }: { id: string; userId: string }) =>
     axios.post<string>(BACKEND_URL + `/boards/${id}/exclude/${userId}`),
 
-  getBoardMemberData: ({ id, userId }: { id?: string; userId?: number }) =>
+  getBoardMemberData: ({ id, userId }: { id?: string; userId?: string }) =>
     axios.get<memberType>(BACKEND_URL + `/boards/${id}/user/${userId}`),
 
   updateMemberInfoFromBoard: ({
     id,
     userId,
     description,
+    level,
   }: {
     id: string;
-    userId: number;
+    userId: string;
     description: string;
+    level: permissionLevelType;
   }) =>
     axios.put<string>(BACKEND_URL + `/boards/${id}/user/${userId}`, {
       description,
+      level,
     }),
 
   getMarkers: ({ id }: { id: string }) =>

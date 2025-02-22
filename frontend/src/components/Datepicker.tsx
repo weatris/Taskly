@@ -7,10 +7,10 @@ export const DatePicker = (props: DatePickerProps) => {
     <DatePickerLibrary
       dateFormat="dd/MM/yyyy"
       portalId="root-portal"
-      isClearable={!!props.selected}
+      isClearable={!!props.selected && !props.disabled}
       {...props}
       className={classNames(
-        'w-full h-[40px] border p-1 indent-1',
+        'w-full h-[40px] z-[2] border p-1 indent-1',
         props.className,
       )}
     />

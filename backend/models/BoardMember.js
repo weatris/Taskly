@@ -5,10 +5,9 @@ export default (sequelize) => {
 
   BoardMember.init(
     {
-      id: {
-        type: DataTypes.INTEGER,
+      member_id: {
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
       },
       boardId: {
         type: DataTypes.STRING,
@@ -20,7 +19,7 @@ export default (sequelize) => {
         field: "board_id",
       },
       userId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         references: {
           model: "users",
           key: "id",

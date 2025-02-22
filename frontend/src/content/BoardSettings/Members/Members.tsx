@@ -5,11 +5,13 @@ import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { permissionLevels } from '../../../common/typing';
 import { MembersItem } from './MembersItem';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
+import { permissionControl } from '../../../utils/permissionControl';
+import { ShareBoardButton } from '../../../components/ShareBoardButton';
 
 export const Members = () => {
   const { state, actions } = useStateProvider();
   const { setShareBoardId } = actions;
-  const { boardData: data } = state.board;
+  const { boardData: data, userAccess } = state.board;
 
   const membersSorted = [...(data?.members || [])].sort(
     (a, b) =>
@@ -33,13 +35,11 @@ export const Members = () => {
             ))}
           </Stack>
         </Stack>
-        <Button
+        <ShareBoardButton
           {...{
+            id: data?.id,
+            userAccess,
             className: 'w-full',
-            text: t('Board.share'),
-            onClick: () => {
-              data?.id && setShareBoardId(data?.id);
-            },
           }}
         />
       </Stack>

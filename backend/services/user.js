@@ -15,6 +15,7 @@ async function createUser(req, res) {
 
     const user = await User.create(
       {
+        id: generateId(10),
         ...req.body,
         password: hashedPassword,
       },

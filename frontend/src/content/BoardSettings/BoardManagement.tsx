@@ -10,12 +10,14 @@ import { useApiMutation } from '../../api/useApiMutation';
 import { useInvalidateQuery } from '../../api/useInvalidateQuery';
 import { boardAccessType } from '../../common/typing';
 import { useNotification } from '../../stateProvider/notification/useNotification';
+import { permissionControl } from '../../utils/permissionControl';
+import { AccessTypeBadge } from '../../components/AccessTypeBadge';
 
 export const BoardManagement = () => {
   const invalidateQuery = useInvalidateQuery();
   const { addNotification } = useNotification();
 
-  const { boardData } = useStateProvider().state.board;
+  const { boardData, userAccess } = useStateProvider().state.board;
   const [name, setName] = useState(boardData?.name || '');
   const [description, setDescription] = useState(boardData?.description || '');
   const [selectedOption, setSelectedOption] = useState(boardData?.type || '');
@@ -47,6 +49,12 @@ export const BoardManagement = () => {
     description !== boardData?.description ||
     selectedOption !== boardData?.type;
 
+  const canEdit = permissionControl({ userAccess, key: 'boardEdit' });
+  const canBoardControl = permissionControl({
+    userAccess,
+    key: 'boardControl',
+  });
+
   return (
     <Stack
       className="w-[300px] min-w-[300px] h-full p-2 gap-4 border-r"
@@ -59,6 +67,7 @@ export const BoardManagement = () => {
           setValue: setName,
           className: 'border',
           placeholder: t('Boards.createBoard.name'),
+          disabled: !canEdit,
         }}
       />
       <Textarea
@@ -66,17 +75,28 @@ export const BoardManagement = () => {
           value: description,
           setValue: setDescription,
           className: 'w-full',
+          disabled: !canEdit,
         }}
       />
-      <AccessTypeSelect {...{ selectedOption, setSelectedOption }} />
-      <Button
-        {...{
-          text: t('common.update'),
-          className: 'w-[120px] mt-auto ml-auto',
-          disabled: !isChanged,
-          onClick: onSubmit,
-        }}
-      />
+      {canBoardControl ? (
+        <AccessTypeSelect {...{ selectedOption, setSelectedOption }} />
+      ) : (
+        <>
+          <AccessTypeBadge
+            {...{ tp: boardData?.type, className: 'w-full h-[40px]' }}
+          />
+        </>
+      )}
+      {canEdit && (
+        <Button
+          {...{
+            text: t('common.update'),
+            className: 'w-[120px] mt-auto ml-auto',
+            disabled: !isChanged,
+            onClick: onSubmit,
+          }}
+        />
+      )}
     </Stack>
   );
 };

@@ -15,7 +15,9 @@ export const OpenTicketModal = () => {
   const { id = '', boardName = '', ticketId = '' } = useParams();
   const { addNotification } = useNotification();
   const navigate = useNavigate();
-  const { setOpenTicketData } = useStateProvider().actions;
+  const { state, actions } = useStateProvider();
+  const { userAccess } = state.board;
+  const { setOpenTicketData } = actions;
 
   const { data, isLoading, refetch } = useApiQuery(
     'getTicketById',

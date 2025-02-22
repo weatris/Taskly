@@ -27,6 +27,7 @@ export async function createBoard(req, res) {
 
     await BoardMember.create(
       {
+        member_id: `${board.id}_${user.id}`,
         boardId: board.id,
         userId: user.id,
         level: boardMemberTypes.owner,
@@ -288,25 +289,13 @@ export async function joinBoardByLink(req, res) {
 
     if (value == token) {
       const user = req.user;
-      const board = await Board.findByPk(key, {
-        include: [
-          {
-            model: User,
-            as: "members",
-            attributes: ["id", "name", "email"],
-            through: {
-              attributes: ["level", "description"],
-            },
-          },
-        ],
-      });
+      const member = await BoardMember.findByPk(`${key}_${user.id}`);
 
-      const isMember = board.members.some((member) => member.id === user.id);
-
-      if (!isMember) {
+      if (!member) {
         await BoardMember.create(
           {
-            boardId: board.id,
+            member_id: `${key}_${user.id}`,
+            boardId: key,
             userId: user.id,
             level: boardMemberTypes.member,
           },
@@ -314,7 +303,7 @@ export async function joinBoardByLink(req, res) {
         );
       }
       await transaction.commit();
-      return res.status(200).json(board.id);
+      return res.status(200).json(id);
     }
 
     return res.status(400);
@@ -329,42 +318,24 @@ export async function excludeUserFromBoard(req, res) {
   const transaction = await sequelize.transaction();
   try {
     const { id, userId } = req.params;
-    const user = req.user;
 
-    const board = await Board.findByPk(id, {
-      include: [
-        {
-          model: User,
-          as: "members",
-          attributes: ["id"],
-          through: {
-            attributes: ["level", "description"],
-          },
-        },
-      ],
-    });
+    const member = await BoardMember.findByPk(`${id}_${userId}`);
 
-    if (!board) {
-      return res.status(404).json({ message: "Board not found" });
+    if (!member) {
+      return res.status(404).json({ message: "Member not found" });
     }
 
-    if (!board.members.some((member) => member.id === parseInt(userId))) {
-      return res
-        .status(400)
-        .json({ message: "User is not a member of this board" });
+    if (member.level == boardMemberTypes.owner) {
+      await BoardMember.destroy({
+        where: { boardId: id },
+        transaction,
+      });
+    } else {
+      await BoardMember.destroy({
+        where: { boardId: id, userId },
+        transaction,
+      });
     }
-
-    if (
-      !board.members.find((item) => item.id == user.id).BoardMember.level ==
-      boardMemberTypes.owner
-    ) {
-      return res.status(403).json({ message: "Permission denied" });
-    }
-
-    await BoardMember.destroy({
-      where: { boardId: id, userId },
-      transaction,
-    });
 
     await transaction.commit();
     return res
@@ -381,30 +352,14 @@ export async function getBoardMemberData(req, res) {
   try {
     const { id, userId } = req.params;
 
-    const board = await Board.findByPk(id, {
-      include: [
-        {
-          model: User,
-          as: "members",
-          attributes: ["id", "name", "email"],
-          through: {
-            attributes: ["level", "description"],
-          },
-          where: { id: userId },
-        },
-      ],
-    });
-
-    if (!board || board.members.length === 0) {
-      return res.status(404).json({ message: "Board member not found" });
-    }
-
-    const member = board.members[0];
-    const { BoardMember, ...rest } = member.dataValues;
+    const user = await User.findByPk(userId);
+    const member = await BoardMember.findByPk(`${id}_${userId}`);
 
     return res.status(200).json({
-      ...rest,
-      ...BoardMember?.dataValues,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      ...member.dataValues,
     });
   } catch (err) {
     console.error(err);
@@ -416,15 +371,29 @@ export async function updateMemberInfoFromBoard(req, res) {
   const transaction = await sequelize.transaction();
   try {
     const { id, userId } = req.params;
-    const { description } = req.body;
+    const { description, level } = req.body;
 
-    const member = await BoardMember.findOne({ userId, boardId: id });
+    const member = await BoardMember.findByPk(`${id}_${userId}`);
 
     if (!member) {
+      await transaction.rollback();
       return res.status(404).json({ message: "Board member not found" });
     }
 
     member.description = description;
+
+    if (boardMemberTypes[level] == boardMemberTypes.owner) {
+      const currentOwner = await BoardMember.findOne({
+        where: { boardId: id, level: boardMemberTypes.owner },
+      });
+      currentOwner.level = boardMemberTypes.admin;
+      member.level = boardMemberTypes.owner;
+
+      await currentOwner.save({ transaction });
+    } else {
+      member.level = boardMemberTypes[level];
+    }
+
     await member.save({ transaction });
     await transaction.commit();
 
@@ -524,13 +493,16 @@ export default {
   updateBoard,
   searchBoards,
   getBoardById,
+
   createBoardShareLink,
   getBoardShareLink,
   deleteBoardShareLink,
+
   joinBoardByLink,
   excludeUserFromBoard,
   getBoardMemberData,
   updateMemberInfoFromBoard,
+
   createMarker,
   updateMarker,
   deleteMarker,
