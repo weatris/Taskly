@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { Icon } from '../../../images/Icon';
 import { ChevronUpIcon, PencilIcon } from '../../../images/icons';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
@@ -15,6 +15,7 @@ import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { MarkerBadge } from '../../../components/Markers/MarkerBadge';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 import { permissionControl } from '../../../utils/permissionControl';
+import { MarkerDisplay } from '../../../components/MarkerDisplay';
 
 export const TicketMarkers = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -76,6 +77,9 @@ export const TicketMarkers = () => {
     setSelectedMarkers(ticketMarkers);
   }, [isOpen, ticketMarkers.map((item) => item).join('')]);
 
+  const ticketMarkersToRender =
+    markers.filter((item) => selectedMarkers.includes(item.id)) || [];
+
   return (
     <div ref={ref} className="w-full relative flex flex-col">
       <Stack
@@ -91,11 +95,7 @@ export const TicketMarkers = () => {
               alignItems="center"
               wrap="wrap"
             >
-              {markers
-                .filter((item) => selectedMarkers.includes(item.id))
-                .map((item) => (
-                  <MarkerBadge key={item.id} {...{ item }} />
-                ))}
+              <MarkerDisplay {...{ ticketMarkers: ticketMarkersToRender }} />
             </Stack>
           ) : (
             <p>{t('Tickets.markers')}</p>

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Modal } from '../../../components/Modal';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { useApiQuery } from '../../../api/useApiQuery';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
@@ -15,8 +15,7 @@ export const OpenTicketModal = () => {
   const { id = '', boardName = '', ticketId = '' } = useParams();
   const { addNotification } = useNotification();
   const navigate = useNavigate();
-  const { state, actions } = useStateProvider();
-  const { userAccess } = state.board;
+  const { actions } = useStateProvider();
   const { setOpenTicketData } = actions;
 
   const { data, isLoading, refetch } = useApiQuery(

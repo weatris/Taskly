@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { AccessTypeBadge } from '../../components/AccessTypeBadge';
 import { Button } from '../../components/Button';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { Tabs, TabType } from '../../components/Tabs';
 import { Icon } from '../../images/Icon';
 import { EllipsisHorizontalIcon } from '../../images/icons';

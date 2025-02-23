@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { permissionControl } from '../../../utils/permissionControl';
 import { Input } from '../../../components/Input';
 import { SetStateAction, useEffect, useState } from 'react';

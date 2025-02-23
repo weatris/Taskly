@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 import { useClickAway } from 'react-use';
 
 export type dropdownItemType = {

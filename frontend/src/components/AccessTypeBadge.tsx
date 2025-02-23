@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 import classNames from 'classnames';
 import { boardAccessType } from '../common/typing';
 

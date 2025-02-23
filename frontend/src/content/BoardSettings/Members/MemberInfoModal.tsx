@@ -4,7 +4,7 @@ import { useApiMutation } from '../../../api/useApiMutation';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { useApiQuery } from '../../../api/useApiQuery';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { defaultTextStyle } from '../../../common/styles';
 import { Textarea } from '../../../components/Textarea';
 import { useState } from 'react';

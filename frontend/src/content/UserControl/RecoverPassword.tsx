@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useRef } from 'react';
 import { inputStyle } from '../../common/styles';
 import { Button } from '../../components/Button';

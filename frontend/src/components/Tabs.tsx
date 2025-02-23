@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 
 export type TabType = {
   title?: string | React.ReactNode;

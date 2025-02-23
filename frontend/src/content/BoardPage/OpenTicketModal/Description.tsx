@@ -3,7 +3,7 @@ import { t } from 'i18next';
 import { useState } from 'react';
 import { useApiMutation } from '../../../api/useApiMutation';
 import RichTextEditor from '../../../components/RichTextEditor';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { Icon } from '../../../images/Icon';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { Button } from '../../../components/Button';

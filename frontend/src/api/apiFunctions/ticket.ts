@@ -72,4 +72,11 @@ export const ticketFunctions = {
       startDate,
       endDate,
     }),
+
+  manageTicketMembers: ({ id, newValue }: { id: string; newValue: string[] }) =>
+    axios.put<void>(BACKEND_URL + `/common/${id}`, {
+      newValue,
+      itemType: 'ticket',
+      param: 'assignedTo',
+    }),
 };

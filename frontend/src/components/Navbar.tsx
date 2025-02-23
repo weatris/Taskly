@@ -1,18 +1,17 @@
 import classNames from 'classnames';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 import { Icon } from '../images/Icon';
 import { Bars3Icon } from '../images/icons';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
-import { useStateProvider } from '../stateProvider/useStateProvider';
 import { Dropdown, dropdownItemType } from './Dropdown';
 import { HeaderStyle } from '../common/styles';
+import { useStateProvider } from '../stateProvider/useStateProvider';
+import { Avatar } from './Avatar';
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const { state, actions } = useStateProvider();
-  const { isFull } = state.config;
-  const { toggleSidebar } = actions;
 
   const items: dropdownItemType[] = [
     {
@@ -52,14 +51,7 @@ export const Navbar = () => {
       </Stack>
 
       <Dropdown
-        label={
-          <Stack
-            className="h-10 w-10 bg-gray-200 border border-gray-400 rounded-full"
-            justifyContent="center"
-          >
-            <p className="mx-auto text-xl select-none">T</p>
-          </Stack>
-        }
+        label={<Avatar {...{ userData: state.auth }} />}
         items={items}
       />
     </Stack>

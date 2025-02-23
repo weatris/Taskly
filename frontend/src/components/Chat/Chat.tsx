@@ -1,4 +1,4 @@
-import Stack from '../Stack/Stack';
+import { Stack } from '../Stack/Stack';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { t } from 'i18next';
 import { Button } from '../Button';

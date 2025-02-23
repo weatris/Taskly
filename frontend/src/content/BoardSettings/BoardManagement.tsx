@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Input } from '../../components/Input';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { t } from 'i18next';
 import { Textarea } from '../../components/Textarea';
 import { Button } from '../../components/Button';

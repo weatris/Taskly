@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { Modal } from '../../components/Modal';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useApiQuery } from '../../api/useApiQuery';
 import { Button } from '../../components/Button';
 import { useApiMutation } from '../../api/useApiMutation';

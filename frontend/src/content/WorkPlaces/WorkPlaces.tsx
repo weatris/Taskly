@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SearchInput } from '../../components/SearchInput';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { workplaces } from '../../mock';
 import { Icon } from '../../images/Icon';
 import { LockClosedIcon } from '../../images/icons';

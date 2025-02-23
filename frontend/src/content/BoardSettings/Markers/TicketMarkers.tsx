@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useApiQuery } from '../../../api/useApiQuery';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useEffect, useState } from 'react';
 import { Input } from '../../../components/Input';

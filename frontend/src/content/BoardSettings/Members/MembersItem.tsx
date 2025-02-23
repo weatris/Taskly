@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { memberType } from '../../../common/typing';
 import { Options, optionType } from '../../../components/Options';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { permissionControl } from '../../../utils/permissionControl';
 

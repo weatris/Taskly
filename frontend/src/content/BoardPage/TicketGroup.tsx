@@ -1,16 +1,14 @@
 import { t } from 'i18next';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { ButtonInputForm } from '../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { useNavigate } from 'react-router-dom';
-import { EditableName } from '../../components/EditableName';
 import { useState } from 'react';
 import { useInvalidateQuery } from '../../api/useInvalidateQuery';
 import { DndItem } from '../../components/dnd/DndItem';
 import { DndBucket } from '../../components/dnd/DndBucket';
 import { TicketRowItem } from './TicketRowItem';
-import { boardType, ticketType } from '../../common/typing';
+import { ticketType } from '../../common/typing';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { permissionControl } from '../../utils/permissionControl';
 

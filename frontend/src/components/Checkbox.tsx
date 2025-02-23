@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 import { Icon } from '../images/Icon';
 import { CheckIcon } from '../images/icons';
 

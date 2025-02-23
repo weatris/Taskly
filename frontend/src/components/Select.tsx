@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { inputStyle } from '../common/styles';
 import { Icon } from '../images/Icon';
 import { ChevronDownIcon, ChevronUpIcon } from '../images/icons';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 import { useClickAway } from 'react-use';
 
 export const Select = ({

@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { Icon } from '../../images/Icon';
 import { InformationCircleIcon } from '../../images/icons';
-import Stack from '../Stack/Stack';
+import { Stack } from '../Stack/Stack';
 
 export const InfoPanel = ({
   text = t('common.nothingFound'),

@@ -2,7 +2,7 @@ import { inputStyle } from '../../common/styles';
 import { useState } from 'react';
 import { Modal } from '../../components/Modal';
 import { t } from 'i18next';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { Button } from '../../components/Button';

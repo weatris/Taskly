@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useApiQuery } from '../../api/useApiQuery';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 import { Button } from '../../components/Button';

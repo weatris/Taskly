@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Icon } from '../images/Icon';
 import { EllipsisHorizontalIcon } from '../images/icons';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 import { useClickAway } from 'react-use';
 import classNames from 'classnames';
 

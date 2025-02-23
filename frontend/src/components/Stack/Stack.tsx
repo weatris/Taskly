@@ -18,7 +18,7 @@ interface StackProps {
   onClick?: (e: any) => void;
 }
 
-const Stack: React.FC<StackProps> = ({
+export const Stack: React.FC<StackProps> = ({
   direction = 'row',
   alignItems = 'center',
   justifyContent = 'start',
@@ -43,5 +43,3 @@ const Stack: React.FC<StackProps> = ({
     </div>
   );
 };
-
-export default Stack;

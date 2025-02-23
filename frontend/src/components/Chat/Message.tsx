@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
-import Stack from '../Stack/Stack';
+import { Stack } from '../Stack/Stack';
 import { chatMessageType } from '../../common/typing';
 
 export const Message = ({ message }: { message: chatMessageType }) => {

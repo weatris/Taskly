@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { AccessTypeBadge } from '../../components/AccessTypeBadge';
 import { Button } from '../../components/Button';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useApiQuery } from '../../api/useApiQuery';
 import { useState } from 'react';
 import { t } from 'i18next';

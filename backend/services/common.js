@@ -21,6 +21,7 @@ export async function updateItem(req, res) {
     if (param == "name") item.name = newValue;
     else if (param == "description") item.description = newValue;
     else if (param == "markers") item.markers = newValue;
+    else if (param == "assignedTo") item.assignedTo = newValue;
     else throw "undefined param";
 
     await item.save({ transaction });

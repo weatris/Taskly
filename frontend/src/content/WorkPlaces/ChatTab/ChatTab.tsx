@@ -1,4 +1,4 @@
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 
 export const ChatTab = () => {
   const pinnedMessage = 'this is pinned message';

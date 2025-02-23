@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { DatePicker } from '../../../components/Datepicker';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';

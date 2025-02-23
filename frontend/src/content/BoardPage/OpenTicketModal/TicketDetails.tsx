@@ -1,18 +1,19 @@
 import { t } from 'i18next';
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { TicketMarkers } from './TicketMarkers';
 import { TicketDates } from './TicketDates';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 import { ticketType } from '../../../common/typing';
 import { defaultTextStyle } from '../../../common/styles';
+import { TicketMember } from './TicketMember';
 
 export const TicketDetails = ({ data }: { data: ticketType | undefined }) => {
   const { openTicketData } = useStateProvider().state.board;
   return (
     <ProgressPanel isLoading={!openTicketData}>
       <Stack
-        className="w-[400px] !min-w-[400px] !max-w-[400px] h-full p-2 gap-2 border-[1px]"
+        className="w-[400px] !min-w-[400px] !max-w-[400px] h-full p-2 gap-4 border-[1px]"
         direction="col"
         alignItems="start"
       >
@@ -25,6 +26,7 @@ export const TicketDetails = ({ data }: { data: ticketType | undefined }) => {
             {t('Tickets.groupBtn')} {data?.groupName}
           </p>
         </Stack>
+        <TicketMember />
         <TicketMarkers />
         <TicketDates />
       </Stack>

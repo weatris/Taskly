@@ -1,6 +1,6 @@
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
-import Stack from './components/Stack/Stack';
+import { Stack } from './components/Stack/Stack';
 import { AppRoutes } from './content/AppRoutes';
 import './i18n.ts';
 

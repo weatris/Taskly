@@ -1,16 +1,13 @@
-import Stack from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/Stack/Stack';
 import { t } from 'i18next';
-import { Button } from '../../../components/Button';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { permissionLevels } from '../../../common/typing';
 import { MembersItem } from './MembersItem';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
-import { permissionControl } from '../../../utils/permissionControl';
 import { ShareBoardButton } from '../../../components/ShareBoardButton';
 
 export const Members = () => {
-  const { state, actions } = useStateProvider();
-  const { setShareBoardId } = actions;
+  const { state } = useStateProvider();
   const { boardData: data, userAccess } = state.board;
 
   const membersSorted = [...(data?.members || [])].sort(

@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useNavigate } from 'react-router-dom';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { Button } from '../../components/Button';

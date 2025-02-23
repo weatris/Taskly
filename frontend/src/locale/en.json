@@ -120,7 +120,10 @@
         "cantLoadChatError": "Can`t load ticket chat data"
       },
       "startDate": "Start Date",
-      "endDate": "End Date"
+      "endDate": "End Date",
+      "manageMembers": "Manage members",
+      "joinTicket": "Join ticket",
+      "membersMore": "+ {{amount}} more"
     },
     "common": {
       "submit": "Submit",

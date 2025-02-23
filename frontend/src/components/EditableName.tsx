@@ -1,6 +1,6 @@
 import { SetStateAction, useRef, useState } from 'react';
 import { useClickAway } from 'react-use';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 import { Input } from './Input';
 import { Button } from './Button';
 import classNames from 'classnames';

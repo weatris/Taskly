@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useStateProvider } from '../useStateProvider';
 import { Icon } from '../../images/Icon';
 import { XMarkIcon } from '../../images/icons';

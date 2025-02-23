@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { Icon } from '../images/Icon';
 import { XMarkIcon } from '../images/icons';
 import { Button } from './Button';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 import { t } from 'i18next';
 import { defaultTextStyle } from '../common/styles';
 

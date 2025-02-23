@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useRef, useState } from 'react';
 import { useClickAway } from 'react-use';
 import { Button } from '../../components/Button';

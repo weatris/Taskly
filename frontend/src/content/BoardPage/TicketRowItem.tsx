@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import Stack from '../../components/Stack/Stack';
+import { Stack } from '../../components/Stack/Stack';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useInvalidateQuery } from '../../api/useInvalidateQuery';
 import { useNotification } from '../../stateProvider/notification/useNotification';
@@ -9,8 +9,9 @@ import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from '../../images/icons';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { MarkerBadge } from '../../components/Markers/MarkerBadge';
 import { ticketType } from '../../common/typing';
-
-const markerDisplayLimit = 3;
+import { MembersDisplay } from '../../components/MembersDisplay';
+import { markerDisplayLimit } from '../../common/constants';
+import { MarkerDisplay } from '../../components/MarkerDisplay';
 
 export const TicketRowItem = ({
   ticket,
@@ -22,7 +23,7 @@ export const TicketRowItem = ({
   const navigate = useNavigate();
   const invalidateQuery = useInvalidateQuery();
   const { addNotification } = useNotification();
-  const { markers } = useStateProvider().state.board;
+  const { boardData, markers } = useStateProvider().state.board;
   const ticketMarkers = markers.filter((item) =>
     ticket.markers.includes(item.id),
   );
@@ -39,6 +40,10 @@ export const TicketRowItem = ({
     },
   });
 
+  const membersToDisplay =
+    boardData?.members.filter((item) => ticket.assignedTo?.includes(item.id)) ||
+    [];
+
   return (
     <Stack
       className="w-full min-h-[40px] bg-white rounded-lg border cursor-pointer hover:border-gray-400"
@@ -49,23 +54,19 @@ export const TicketRowItem = ({
       }}
     >
       <Stack className="w-full" direction="col" alignItems="start">
-        {!!ticketMarkers.length && (
-          <Stack
-            className="w-full h-[20px] overflow-hidden px-1 pt-1 gap-2"
-            direction="row"
-            alignItems="center"
-          >
-            {ticketMarkers.slice(0, markerDisplayLimit).map((item) => (
-              <MarkerBadge key={item.id} {...{ item, displayType: 'small' }} />
-            ))}
-            {ticketMarkers.length > markerDisplayLimit && (
-              <Icon size="sm" hoverable={false}>
-                <PlusIcon color="gray" />
-              </Icon>
-            )}
+        <Stack
+          className="w-full h-[20px] overflow-hidden px-1 pt-1 gap-2"
+          direction="row"
+          alignItems="center"
+        >
+          <MarkerDisplay {...{ ticketMarkers, size: 'small' }} />
+        </Stack>
+        <p className="leading-[40px] px-2">{ticket.name}</p>
+        {!!membersToDisplay.length && (
+          <Stack className="w-full p-1 gap-1" direction="row-reverse">
+            <MembersDisplay {...{ membersToDisplay, size: 'sm' }} />
           </Stack>
         )}
-        <p className="leading-[40px] px-2">{ticket.name}</p>
       </Stack>
       {position !== 'only' && (
         <Stack

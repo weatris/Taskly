@@ -1,6 +1,6 @@
 import { Icon } from '../images/Icon';
 import { ArrowPathIcon } from '../images/icons';
-import Stack from './Stack/Stack';
+import { Stack } from './Stack/Stack';
 
 export const Spinner = ({ size = 'lg' }: { size?: 'md' | 'sm' | 'lg' }) => {
   return (
