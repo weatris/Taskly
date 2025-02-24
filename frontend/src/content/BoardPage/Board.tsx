@@ -7,7 +7,7 @@ import { t } from 'i18next';
 import { ButtonInputForm } from '../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { TicketGroup } from './TicketGroup';
+import { TicketGroup } from './TicketGroup/TicketGroup';
 import { OpenTicketModal } from './OpenTicketModal/OpenTicketModal';
 import { useState } from 'react';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
@@ -36,13 +36,19 @@ export const Board = () => {
     [{ id }],
     {
       onSuccess: (data) => {
-        const tickets = (data?.groups || []).map((group) => ({
-          groupId: group.id,
-          groupName: group.name,
-          tickets: (
-            data?.tickets.filter((ticket) => ticket.groupId === group.id) || []
-          ).sort((a, b) => a.order - b.order),
-        }));
+        const extraGroups = data.tickets.filter((item) => !item.groupId).length
+          ? [{ id: '', name: t('Groups.ungrouped') }]
+          : [];
+        const tickets = [...extraGroups, ...(data?.groups || [])].map(
+          (group) => ({
+            groupId: group.id,
+            groupName: group.name,
+            tickets: (
+              data?.tickets.filter((ticket) => ticket.groupId === group.id) ||
+              []
+            ).sort((a, b) => a.order - b.order),
+          }),
+        );
         setTicketData(tickets);
         setBoardData(data);
 
@@ -110,9 +116,9 @@ export const Board = () => {
           </Stack>
         </Stack>
         {!!data && (
-          <Stack className="w-full h-full px-2 pb-4">
+          <Stack className="w-full h-full relative px-2 pb-4">
             <Stack
-              className="w-full h-full overlow-x-auto overflow-y-hidden scrollbar-thin p-4 gap-3"
+              className="w-full h-full absolute top-0 bottom-0 right-0 left-0 overlow-x-auto overflow-y-hidden scrollbar-thin p-4 gap-3"
               direction="row"
               alignItems="start"
               justifyContent="start"
@@ -125,11 +131,11 @@ export const Board = () => {
                   />
                 ))}
               </>
-              {permissionControl({ userAccess, key: 'boardCreateList' }) && (
+              {permissionControl({ userAccess, key: 'boardCreateGroup' }) && (
                 <ButtonInputForm
                   {...{
                     onAccept: onCreateNewGroup,
-                    text: t('Board.createList'),
+                    text: t('Groups.createGroup'),
                   }}
                 />
               )}

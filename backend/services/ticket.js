@@ -43,7 +43,9 @@ export async function getTicketById(req, res) {
     const ticket = await Ticket.findByPk(id);
     const group = await Group.findByPk(ticket.groupId);
 
-    res.status(200).json({ ...ticket.toJSON(), groupName: group.name });
+    res
+      .status(200)
+      .json({ ...ticket.toJSON(), groupName: group ? group.name : "" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error retrieving ticket" });

@@ -17,6 +17,7 @@ export const TicketMember = () => {
 
   const { mutate } = useApiMutation('manageTicketMembers', {
     onSuccess: () => {
+      invalidateQuery('getBoardById');
       invalidateQuery('getTicketById');
       setShowMembersModal(false);
     },
@@ -30,9 +31,12 @@ export const TicketMember = () => {
       });
   };
 
-  const onJoinTicket = () => {
+  const onManageMembers = () => {
     if (id) {
-      editTicketMembers([...(openTicketData?.assignedTo || []), id]);
+      const currentMembers = openTicketData?.assignedTo || [];
+      if (currentMembers.includes(id))
+        editTicketMembers(currentMembers.filter((item) => item !== id));
+      else editTicketMembers([...currentMembers, id]);
     }
   };
 
@@ -40,6 +44,8 @@ export const TicketMember = () => {
     boardData?.members.filter((item) =>
       openTicketData?.assignedTo?.includes(item.id),
     ) || [];
+
+  const isUserInMembers = membersToDisplay.map((item) => item.id).includes(id);
 
   return (
     <>
@@ -60,9 +66,12 @@ export const TicketMember = () => {
           />
           <Button
             {...{
-              text: t('Tickets.joinTicket'),
+              text: isUserInMembers
+                ? t('Tickets.leaveTicket')
+                : t('Tickets.joinTicket'),
               className: 'w-full',
-              onClick: onJoinTicket,
+              onClick: onManageMembers,
+              variant: isUserInMembers ? 'primary' : 'default',
             }}
           />
         </Stack>

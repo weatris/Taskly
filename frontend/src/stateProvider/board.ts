@@ -15,6 +15,8 @@ interface BoardState {
   userToExclude?: string;
   openMemberInfo?: string;
   userAccess: userAccessType;
+  updateGroupId?: string;
+  deleteGroupId?: string;
 }
 
 export const defaultUserPermissions: userAccessType = {
@@ -58,6 +60,12 @@ export const BoardSlice = createSlice({
     },
     setUserAccess: (state, action: PayloadAction<userAccessType>) => {
       state.userAccess = action.payload;
+    },
+    setUpdateGroupId: (state, action: PayloadAction<string | undefined>) => {
+      state.updateGroupId = action.payload;
+    },
+    setDeleteGroupId: (state, action: PayloadAction<string | undefined>) => {
+      state.deleteGroupId = action.payload;
     },
   },
 });

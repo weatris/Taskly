@@ -24,7 +24,7 @@ export const DndBucket = ({
 
   return (
     <div
-      className="rounded-lg"
+      className="h-full"
       ref={drop}
       style={{
         boxShadow: isOver && canAcceptItem ? '0px 1px 2px gray' : 'none',

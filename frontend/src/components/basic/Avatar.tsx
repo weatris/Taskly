@@ -4,12 +4,12 @@ import { Stack } from './Stack/Stack';
 import classNames from 'classnames';
 
 const sizes = {
-  sm: 'w-4 h-4 [&>p]:text-sm',
+  sm: 'w-5 h-5 [&>p]:text-sm',
   md: 'w-10 h-10 [&>p]:text-xl',
 };
 
 const spacing = {
-  sm: 'top-4',
+  sm: 'top-5',
   md: 'top-10',
 };
 

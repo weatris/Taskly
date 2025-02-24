@@ -29,7 +29,7 @@ export const NotificationProvider = () => {
           <Stack
             key={item.id}
             className={classNames(
-              'w-auto min-w-[240px] min-h-[30px] overflow-x-hidden cursor-pointer relative border border-gray-300 rounded-lg py-1 px-2 pr-8',
+              'w-auto min-w-[240px] min-h-[30px] z-[3] overflow-x-hidden cursor-pointer relative border border-gray-300 rounded-lg py-1 px-2 pr-8',
               className,
             )}
             direction="col"

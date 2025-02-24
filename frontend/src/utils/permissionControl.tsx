@@ -3,7 +3,7 @@ import { userAccessType } from '../common/typing';
 const allActions = [
   'boardChatWrite',
   'boardShare',
-  'boardCreateList',
+  'boardCreateGroup',
   'createTicket',
   'editTicket',
   'memberEdit',

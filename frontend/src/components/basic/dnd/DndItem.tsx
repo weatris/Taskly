@@ -27,6 +27,7 @@ export const DndItem = ({
   useEffect(() => {
     isDraggingCallback?.(isDragging);
   }, [isDragging]);
+
   return (
     <div ref={dragRef} className="w-full" style={{ opacity }}>
       {children}

@@ -63,7 +63,6 @@
     },
     "Board": {
       "cantLoad": "Can`t load board",
-      "createList": "Create list",
       "createTicket": "Create ticket",
       "share": "Share board",
       "createLink": "Create Link",
@@ -104,8 +103,15 @@
       }
     },
     "Groups": {
+      "ungrouped": "Ungrouped",
+      "createGroup": "Create group",
+      "deleteGroup": "Delete group",
+      "updateGroup": "Update group",
       "cantCreate": "Can`t create group",
-      "cantRename": "Can`t rename group"
+      "cantUpdate": "Can`t update group",
+      "cantDelete": "Can`t delete group",
+      "deleteGroupInfo": "Deleting group leads to it's tickets being ungrouped.",
+      "deleteGroupConfirmation": "Are you sure you want to delete this group?"
     },
     "Tickets": {
       "groupBtn": "Group: ",
@@ -123,6 +129,7 @@
       "endDate": "End Date",
       "manageMembers": "Manage members",
       "joinTicket": "Join ticket",
+      "leaveTicket": "Leave ticket",
       "membersMore": "+ {{amount}} more"
     },
     "common": {

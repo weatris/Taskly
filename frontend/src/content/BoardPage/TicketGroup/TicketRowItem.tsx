@@ -1,17 +1,21 @@
 import { useNavigate } from 'react-router-dom';
-import { Stack } from '../../components/basic/Stack/Stack';
-import { useApiMutation } from '../../api/useApiMutation';
-import { useInvalidateQuery } from '../../api/useInvalidateQuery';
-import { useNotification } from '../../stateProvider/notification/useNotification';
+import { Stack } from '../../../components/basic/Stack/Stack';
+import { useApiMutation } from '../../../api/useApiMutation';
+import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
+import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { t } from 'i18next';
-import { Icon } from '../../images/Icon';
-import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from '../../images/icons';
-import { useStateProvider } from '../../stateProvider/useStateProvider';
-import { MarkerBadge } from '../../components/Markers/MarkerBadge';
-import { ticketType } from '../../common/typing';
-import { MembersDisplay } from '../../components/MembersDisplay';
-import { markerDisplayLimit } from '../../common/constants';
-import { MarkerDisplay } from '../../components/MarkerDisplay';
+import { Icon } from '../../../images/Icon';
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  PlusIcon,
+} from '../../../images/icons';
+import { useStateProvider } from '../../../stateProvider/useStateProvider';
+import { MarkerBadge } from '../../../components/Markers/MarkerBadge';
+import { ticketType } from '../../../common/typing';
+import { MembersDisplay } from '../../../components/MembersDisplay';
+import { markerDisplayLimit } from '../../../common/constants';
+import { MarkerDisplay } from '../../../components/MarkerDisplay';
 
 export const TicketRowItem = ({
   ticket,
@@ -54,13 +58,15 @@ export const TicketRowItem = ({
       }}
     >
       <Stack className="w-full" direction="col" alignItems="start">
-        <Stack
-          className="w-full h-[20px] overflow-hidden px-1 pt-1 gap-2"
-          direction="row"
-          alignItems="center"
-        >
-          <MarkerDisplay {...{ ticketMarkers, size: 'small' }} />
-        </Stack>
+        {!!ticketMarkers.length && (
+          <Stack
+            className="w-full h-[20px] overflow-hidden px-1 pt-1 gap-2"
+            direction="row"
+            alignItems="center"
+          >
+            <MarkerDisplay {...{ ticketMarkers, size: 'small' }} />
+          </Stack>
+        )}
         <p className="leading-[40px] px-2">{ticket.name}</p>
         {!!membersToDisplay.length && (
           <Stack className="w-full p-1 gap-1" direction="row-reverse">

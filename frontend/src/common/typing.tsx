@@ -20,6 +20,12 @@ export type groupType = {
   name: string;
 };
 
+export type ticketGroupType = {
+  groupId: string;
+  groupName: string;
+  tickets: ticketType[];
+};
+
 export type configType = {
   groupTypes?: groupType[];
 };

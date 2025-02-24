@@ -23,7 +23,7 @@ export const TicketDetails = ({ data }: { data: ticketType | undefined }) => {
           alignItems="center"
         >
           <p className={defaultTextStyle}>
-            {t('Tickets.groupBtn')} {data?.groupName}
+            {t('Tickets.groupBtn')} {data?.groupName || t('Groups.ungrouped')}
           </p>
         </Stack>
         <TicketMember />
