@@ -1,8 +1,8 @@
 import { t } from 'i18next';
 import { Icon } from '../../images/Icon';
 import { ExclamationTriangleIcon } from '../../images/icons';
-import { Button } from '../Button';
-import { Stack } from '../Stack/Stack';
+import { Button } from '../basic/Button';
+import { Stack } from '../basic/Stack/Stack';
 
 export const ErrorPanel = ({
   errorText = t('Errors.default'),

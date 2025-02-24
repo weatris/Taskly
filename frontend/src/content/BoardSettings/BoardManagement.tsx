@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Input } from '../../components/Input';
-import { Stack } from '../../components/Stack/Stack';
+import { Input } from '../../components/basic/Input';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { t } from 'i18next';
-import { Textarea } from '../../components/Textarea';
-import { Button } from '../../components/Button';
+import { Textarea } from '../../components/basic/Textarea';
+import { Button } from '../../components/basic/Button';
 import { AccessTypeSelect } from '../../components/AccessTypeSelect';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { useApiMutation } from '../../api/useApiMutation';

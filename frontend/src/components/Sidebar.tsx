@@ -1,4 +1,4 @@
-import { Stack } from './Stack/Stack';
+import { Stack } from './basic/Stack/Stack';
 import classNames from 'classnames';
 import { useStateProvider } from '../stateProvider/useStateProvider';
 import { t } from 'i18next';

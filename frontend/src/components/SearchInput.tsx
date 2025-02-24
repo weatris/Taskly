@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Icon } from '../images/Icon';
 import { MagnifyingGlassIcon, XMarkIcon } from '../images/icons';
-import { Stack } from './Stack/Stack';
+import { Stack } from './basic/Stack/Stack';
 import classNames from 'classnames';
 
 export const SearchInput = ({

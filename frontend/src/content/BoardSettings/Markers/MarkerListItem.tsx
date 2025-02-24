@@ -1,4 +1,4 @@
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { useState } from 'react';
 import { Icon } from '../../../images/Icon';
 import { ChevronDownIcon, ChevronUpIcon } from '../../../images/icons';

@@ -1,15 +1,15 @@
 import { t } from 'i18next';
-import { Modal } from '../../../components/Modal';
+import { Modal } from '../../../components/basic/Modal';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { useApiQuery } from '../../../api/useApiQuery';
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { defaultTextStyle } from '../../../common/styles';
-import { Textarea } from '../../../components/Textarea';
+import { Textarea } from '../../../components/basic/Textarea';
 import { useState } from 'react';
 import { permissionControl } from '../../../utils/permissionControl';
-import Select from '../../../components/Select';
+import Select from '../../../components/basic/Select';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 import { permissionLevelType } from '../../../common/typing';
 

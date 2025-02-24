@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Modal } from '../../../components/Modal';
-import { Stack } from '../../../components/Stack/Stack';
+import { Modal } from '../../../components/basic/Modal';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { useApiQuery } from '../../../api/useApiQuery';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 import { useNotification } from '../../../stateProvider/notification/useNotification';

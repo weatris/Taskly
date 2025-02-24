@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useApiQuery } from '../../../api/useApiQuery';
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useEffect, useState } from 'react';
-import { Input } from '../../../components/Input';
-import { Textarea } from '../../../components/Textarea';
-import { Button } from '../../../components/Button';
+import { Input } from '../../../components/basic/Input';
+import { Textarea } from '../../../components/basic/Textarea';
+import { Button } from '../../../components/basic/Button';
 import { MarkerListItem } from './MarkerListItem';
 import { t } from 'i18next';
 import { Icon } from '../../../images/Icon';

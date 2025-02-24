@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useEffect, useRef } from 'react';
 import { Button } from './Button';
 import { Virtuoso } from 'react-virtuoso';
-import { infiniteDataType } from '../api/apiFunctions/infiniteFunctions';
+import { infiniteDataType } from '../../api/apiFunctions/infiniteFunctions';
 
 export type VirtualizedListType<itemType> = {
   queryParams: UseQueryResult<

@@ -1,11 +1,11 @@
 import { t } from 'i18next';
-import { Modal } from '../../../components/Modal';
+import { Modal } from '../../../components/basic/Modal';
 import { MembersItem } from '../../BoardSettings/Members/MembersItem';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { permissionLevels } from '../../../common/typing';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Stack } from '../../../components/Stack/Stack';
-import { Checkbox } from '../../../components/Checkbox';
+import { Stack } from '../../../components/basic/Stack/Stack';
+import { Checkbox } from '../../../components/basic/Checkbox';
 
 export const ManageMembersModal = ({
   showMembersModal,

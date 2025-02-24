@@ -1,11 +1,11 @@
 import { t } from 'i18next';
-import { Modal } from '../../components/Modal';
-import { Stack } from '../../components/Stack/Stack';
+import { Modal } from '../../components/basic/Modal';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { useApiQuery } from '../../api/useApiQuery';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/basic/Button';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { Spinner } from '../../components/Spinner';
+import { Spinner } from '../../components/basic/Spinner';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 

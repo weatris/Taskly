@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { SearchInput } from '../../components/SearchInput';
-import { Stack } from '../../components/Stack/Stack';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { workplaces } from '../../mock';
 import { Icon } from '../../images/Icon';
 import { LockClosedIcon } from '../../images/icons';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/basic/Button';
 import { WorkPlace } from './WorkPlace';
 import classNames from 'classnames';
 import { WorkPlaceType } from '../../common/typing';

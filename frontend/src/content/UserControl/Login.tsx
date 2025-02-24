@@ -1,6 +1,6 @@
 import { t } from 'i18next';
-import { Button } from '../../components/Button';
-import { Stack } from '../../components/Stack/Stack';
+import { Button } from '../../components/basic/Button';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { useRef } from 'react';
 import { useApiMutation } from '../../api/useApiMutation';

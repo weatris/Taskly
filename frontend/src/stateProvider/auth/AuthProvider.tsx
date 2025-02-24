@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useStateProvider } from '../useStateProvider';
-import { Spinner } from '../../components/Spinner';
+import { Spinner } from '../../components/basic/Spinner';
 import { UserControl } from '../../content/UserControl/UserControl';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useEffectOnce } from 'react-use';

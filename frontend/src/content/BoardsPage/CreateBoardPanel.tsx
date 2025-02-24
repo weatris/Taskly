@@ -1,13 +1,13 @@
 import { inputStyle } from '../../common/styles';
 import { useState } from 'react';
-import { Modal } from '../../components/Modal';
+import { Modal } from '../../components/basic/Modal';
 import { t } from 'i18next';
-import { Stack } from '../../components/Stack/Stack';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/basic/Button';
 import { boardAccessType } from '../../common/typing';
-import { Textarea } from '../../components/Textarea';
+import { Textarea } from '../../components/basic/Textarea';
 import { AccessTypeSelect } from '../../components/AccessTypeSelect';
 
 export const CreateBoardPanel = ({

@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { Stack } from '../../components/Stack/Stack';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { ButtonInputForm } from '../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';

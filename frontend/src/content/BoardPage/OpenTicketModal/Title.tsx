@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { EditableName } from '../../../components/EditableName';
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { ticketType } from '../../../common/typing';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';

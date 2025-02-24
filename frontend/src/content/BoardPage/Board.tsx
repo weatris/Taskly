@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Stack } from '../../components/Stack/Stack';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { useApiQuery } from '../../api/useApiQuery';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/basic/Button';
 import { t } from 'i18next';
 import { ButtonInputForm } from '../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';

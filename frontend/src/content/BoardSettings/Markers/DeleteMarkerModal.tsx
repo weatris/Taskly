@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { markerType } from '../../../common/typing';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
-import { Modal } from '../../../components/Modal';
+import { Modal } from '../../../components/basic/Modal';
 import { MarkerListItem } from './MarkerListItem';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
 

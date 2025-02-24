@@ -1,13 +1,13 @@
 import classNames from 'classnames';
-import { Stack } from './Stack/Stack';
+import { Stack } from './basic/Stack/Stack';
 import { Icon } from '../images/Icon';
 import { Bars3Icon } from '../images/icons';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
-import { Dropdown, dropdownItemType } from './Dropdown';
+import { Dropdown, dropdownItemType } from './basic/Dropdown';
 import { HeaderStyle } from '../common/styles';
 import { useStateProvider } from '../stateProvider/useStateProvider';
-import { Avatar } from './Avatar';
+import { Avatar } from './basic/Avatar';
 
 export const Navbar = () => {
   const navigate = useNavigate();

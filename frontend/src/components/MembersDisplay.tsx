@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { membersToDisplayLimit } from '../common/constants';
 import { memberType } from '../common/typing';
-import { Avatar } from './Avatar';
+import { Avatar } from './basic/Avatar';
 
 const textSize = {
   sm: 'text-sm',

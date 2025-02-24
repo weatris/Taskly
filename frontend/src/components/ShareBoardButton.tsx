@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { permissionControl } from '../utils/permissionControl';
-import { Button } from './Button';
+import { Button } from './basic/Button';
 import { useStateProvider } from '../stateProvider/useStateProvider';
 import { userAccessType } from '../common/typing';
 

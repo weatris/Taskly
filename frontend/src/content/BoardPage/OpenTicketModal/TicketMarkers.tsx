@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { Icon } from '../../../images/Icon';
 import { ChevronUpIcon, PencilIcon } from '../../../images/icons';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { MarkerListItem } from '../../BoardSettings/Markers/MarkerListItem';
-import { Checkbox } from '../../../components/Checkbox';
+import { Checkbox } from '../../../components/basic/Checkbox';
 import { useClickAway } from 'react-use';
 import { haveSameElements } from '../../../utils/utils';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { t } from 'i18next';
-import { Button } from '../../../components/Button';
+import { Button } from '../../../components/basic/Button';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { MarkerBadge } from '../../../components/Markers/MarkerBadge';

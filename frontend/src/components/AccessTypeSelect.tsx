@@ -1,6 +1,6 @@
 import { t } from 'i18next';
-import { Stack } from './Stack/Stack';
-import { Button } from './Button';
+import { Stack } from './basic/Stack/Stack';
+import { Button } from './basic/Button';
 import { Dispatch, SetStateAction } from 'react';
 
 export const AccessTypeSelect = ({

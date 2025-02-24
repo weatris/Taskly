@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { userType } from '../common/typing';
+import { userType } from '../../common/typing';
 import { Stack } from './Stack/Stack';
 import classNames from 'classnames';
 

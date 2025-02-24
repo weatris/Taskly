@@ -1,8 +1,8 @@
 import { t } from 'i18next';
 import { AccessTypeBadge } from '../../components/AccessTypeBadge';
-import { Button } from '../../components/Button';
-import { Stack } from '../../components/Stack/Stack';
-import { Tabs, TabType } from '../../components/Tabs';
+import { Button } from '../../components/basic/Button';
+import { Stack } from '../../components/basic/Stack/Stack';
+import { Tabs, TabType } from '../../components/basic/Tabs';
 import { Icon } from '../../images/Icon';
 import { EllipsisHorizontalIcon } from '../../images/icons';
 import { workplaces } from '../../mock';

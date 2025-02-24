@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Stack } from '../../components/Stack/Stack';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useInvalidateQuery } from '../../api/useInvalidateQuery';
 import { useNotification } from '../../stateProvider/notification/useNotification';

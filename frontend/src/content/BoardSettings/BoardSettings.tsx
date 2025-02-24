@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useApiQuery } from '../../api/useApiQuery';
-import { Stack } from '../../components/Stack/Stack';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { Markers } from './Markers/TicketMarkers';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';

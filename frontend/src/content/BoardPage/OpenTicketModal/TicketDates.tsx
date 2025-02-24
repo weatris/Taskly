@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
-import { DatePicker } from '../../../components/Datepicker';
+import { DatePicker } from '../../../components/basic/Datepicker';
 import { ProgressPanel } from '../../../components/StatePanels/ProgressPanel';
-import { Button } from '../../../components/Button';
+import { Button } from '../../../components/basic/Button';
 import { t } from 'i18next';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useNotification } from '../../../stateProvider/notification/useNotification';

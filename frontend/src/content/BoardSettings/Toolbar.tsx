@@ -1,8 +1,8 @@
 import { t } from 'i18next';
-import { Stack } from '../../components/Stack/Stack';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { useNavigate } from 'react-router-dom';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/basic/Button';
 
 export const Toolbar = () => {
   const navigate = useNavigate();

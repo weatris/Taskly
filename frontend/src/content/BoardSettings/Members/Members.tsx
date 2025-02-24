@@ -1,4 +1,4 @@
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { t } from 'i18next';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { permissionLevels } from '../../../common/typing';

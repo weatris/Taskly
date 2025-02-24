@@ -1,11 +1,11 @@
 import { SetStateAction, useRef, useState } from 'react';
 import { useClickAway } from 'react-use';
-import { Stack } from './Stack/Stack';
-import { Input } from './Input';
-import { Button } from './Button';
+import { Stack } from './basic/Stack/Stack';
+import { Input } from './basic/Input';
+import { Button } from './basic/Button';
 import classNames from 'classnames';
 import { Icon } from '../images/Icon';
-import { Spinner } from './Spinner';
+import { Spinner } from './basic/Spinner';
 import { PencilIcon } from '../images/icons';
 import { defaultTextStyle } from '../common/styles';
 

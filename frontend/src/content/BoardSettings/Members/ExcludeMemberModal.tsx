@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { Modal } from '../../../components/Modal';
+import { Modal } from '../../../components/basic/Modal';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';

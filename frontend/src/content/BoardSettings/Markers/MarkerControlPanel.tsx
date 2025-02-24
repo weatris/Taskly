@@ -1,11 +1,11 @@
 import { t } from 'i18next';
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { permissionControl } from '../../../utils/permissionControl';
-import { Input } from '../../../components/Input';
+import { Input } from '../../../components/basic/Input';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
-import { Textarea } from '../../../components/Textarea';
-import { Button } from '../../../components/Button';
+import { Textarea } from '../../../components/basic/Textarea';
+import { Button } from '../../../components/basic/Button';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { markerControlType } from './TicketMarkers';
 import { useNotification } from '../../../stateProvider/notification/useNotification';

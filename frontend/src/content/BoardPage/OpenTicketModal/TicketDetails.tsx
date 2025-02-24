@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { Stack } from '../../../components/Stack/Stack';
+import { Stack } from '../../../components/basic/Stack/Stack';
 import { TicketMarkers } from './TicketMarkers';
 import { TicketDates } from './TicketDates';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';

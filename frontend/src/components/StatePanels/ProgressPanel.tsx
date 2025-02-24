@@ -1,4 +1,4 @@
-import { Spinner } from '../Spinner';
+import { Spinner } from '../basic/Spinner';
 import { ErrorPanel } from './ErrorPanel';
 import { InfoPanel } from './InfoPanel';
 

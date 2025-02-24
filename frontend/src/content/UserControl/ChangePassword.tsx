@@ -1,8 +1,8 @@
 import { t } from 'i18next';
-import { Stack } from '../../components/Stack/Stack';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { useEffect, useRef, useState } from 'react';
 import { inputStyle } from '../../common/styles';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/basic/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';

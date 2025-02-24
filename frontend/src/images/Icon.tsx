@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Stack } from '../components/Stack/Stack';
+import { Stack } from '../components/basic/Stack/Stack';
 
 const sizes = {
   sm: 'w-4 h-4 min-w-4 min-h-4',

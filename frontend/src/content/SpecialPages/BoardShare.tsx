@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useApiQuery } from '../../api/useApiQuery';
-import { Spinner } from '../../components/Spinner';
-import { Stack } from '../../components/Stack/Stack';
+import { Spinner } from '../../components/basic/Spinner';
+import { Stack } from '../../components/basic/Stack/Stack';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { t } from 'i18next';
 
