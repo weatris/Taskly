@@ -10,11 +10,7 @@ export const Spinner = ({ size = 'lg' }: { size?: 'md' | 'sm' | 'lg' }) => {
       alignItems="center"
       justifyContent="center"
     >
-      <Icon
-        className="w-[50px] h-[50px] animate-spin"
-        hoverable={false}
-        size={size}
-      >
+      <Icon className="animate-spin" hoverable={false} size={size}>
         <ArrowPathIcon color="lightgray" />
       </Icon>
     </Stack>

@@ -3,36 +3,53 @@ import { useNotification } from '../../stateProvider/notification/useNotificatio
 import { t } from 'i18next';
 import { Button } from '../basic/Button';
 import { useApiMutation } from '../../api/useApiMutation';
-import { useEffect, useState } from 'react';
-import { useApiInfiniteQuery } from '../../api/useApiInfiniteQuery';
-import { Virtuoso } from 'react-virtuoso';
+import { useEffect, useRef, useState } from 'react';
+import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { chatMessageType } from '../../common/typing';
 import { permissionControl } from '../../utils/permissionControl';
+import { useApiInfiniteQuery } from '../../api/useApiInfiniteQuery';
+import { generateId } from '../../utils/generateId';
+import { useSocket } from '../../api/useSocket';
+import { ProgressPanel } from '../StatePanels/ProgressPanel';
 
-//finish it
 export const Chat = ({
+  chatId,
   ticketId,
   boardId,
+  renderItem,
 }: {
+  chatId: string;
   ticketId: string;
   boardId: string;
+  renderItem: (message: chatMessageType) => React.ReactNode;
 }) => {
   const { addNotification } = useNotification();
   const [message, setMessage] = useState('');
   const { state } = useStateProvider();
-  const { id, name } = state.auth;
   const { userAccess } = state.board;
+  const { id, name, email } = state.auth;
+
+  const { socket } = useSocket({ id: chatId });
+  const virtuosoRef = useRef<VirtuosoHandle>(null);
+  const [firstItemIndex, setFirstItemIndex] = useState(0);
   const [messages, setMessages] = useState<chatMessageType[]>([]);
 
-  const queryParams = useApiInfiniteQuery(
-    'getTicketChatDataById',
-    [{ id: ticketId }],
+  const setFilteredMessages = (data: chatMessageType[]) => {
+    setMessages(
+      Array.from(new Map(data.map((item) => [item.id, item])).values()),
+    );
+  };
+
+  const { loadNext, isLoading } = useApiInfiniteQuery(
+    'getChatData',
+    [{ ticketId, boardId }],
     {
-      enabled: !!ticketId,
+      enabled: !!chatId,
       direction: 'start',
-      onSuccess: () => {
-        console.log('onSuccess');
+      onSuccessCallback: (data) => {
+        setFilteredMessages(data.data);
+        setFirstItemIndex(() => firstItemIndex - (data.meta?.pageSize || 0));
       },
       onError: () => {
         addNotification({
@@ -43,7 +60,13 @@ export const Chat = ({
     },
   );
 
-  const { mutate } = useApiMutation('createTicketChatMessage', {
+  const { mutate: getMessage } = useApiMutation('getChatMessageById', {
+    onSuccess: (data) => {
+      setFilteredMessages([...messages, data]);
+    },
+  });
+
+  const { mutate } = useApiMutation('createChatMessage', {
     onSuccess: () => {
       setMessage('');
     },
@@ -56,7 +79,14 @@ export const Chat = ({
   });
 
   const sendMessage = () => {
+    if (!message.trim()) {
+      setMessage('');
+      return;
+    }
+
+    const messageId = generateId(10);
     const newMessage = {
+      id: messageId,
       content: message,
       ticketId,
       boardId,
@@ -64,67 +94,61 @@ export const Chat = ({
       user: {
         id,
         name,
+        email,
       },
     } as chatMessageType;
 
     setMessages((prev) => [...prev, newMessage]);
-    mutate({ id: ticketId, message, boardId });
+    mutate({ ticketId, boardId, message, messageId });
   };
 
-  const { isFetching, isFetched, loadNext } = queryParams;
-
-  const renderItem = (_: number, item: chatMessageType) => {
-    return (
-      <>
-        {item.content} {item.isLoading && 'tester'}
-      </>
-    );
-  };
-
-  const atTopStateChange = () => {
-    !isFetching && loadNext();
+  const loadNextPage = () => {
+    !isLoading && loadNext();
   };
 
   useEffect(() => {
-    setMessages(queryParams.data.data);
-  }, [isFetched, isFetching, queryParams.data.data.length]);
+    socket?.on('send_message', (id) => {
+      getMessage(id);
+    });
+  }, [socket]);
 
   return (
-    <Stack className="w-full h-full" direction="col">
-      <Virtuoso
-        data={messages}
-        followOutput={'smooth'}
-        initialTopMostItemIndex={99999}
-        atTopStateChange={atTopStateChange}
-        itemContent={renderItem}
-        style={{
-          height: '100%',
-          width: '100%',
-          flex: '1 1 auto',
-          overscrollBehavior: 'contain',
-        }}
-      />
-      {permissionControl({ userAccess, key: 'boardChatWrite' }) && (
-        <Stack
-          className="w-full max-h-[80px] h-[80px] border-t-[1px] gap-3 p-3"
-          direction="row"
-        >
-          <input
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value || '');
-            }}
-            className="w-full h-full rounded-lg border indent-2 focus:outline-none"
-          />
-          <Button
-            {...{
-              text: 'Send',
-              onClick: sendMessage,
-              disabled: !message,
-            }}
-          />
-        </Stack>
-      )}
-    </Stack>
+    <ProgressPanel isLoading={isLoading && !messages.length}>
+      <Stack className="w-full h-full" direction="col">
+        <Virtuoso
+          ref={virtuosoRef}
+          data={messages}
+          className="w-full h-full scrollbar-thin"
+          firstItemIndex={firstItemIndex}
+          initialTopMostItemIndex={messages.length - 1}
+          followOutput="smooth"
+          itemContent={(_, message) => {
+            return renderItem(message);
+          }}
+          startReached={loadNextPage}
+        />
+        {permissionControl({ userAccess, key: 'boardChatWrite' }) && (
+          <Stack
+            className="w-full max-h-[80px] h-[80px] border-t-[1px] gap-3 p-3"
+            direction="row"
+          >
+            <input
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value || '');
+              }}
+              className="w-full h-full rounded-lg border indent-2 focus:outline-none"
+            />
+            <Button
+              {...{
+                text: 'Send',
+                onClick: sendMessage,
+                disabled: !message,
+              }}
+            />
+          </Stack>
+        )}
+      </Stack>
+    </ProgressPanel>
   );
 };

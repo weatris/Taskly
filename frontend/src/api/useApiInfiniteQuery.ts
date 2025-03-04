@@ -14,7 +14,15 @@ export function useApiInfiniteQuery<K extends keyof typeof apiFunctions>(
   options?: UseQueryOptions<
     ExtractDataType<ReturnType<(typeof apiFunctions)[K]>>['data'],
     AxiosError
-  > & { onError?: (error: any) => void; direction?: 'start' | 'end' },
+  > & {
+    onError?: (error: any) => void;
+    direction?: 'start' | 'end';
+    onSuccessCallback?: (
+      data: infiniteDataType<
+        ExtractDataType<ReturnType<(typeof apiFunctions)[K]>>['data']
+      >,
+    ) => void;
+  },
 ) {
   type returnTp = ExtractDataType<ReturnType<(typeof apiFunctions)[K]>>['data'];
 
@@ -24,17 +32,17 @@ export function useApiInfiniteQuery<K extends keyof typeof apiFunctions>(
 
   const query = useApiQuery(key, [{ ...(variables[0] as any), page }] as any, {
     ...options,
-    onSuccess: (dt: returnTp) => {
-      setData((prev) => {
-        return {
-          data:
-            direction === 'start'
-              ? [...[...dt.data].reverse(), ...prev.data]
-              : [...prev.data, ...dt.data],
-          meta: dt.meta,
-        };
-      });
-      options?.onSuccess?.(dt);
+    refetchOnWindowFocus: false,
+    onSuccess: (newData: returnTp) => {
+      const fullData = {
+        data:
+          direction === 'start'
+            ? [...[...newData.data].reverse(), ...data.data]
+            : [...data.data, ...newData.data],
+        meta: newData.meta,
+      };
+      setData(fullData);
+      options?.onSuccessCallback?.(fullData);
     },
   });
 

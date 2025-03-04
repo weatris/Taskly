@@ -14,6 +14,7 @@ import { useNotification } from '../../stateProvider/notification/useNotificatio
 import { boardAccessType } from '../../common/typing';
 import classNames from 'classnames';
 import { defaultTextStyle } from '../../common/styles';
+import { Carousel } from 'flowbite-react';
 
 const NoBoardCreated = () => {
   const { toggleCreateBoardModal } = useStateProvider().actions;

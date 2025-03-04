@@ -1,8 +1,7 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Stack } from '../../components/basic/Stack/Stack';
 import { useApiQuery } from '../../api/useApiQuery';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
-import { Button } from '../../components/basic/Button';
 import { t } from 'i18next';
 import { ButtonInputForm } from '../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../api/useApiMutation';
@@ -13,7 +12,7 @@ import { useState } from 'react';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { ticketType } from '../../common/typing';
 import { permissionControl } from '../../utils/permissionControl';
-import { ShareBoardButton } from '../../components/ShareBoardButton';
+import { Header } from './Header';
 
 type ticketDataType = {
   groupId: string;
@@ -23,7 +22,6 @@ type ticketDataType = {
 
 export const Board = () => {
   const { id = '' } = useParams();
-  const navigate = useNavigate();
   const [ticketData, setTicketData] = useState<ticketDataType[]>([]);
   const { addNotification } = useNotification();
   const { state, actions } = useStateProvider();
@@ -97,24 +95,7 @@ export const Board = () => {
   return (
     <ProgressPanel {...{ isLoading, isError }}>
       <Stack className="w-full h-full" direction="col">
-        <Stack
-          className="w-full h-[60px] min-h-[60px] px-3 py-2 border-b-[2px]"
-          justifyContent="between"
-        >
-          <p>{data?.name}</p>
-          <Stack className="gap-2" direction="row">
-            <ShareBoardButton {...{ id, userAccess }} />
-            <Button
-              {...{
-                text: t('Board.settings.title'),
-                variant: 'primary',
-                onClick: () => {
-                  navigate('settings');
-                },
-              }}
-            />
-          </Stack>
-        </Stack>
+        <Header />
         {!!data && (
           <Stack className="w-full h-full relative px-2 pb-4">
             <Stack

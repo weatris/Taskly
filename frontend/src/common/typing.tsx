@@ -73,7 +73,7 @@ export type chatMessageType = {
   ticketId?: string;
   boardId: string;
   isLoading?: boolean;
-  user: { id: string; name: string };
+  user: { id: string; name: string; email: string };
 };
 
 export type markerType = {

@@ -10,7 +10,7 @@ export const DatePicker = (props: DatePickerProps) => {
       isClearable={!!props.selected && !props.disabled}
       {...props}
       className={classNames(
-        'w-full h-[40px] z-[2] border p-1 indent-1',
+        'w-full h-[40px] z-[2] border border-gray-200 p-1 indent-1',
         props.className,
       )}
     />

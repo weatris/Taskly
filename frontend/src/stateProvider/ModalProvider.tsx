@@ -1,3 +1,4 @@
+import { GlobalChatModal } from '../content/BoardPage/GlobalChatModal';
 import { ShareBoardModal } from '../content/BoardPage/ShareBoardModal';
 import { DeleteGroupModal } from '../content/BoardPage/TicketGroup/DeleteGroupModal';
 import { UpdateGroupModal } from '../content/BoardPage/TicketGroup/UpdateGroupModal';
@@ -13,6 +14,7 @@ export const ModalProvider = () => {
     openMemberInfo,
     deleteGroupId,
     updateGroupId,
+    showGroupChat,
   } = state.board;
 
   return (
@@ -22,6 +24,7 @@ export const ModalProvider = () => {
       {!!openMemberInfo && <MemberInfoModal />}
       {!!deleteGroupId && <DeleteGroupModal />}
       {!!updateGroupId && <UpdateGroupModal />}
+      {!!showGroupChat && <GlobalChatModal />}
     </>
   );
 };

@@ -3,10 +3,12 @@ import { BACKEND_URL } from './apiFunctions';
 import {
   boardAccessType,
   boardType,
+  chatMessageType,
   markerType,
   memberType,
   permissionLevelType,
 } from '../../common/typing';
+import { infiniteDataType } from './infiniteFunctions';
 
 export const boardFunctions = {
   createBoard: ({
@@ -130,4 +132,9 @@ export const boardFunctions = {
 
   deleteMarker: ({ boardId, id }: { boardId: string; id: string }) =>
     axios.delete(BACKEND_URL + `/boards/${boardId}/markers/${id}`),
+
+  getTicketChatDataById: ({ id, page = 0 }: { id: string; page?: number }) =>
+    axios.get<infiniteDataType<chatMessageType>>(
+      BACKEND_URL + `/ticket/${id}/chat/${page}`,
+    ),
 };

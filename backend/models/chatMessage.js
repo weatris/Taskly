@@ -10,7 +10,7 @@ export default (sequelize) => {
         primaryKey: true,
       },
       content: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
       },
       ticketId: {
         type: DataTypes.STRING,

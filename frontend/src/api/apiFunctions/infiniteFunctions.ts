@@ -5,6 +5,7 @@ import { chatMessageType } from '../../common/typing';
 export type infiniteDataType<itemType> = {
   data: itemType[];
   meta?: {
+    pageSize: number;
     currentPage: number;
     remainingItems: number;
     totalNumber: number;
@@ -13,6 +14,17 @@ export type infiniteDataType<itemType> = {
 };
 
 export const infiniteFunctions = {
-  getTicketChatDataById: ({ id, page = 0 }: { id: string; page?: number }) =>
-    axios.get<chatMessageType>(BACKEND_URL + `/ticket/${id}/chat/${page}`),
+  getChatData: ({
+    ticketId,
+    boardId,
+    page = 0,
+  }: {
+    ticketId: string;
+    boardId: string;
+    page?: number;
+  }) =>
+    axios.post<chatMessageType>(BACKEND_URL + `/chat/${page}`, {
+      ticketId,
+      boardId,
+    }),
 };

@@ -17,6 +17,7 @@ interface BoardState {
   userAccess: userAccessType;
   updateGroupId?: string;
   deleteGroupId?: string;
+  showGroupChat?: boolean;
 }
 
 export const defaultUserPermissions: userAccessType = {
@@ -66,6 +67,9 @@ export const BoardSlice = createSlice({
     },
     setDeleteGroupId: (state, action: PayloadAction<string | undefined>) => {
       state.deleteGroupId = action.payload;
+    },
+    setShowGroupChat: (state, action: PayloadAction<boolean>) => {
+      state.showGroupChat = action.payload;
     },
   },
 });

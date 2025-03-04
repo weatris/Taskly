@@ -41,17 +41,6 @@ export const ticketFunctions = {
       order,
     }),
 
-  createTicketChatMessage: ({
-    id,
-    message,
-    boardId,
-  }: {
-    id: string;
-    message: string;
-    boardId: string;
-  }) =>
-    axios.post<void>(BACKEND_URL + `/ticket/${id}/chat`, { message, boardId }),
-
   changeTicketMarkers: ({ id, newValue }: { id: string; newValue: string[] }) =>
     axios.put<void>(BACKEND_URL + `/common/${id}`, {
       newValue,

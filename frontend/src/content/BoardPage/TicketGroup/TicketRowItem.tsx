@@ -74,7 +74,7 @@ export const TicketRowItem = ({
           </Stack>
         )}
       </Stack>
-      {position !== 'only' && (
+      {position !== 'only' && !!ticket.groupId && (
         <Stack
           className="h-full pr-1"
           direction="col"

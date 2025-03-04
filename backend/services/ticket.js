@@ -112,75 +112,6 @@ export async function changeTicketGroup(req, res) {
   }
 }
 
-export async function getTicketChatDataById(req, res) {
-  try {
-    const { id, page } = req.params;
-    const pageSize = process.env.PAGE_SIZE;
-
-    const limit = parseInt(pageSize, 10);
-    const offset = parseInt(page, 10) * limit;
-
-    const { rows: messages, count: totalMessages } =
-      await ChatMessage.findAndCountAll({
-        where: { ticketId: id },
-        include: [
-          {
-            model: User,
-            as: "user",
-            attributes: ["id", "name"],
-          },
-        ],
-        order: [["createdAt", "DESC"]],
-        limit,
-        offset,
-      });
-
-    const remainingItems = Math.max(
-      totalMessages - (offset + messages.length),
-      0,
-    );
-
-    res.status(200).json({
-      data: messages,
-      meta: {
-        totalNumber: totalMessages,
-        remainingItems,
-        currentPage: parseInt(page, 10),
-        totalPages: Math.ceil(totalMessages / limit),
-      },
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error retrieving ticket chat data" });
-  }
-}
-
-export async function createTicketChatMessage(req, res) {
-  const transaction = await sequelize.transaction();
-  try {
-    const { id } = req.params;
-    const { message, boardId } = req.body;
-
-    await ChatMessage.create(
-      {
-        id: generateId(10),
-        boardId,
-        content: message,
-        ticketId: id,
-        userId: req.user.id,
-      },
-      { transaction },
-    );
-
-    await transaction.commit();
-
-    res.status(200).json({ message: "Success" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error creating ticket chat message" });
-  }
-}
-
 export async function setDates(req, res) {
   const transaction = await sequelize.transaction();
   try {
@@ -207,7 +138,5 @@ export default {
   getTicketById,
   changeTicketOrder,
   changeTicketGroup,
-  getTicketChatDataById,
-  createTicketChatMessage,
   setDates,
 };

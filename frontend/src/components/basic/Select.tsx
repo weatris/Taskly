@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { inputStyle } from '../../common/styles';
-import { Icon } from '../../images/Icon';
-import { ChevronDownIcon, ChevronUpIcon } from '../../images/icons';
 import { Stack } from './Stack/Stack';
 import { useClickAway } from 'react-use';
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import { inputStyle } from '../../common/styles';
+import { Icon } from '../../images/Icon';
 
 export const Select = ({
   options,
   initValue,
   onChange,
+  className,
+  icon = <></>,
 }: {
   options: {
     title: string;
@@ -17,6 +19,8 @@ export const Select = ({
   }[];
   initValue: string;
   onChange: (value: string) => void;
+  className?: string;
+  icon?: React.ReactNode;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -46,15 +50,19 @@ export const Select = ({
         className={classNames(
           inputStyle,
           'w-full h-[50px] bg-white cursor-pointer',
+          className,
         )}
         direction="row"
         justifyContent="between"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <p>
-          {options.find((option) => option.key === selectedValue)?.title ||
-            'Select an option'}
-        </p>
+        <Stack className="w-full" direction="row" alignItems="start">
+          <>{icon}</>
+          <p>
+            {options.find((option) => option.key === selectedValue)?.title ||
+              'Select an option'}
+          </p>
+        </Stack>
         <Icon>
           {isOpen ? (
             <ChevronUpIcon color="gray" />

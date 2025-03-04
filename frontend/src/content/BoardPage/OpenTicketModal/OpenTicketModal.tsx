@@ -10,6 +10,12 @@ import { Title } from './Title';
 import { Chat } from '../../../components/Chat/Chat';
 import { TicketDetails } from './TicketDetails';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
+import { chatMessageType } from '../../../common/typing';
+import { Message } from '../../../components/Chat/Message';
+
+const renderItem = (message: chatMessageType) => {
+  return <Message {...{ message }} />;
+};
 
 export const OpenTicketModal = () => {
   const { id = '', boardName = '', ticketId = '' } = useParams();
@@ -70,11 +76,15 @@ export const OpenTicketModal = () => {
                 />
               </Stack>
               <Stack className="w-full h-full max-h-[50%] border-[1px]">
-                <Chat {...{ ticketId, boardId: id }} />
+                <Chat
+                  {...{ chatId: ticketId, ticketId, boardId: id, renderItem }}
+                />
               </Stack>
             </Stack>
           </Stack>
-          <TicketDetails {...{ data }} />
+          <Stack className="w-[400px] !min-w-[400px] !max-w-[400px] h-full">
+            <TicketDetails {...{ data }} />
+          </Stack>
         </Stack>
       </ProgressPanel>
     </Modal>

@@ -16,9 +16,11 @@ const spacing = {
 export const Avatar = ({
   userData,
   size = 'md',
+  placing = 'left',
 }: {
   userData: userType;
   size?: 'sm' | 'md';
+  placing?: 'left' | 'right';
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -42,7 +44,8 @@ export const Avatar = ({
       {isHovered && (
         <div
           className={classNames(
-            'max-w-[120px] absolute right-0 bg-white text-gray-700 text-sm px-2 py-1 rounded shadow-md',
+            'max-w-[120px] absolute bg-white text-gray-700 text-sm px-2 py-1 rounded shadow-md',
+            placing == 'left' ? 'right-0' : 'left-0',
             spacing[size],
           )}
         >

@@ -13,7 +13,7 @@ export const TicketDetails = ({ data }: { data: ticketType | undefined }) => {
   return (
     <ProgressPanel isLoading={!openTicketData}>
       <Stack
-        className="w-[400px] !min-w-[400px] !max-w-[400px] h-full p-2 gap-4 border-[1px]"
+        className="h-full w-full p-2 gap-4 border-[1px]"
         direction="col"
         alignItems="start"
       >
