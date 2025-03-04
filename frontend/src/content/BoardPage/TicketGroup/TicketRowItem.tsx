@@ -5,16 +5,10 @@ import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { t } from 'i18next';
 import { Icon } from '../../../images/Icon';
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  PlusIcon,
-} from '../../../images/icons';
+import { ChevronDownIcon, ChevronUpIcon } from '../../../images/icons';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
-import { MarkerBadge } from '../../../components/Markers/MarkerBadge';
 import { ticketType } from '../../../common/typing';
 import { MembersDisplay } from '../../../components/MembersDisplay';
-import { markerDisplayLimit } from '../../../common/constants';
 import { MarkerDisplay } from '../../../components/MarkerDisplay';
 
 export const TicketRowItem = ({

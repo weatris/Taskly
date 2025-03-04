@@ -4,16 +4,27 @@ import { Stack } from '../basic/Stack/Stack';
 import { chatMessageType } from '../../common/typing';
 import { Avatar } from '../basic/Avatar';
 import { Spinner } from '../basic/Spinner';
+import { useNavigate } from 'react-router-dom';
 
 export const DetailedMessage = ({ message }: { message: chatMessageType }) => {
-  const { state } = useStateProvider();
+  const navigate = useNavigate();
+  const { state, actions } = useStateProvider();
   const { id } = state.auth;
+  const { setShowGroupChat } = actions;
+  const { boardData } = state.board;
+
   const tickets = state.board.boardData?.tickets || [];
-  const parentTicket = tickets.find(
-    (item) => item.id == message.ticketId,
-  )?.name;
+  const parentTicket = tickets.find((item) => item.id == message.ticketId);
 
   const isOwnMessage = id == message.user.id;
+
+  const onClick = () => {
+    if (parentTicket && boardData) {
+      const { id: boardId, name } = boardData;
+      navigate(`/boards/${boardId}/${name}/tickets/${parentTicket.id}`);
+      setShowGroupChat(false);
+    }
+  };
 
   return (
     <Stack className="px-3 py-4">
@@ -27,8 +38,11 @@ export const DetailedMessage = ({ message }: { message: chatMessageType }) => {
         {message.isLoading && <Spinner size="md" />}
         <Stack direction="col">
           {!!parentTicket && (
-            <p className="w-full bg-gray-300 rounded-t-lg px-3">
-              {parentTicket}
+            <p
+              className="w-full bg-gray-300 rounded-t-lg px-3 cursor-pointer"
+              onClick={onClick}
+            >
+              {parentTicket.name}
             </p>
           )}
           <Stack
