@@ -13,7 +13,8 @@ export const TicketMember = () => {
   const invalidateQuery = useInvalidateQuery();
   const { state } = useStateProvider();
   const { id } = state.auth;
-  const { boardData, openTicketData } = state.board;
+  const { boardData } = state.board;
+  const { openTicketData } = state.ticket;
 
   const { mutate } = useApiMutation('manageTicketMembers', {
     onSuccess: () => {

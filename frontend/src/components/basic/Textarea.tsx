@@ -17,7 +17,7 @@ export const Textarea = ({
   return (
     <textarea
       className={classNames(
-        'w-full h-[120px] resize-none rounded-lg focus:outline-none p-2 border',
+        'w-full h-[120px] resize-none rounded-lg focus:outline-none p-2 border border-gray-200',
         className,
       )}
       disabled={disabled}

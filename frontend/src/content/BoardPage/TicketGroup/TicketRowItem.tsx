@@ -10,6 +10,7 @@ import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { ticketType } from '../../../common/typing';
 import { MembersDisplay } from '../../../components/MembersDisplay';
 import { MarkerDisplay } from '../../../components/MarkerDisplay';
+import { formatDate } from '../../../utils/formatDate';
 
 export const TicketRowItem = ({
   ticket,
@@ -32,7 +33,7 @@ export const TicketRowItem = ({
     },
     onError: () => {
       addNotification({
-        title: t('Order.cantChangeOrder'),
+        title: t('errors.cantChangeOrder'),
         tp: 'alert',
       });
     },
@@ -62,6 +63,16 @@ export const TicketRowItem = ({
           </Stack>
         )}
         <p className="leading-[40px] px-2">{ticket.name}</p>
+        {!!(ticket.startDate || ticket.endDate) && (
+          <Stack
+            className="w-full px-2 gap-1 text-sm mr-auto"
+            direction="row-reverse"
+          >
+            <p className="mr-auto">
+              {formatDate(ticket.startDate)} - {formatDate(ticket.endDate)}
+            </p>
+          </Stack>
+        )}
         {!!membersToDisplay.length && (
           <Stack className="w-full p-1 gap-1" direction="row-reverse">
             <MembersDisplay {...{ membersToDisplay, size: 'sm' }} />

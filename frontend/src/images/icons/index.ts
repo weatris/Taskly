@@ -17,4 +17,8 @@ export {
   TrashIcon,
   CheckIcon,
   PlusIcon,
+  Cog8ToothIcon,
+  ShareIcon,
+  ChatBubbleLeftIcon,
+  AdjustmentsHorizontalIcon,
 } from '@heroicons/react/24/solid';

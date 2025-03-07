@@ -21,7 +21,7 @@ export const MarkerDisplay = ({
       {markersToDisplay.map((item) => (
         <MarkerBadge key={item.id} {...{ item, displayType: size }} />
       ))}
-      {ticketMarkers.length > markerDisplayLimit && size === 'default' && (
+      {ticketMarkers.length > markerDisplayLimit && size === 'small' && (
         <Icon size="sm" hoverable={false}>
           <PlusIcon color="gray" />
         </Icon>

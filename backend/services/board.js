@@ -148,6 +148,8 @@ export async function getBoardById(req, res) {
             "createdAt",
             "updatedAt",
             "markers",
+            "endDate",
+            "startDate",
           ],
         },
       ],

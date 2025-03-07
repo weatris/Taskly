@@ -5,6 +5,7 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { AuthSlice } from './auth/auth';
 import { NotificationSlice } from './notification/notification';
 import { BoardSlice } from './board';
+import { TicketSlice } from './ticket';
 
 export const useStateProvider = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ export const useStateProvider = () => {
       auth: useSelector((state: RootState) => state.auth),
       notification: useSelector((state: RootState) => state.notification),
       board: useSelector((state: RootState) => state.board),
+      ticket: useSelector((state: RootState) => state.ticket),
     },
     actions: bindActionCreators(
       {
@@ -21,6 +23,7 @@ export const useStateProvider = () => {
         ...AuthSlice.actions,
         ...NotificationSlice.actions,
         ...BoardSlice.actions,
+        ...TicketSlice.actions,
       },
       dispatch,
     ),

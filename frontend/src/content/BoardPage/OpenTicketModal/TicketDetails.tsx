@@ -9,7 +9,7 @@ import { defaultTextStyle } from '../../../common/styles';
 import { TicketMember } from './TicketMember';
 
 export const TicketDetails = ({ data }: { data: ticketType | undefined }) => {
-  const { openTicketData } = useStateProvider().state.board;
+  const { openTicketData } = useStateProvider().state.ticket;
   return (
     <ProgressPanel isLoading={!openTicketData}>
       <Stack

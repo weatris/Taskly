@@ -12,7 +12,9 @@ import { dateType } from '../../../common/typing';
 import { permissionControl } from '../../../utils/permissionControl';
 
 export const TicketDates = () => {
-  const { openTicketData, userAccess } = useStateProvider().state.board;
+  const { state } = useStateProvider();
+  const { userAccess } = state.board;
+  const { openTicketData } = state.ticket;
   const [startDate, setStartDate] = useState<dateType>(
     openTicketData?.startDate,
   );

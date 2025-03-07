@@ -1,5 +1,6 @@
 import { GlobalChatModal } from '../content/BoardPage/GlobalChatModal';
 import { ShareBoardModal } from '../content/BoardPage/ShareBoardModal';
+import { TicketFilterModal } from '../content/BoardPage/TicketFilterModal/TicketFilterModal';
 import { DeleteGroupModal } from '../content/BoardPage/TicketGroup/DeleteGroupModal';
 import { UpdateGroupModal } from '../content/BoardPage/TicketGroup/UpdateGroupModal';
 import { ExcludeMemberModal } from '../content/BoardSettings/Members/ExcludeMemberModal';
@@ -16,6 +17,7 @@ export const ModalProvider = () => {
     updateGroupId,
     showGroupChat,
   } = state.board;
+  const { showTicketFilters } = state.ticket;
 
   return (
     <>
@@ -25,6 +27,7 @@ export const ModalProvider = () => {
       {!!deleteGroupId && <DeleteGroupModal />}
       {!!updateGroupId && <UpdateGroupModal />}
       {!!showGroupChat && <GlobalChatModal />}
+      {!!showTicketFilters && <TicketFilterModal />}
     </>
   );
 };

@@ -3,6 +3,7 @@ import configReducer from './config';
 import authReducer from './auth/auth';
 import notificationReducer from './notification/notification';
 import boardReducer from './board';
+import ticketReducer from './ticket';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: authReducer,
     notification: notificationReducer,
     board: boardReducer,
+    ticket: ticketReducer,
   },
 });
 

@@ -22,8 +22,10 @@ export const TicketMarkers = () => {
   const [isOpen, setIsOpen] = useState(false);
   const invalidateQuery = useInvalidateQuery();
   const { addNotification } = useNotification();
-  const { markers, openTicketData, userAccess } =
-    useStateProvider().state.board;
+  const { state } = useStateProvider();
+  const { markers, userAccess } = state.board;
+  const { openTicketData } = state.ticket;
+
   const ticketMarkers = openTicketData?.markers || [];
   const [selectedMarkers, setSelectedMarkers] =
     useState<string[]>(ticketMarkers);
@@ -104,7 +106,7 @@ export const TicketMarkers = () => {
             permissionControl({ userAccess, key: 'editTicket' }) && (
               <Icon
                 size="md"
-                className="ml-auto"
+                className="ml-auto mt-1 mb-auto"
                 onClick={() => {
                   setIsOpen((prev) => !prev);
                 }}
@@ -119,7 +121,7 @@ export const TicketMarkers = () => {
           {isChanged && (
             <Button
               {...{
-                className: 'py-1',
+                className: 'py-1 mt-1 mb-auto',
                 text: t('common.save'),
                 size: 'sm',
                 onClick: onSubmit,
@@ -130,19 +132,23 @@ export const TicketMarkers = () => {
       </Stack>
       {isOpen && (
         <Stack
-          className="w-full h-[140px] absolute top-[60px] z-[2] right-0 left-0 overflow-y-scroll p-2 gap-1 bg-white shadow-md border"
+          className="w-full h-[140px] absolute top-[60px] z-[2] right-0 left-0 overflow-y-auto p-2 gap-1 bg-white shadow-md border"
           direction="col"
           alignItems="end"
         >
           {markers.map((item) => (
-            <Stack key={item.id} className="w-full gap-2">
+            <Stack
+              key={item.id}
+              className="w-full gap-2 cursor-pointer hover:bg-gray-50"
+              onClick={() => {
+                handleSelect(item.id);
+              }}
+            >
               <MarkerListItem {...{ item, childrenFirst: true }}>
                 <Checkbox
                   {...{
                     value: ticketMarkers.includes(item.id),
-                    onClick: () => {
-                      handleSelect(item.id);
-                    },
+                    onClick: () => {},
                   }}
                 />
               </MarkerListItem>

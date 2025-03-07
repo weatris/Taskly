@@ -8,9 +8,9 @@ import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { TicketGroup } from './TicketGroup/TicketGroup';
 import { OpenTicketModal } from './OpenTicketModal/OpenTicketModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
-import { ticketType } from '../../common/typing';
+import { boardType, ticketType } from '../../common/typing';
 import { permissionControl } from '../../utils/permissionControl';
 import { Header } from './Header';
 
@@ -27,27 +27,57 @@ export const Board = () => {
   const { state, actions } = useStateProvider();
   const { id: userId } = state.auth;
   const { userAccess } = state.board;
+  const { filterMarkers, filterMembers } = state.ticket;
   const { setMarkers, setBoardData, setUserAccess } = actions;
+
+  const filterTickets = (dataData: boardType) => {
+    const extraGroups = dataData.tickets.filter((item) => !item.groupId).length
+      ? [{ id: '', name: t('Groups.ungrouped') }]
+      : [];
+
+    type FilterKey = 'assignedTo' | 'markers';
+    const filterParams: { value: string[]; key: FilterKey }[] = [
+      { value: filterMembers || [], key: 'assignedTo' },
+      { value: filterMarkers || [], key: 'markers' },
+    ];
+
+    const filteredTickets = filterParams.every(
+      (filterItem) => !filterItem.value.length,
+    )
+      ? dataData.tickets
+      : dataData.tickets?.filter((item) =>
+          filterParams.some((filterItem) => {
+            const itemValue = item[filterItem.key] || [];
+
+            if (
+              filterItem.value.length &&
+              filterItem.value.some((id) => !id) &&
+              !itemValue.length
+            ) {
+              return true;
+            }
+
+            return itemValue.some((id) => filterItem.value.includes(id));
+          }),
+        );
+
+    const tickets = [...extraGroups, ...(data?.groups || [])].map((group) => ({
+      groupId: group.id,
+      groupName: group.name,
+      tickets: filteredTickets
+        .filter((ticket) => ticket.groupId === group.id)
+        .sort((a, b) => a.order - b.order),
+    }));
+
+    setTicketData(tickets);
+  };
 
   const { data, isLoading, isError, refetch } = useApiQuery(
     'getBoardById',
     [{ id }],
     {
       onSuccess: (data) => {
-        const extraGroups = data.tickets.filter((item) => !item.groupId).length
-          ? [{ id: '', name: t('Groups.ungrouped') }]
-          : [];
-        const tickets = [...extraGroups, ...(data?.groups || [])].map(
-          (group) => ({
-            groupId: group.id,
-            groupName: group.name,
-            tickets: (
-              data?.tickets.filter((ticket) => ticket.groupId === group.id) ||
-              []
-            ).sort((a, b) => a.order - b.order),
-          }),
-        );
-        setTicketData(tickets);
+        filterTickets(data);
         setBoardData(data);
 
         const role =
@@ -91,6 +121,10 @@ export const Board = () => {
       });
     }
   };
+
+  useEffect(() => {
+    data && filterTickets(data);
+  }, [data?.tickets, filterMarkers?.length, filterMembers?.length]);
 
   return (
     <ProgressPanel {...{ isLoading, isError }}>

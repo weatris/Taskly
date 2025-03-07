@@ -76,7 +76,7 @@ export const Select = ({
           {options.map((option) => (
             <div
               key={option.key}
-              className="p-2 hover:bg-green-500 cursor-pointer"
+              className="p-2 hover:bg-green-700 hover:text-white cursor-pointer"
               onClick={() => handleOptionClick(option.key)}
             >
               {option.title}

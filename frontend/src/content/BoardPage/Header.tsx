@@ -4,6 +4,8 @@ import { ShareBoardButton } from '../../components/ShareBoardButton';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/basic/Button';
+import { Cog8ToothIcon, ChatBubbleLeftIcon } from '../../images/icons';
+import { TicketFilterButton } from './TicketFilterModal/TicketFilterButton';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -17,11 +19,14 @@ export const Header = () => {
       justifyContent="between"
     >
       <p>{data?.name}</p>
+
       <Stack className="gap-2" direction="row">
+        <TicketFilterButton />
         <Button
           {...{
             text: t('Board.globalChat'),
             variant: 'primary',
+            icon: <ChatBubbleLeftIcon />,
             onClick: () => {
               setShowGroupChat(true);
             },
@@ -31,6 +36,7 @@ export const Header = () => {
           {...{
             text: t('Board.settings.title'),
             variant: 'primary',
+            icon: <Cog8ToothIcon />,
             onClick: () => {
               navigate('settings');
             },

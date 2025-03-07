@@ -1,4 +1,7 @@
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
+import { Icon } from '../../images/Icon';
+import { cloneElement, ReactElement } from 'react';
 
 export const Button = ({
   text,
@@ -7,6 +10,7 @@ export const Button = ({
   className,
   size = 'md',
   disabled = false,
+  icon,
 }: {
   text: string | React.ReactNode;
   onClick?: (e: any) => void;
@@ -14,6 +18,7 @@ export const Button = ({
   className?: string;
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
+  icon?: ReactElement;
 }) => {
   const sizes = {
     sm: 'h-[32px]',
@@ -22,7 +27,7 @@ export const Button = ({
   };
 
   const classes = classNames(
-    'px-3 rounded-lg shadow-sm border',
+    'flex flex-row gap-2 items-center px-3 rounded-lg shadow-sm border',
     sizes[size],
     variant == 'default' && 'bg-green-700 hover:bg-green-800 text-white',
     variant == 'primary' && 'hover:bg-gray-50 text-gray-700',
@@ -32,7 +37,14 @@ export const Button = ({
   );
   return (
     <button className={classes} onClick={onClick} disabled={disabled}>
-      {text}
+      {!!icon && (
+        <Icon className="pl-0" size="md" hoverable={false}>
+          {cloneElement(icon, {
+            color: variant == 'default' ? 'white' : 'gray',
+          })}
+        </Icon>
+      )}
+      <p className="w-full">{text}</p>
     </button>
   );
 };

@@ -17,7 +17,8 @@ export const ManageMembersModal = ({
   editTicketMembers: (newValue: string[]) => void;
 }) => {
   const { state } = useStateProvider();
-  const { boardData, openTicketData } = state.board;
+  const { boardData } = state.board;
+  const { openTicketData } = state.ticket;
   const [selectedMembers, setSelectedMembers] = useState(
     openTicketData?.assignedTo || [],
   );

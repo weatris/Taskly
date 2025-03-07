@@ -10,7 +10,6 @@ interface BoardState {
   boardData?: boardType;
   showCreateBoardModal: boolean;
   markers: markerType[];
-  openTicketData?: ticketType;
   shareBoardId: string;
   userToExclude?: string;
   openMemberInfo?: string;
@@ -18,6 +17,7 @@ interface BoardState {
   updateGroupId?: string;
   deleteGroupId?: string;
   showGroupChat?: boolean;
+  showTicketFilters?: boolean;
 }
 
 export const defaultUserPermissions: userAccessType = {
@@ -44,12 +44,6 @@ export const BoardSlice = createSlice({
     setMarkers: (state, action: PayloadAction<markerType[]>) => {
       state.markers = action.payload;
     },
-    setOpenTicketData: (
-      state,
-      action: PayloadAction<ticketType | undefined>,
-    ) => {
-      state.openTicketData = action.payload;
-    },
     setShareBoardId: (state, action: PayloadAction<string>) => {
       state.shareBoardId = action.payload;
     },
@@ -70,6 +64,9 @@ export const BoardSlice = createSlice({
     },
     setShowGroupChat: (state, action: PayloadAction<boolean>) => {
       state.showGroupChat = action.payload;
+    },
+    setShowTicketFilters: (state, action: PayloadAction<boolean>) => {
+      state.showTicketFilters = action.payload;
     },
   },
 });

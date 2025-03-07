@@ -65,6 +65,7 @@
       "cantLoad": "Can`t load board",
       "createTicket": "Create ticket",
       "share": "Share board",
+      "filter": "Filter tickets",
       "globalChat": "Global Chat",
       "createLink": "Create Link",
       "copyLink": "Copy Link",
@@ -123,8 +124,7 @@
         "cantCreate": "Can`t create ticket",
         "cantUpdate": "Can`t update ticket",
         "cantChangeOrder": "Can`t change order",
-        "cantLoadError": "Can`t load ticket data",
-        "cantLoadChatError": "Can`t load ticket chat data"
+        "cantLoadError": "Can`t load ticket data"
       },
       "startDate": "Start Date",
       "endDate": "End Date",
@@ -132,6 +132,9 @@
       "joinTicket": "Join ticket",
       "leaveTicket": "Leave ticket",
       "membersMore": "+ {{amount}} more"
+    },
+    "chat": {
+      "cantLoadError": "Can`t load chat data"
     },
     "common": {
       "submit": "Submit",
@@ -143,6 +146,15 @@
       "refresh": "Refresh",
       "nothingFound": "Nothing found, please change filters",
       "ButtonInputForm": "Enter name"
+    },
+    "filter": {
+      "title": "Ticket filters",
+      "selectMembers": "Select members",
+      "selectMarkers": "Select markers",
+      "withoutMarker": "No marker",
+      "withoutMember": "No member",
+      "fitAll": "Fit All",
+      "fitAny": "Fit Any"
     },
     "permissionLevels": {
       "admin": "Admin",
