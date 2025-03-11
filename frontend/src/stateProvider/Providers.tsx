@@ -7,6 +7,7 @@ import { RequestInterceptor } from './RequestInterceptor';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { ModalProvider } from './ModalProvider';
+import './../i18n.ts';
 
 const queryClient = new QueryClient();
 

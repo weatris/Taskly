@@ -13,7 +13,7 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const { mutate } = useApiMutation('login', {
+  const { mutate, isLoading } = useApiMutation('login', {
     onSuccess: (data) => {
       localStorage.setItem('authData', JSON.stringify(data));
       window.location.reload();
@@ -77,6 +77,7 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
           />
           <Button
             className="w-full"
+            isLoading={isLoading}
             text={t('common.submit')}
             onClick={onSubmit}
           />

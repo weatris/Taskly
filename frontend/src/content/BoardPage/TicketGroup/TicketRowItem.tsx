@@ -52,6 +52,7 @@ export const TicketRowItem = ({
         navigate(`tickets/${ticket.id}`);
       }}
     >
+      {ticket.order}
       <Stack className="w-full" direction="col" alignItems="start">
         {!!ticketMarkers.length && (
           <Stack

@@ -39,7 +39,8 @@ export const Dropdown = ({
                 key={idx}
                 onClick={item.onClick}
                 className={classNames(
-                  'h-[40px] pl-2 cursor-pointer hover:bg-gray-50',
+                  'h-[40px] pl-2',
+                  !!item.onClick && 'cursor-pointer hover:bg-gray-50',
                   idx !== items.length - 1 && 'border-b',
                 )}
               >

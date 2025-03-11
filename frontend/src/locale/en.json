@@ -8,13 +8,16 @@
       "Calendar": "Calendar"
     },
     "manageUser": {
-      "LogOut": "Log Out"
+      "title": "Manage User",
+      "LogOut": "Log Out",
+      "deleteUser": "Delete user",
+      "deleteUserConfirm": "Are you sure you want to delete user? You can restore it later."
     },
     "Login": {
       "header": "Login",
       "email": "Email",
       "password": "Password",
-      "noAccount": "No account? Create one",
+      "noAccount": "No account? Make one",
       "forgotPassword": "Forgot password?"
     },
     "Register": {
@@ -23,11 +26,16 @@
       "name": "Name",
       "password": "Password",
       "confirmPassword": "Confirm Password",
-      "haveAccount": "Use existing account"
+      "haveAccount": "Use existing account",
+      "restoreAccount": "Restore deleted account"
     },
     "RecoverPassword": {
       "header": "Recover password",
-      "checkEmail": "Check your email"
+      "returnToLogin": "Return to login"
+    },
+    "RestoreAccount": {
+      "header": "Restore account",
+      "returnToLogin": "Return to login"
     },
     "Errors": {
       "default": "Something went wrong",
@@ -145,7 +153,8 @@
       "cancel": "Cancel",
       "refresh": "Refresh",
       "nothingFound": "Nothing found, please change filters",
-      "ButtonInputForm": "Enter name"
+      "ButtonInputForm": "Enter name",
+      "checkEmail": "Check your email"
     },
     "filter": {
       "title": "Ticket filters",

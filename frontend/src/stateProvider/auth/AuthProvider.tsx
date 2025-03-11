@@ -7,6 +7,7 @@ import { useEffectOnce } from 'react-use';
 import { Routes, Route } from 'react-router-dom';
 import { ChangePassword } from '../../content/UserControl/ChangePassword';
 import { RecoverPassword } from '../../content/UserControl/RecoverPassword';
+import { RestoreAccount } from '../../content/UserControl/RestoreAccount';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { state, actions } = useStateProvider();
@@ -111,6 +112,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         <Route path="*" element={<UserControl />} />
         <Route path="/recover" element={<RecoverPassword />} />
         <Route path="/recover/:id" element={<ChangePassword />} />
+        <Route path="/restore_account" element={<RestoreAccount />} />
+        <Route path="/restore_account/:id" element={<RestoreAccount />} />
       </Routes>
     );
   }

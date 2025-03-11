@@ -18,9 +18,8 @@ export const ChangePassword = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
-  const { mutate: validateRecoverPasswordFormMutate } = useApiMutation(
-    'validateRecoverPasswordForm',
-    {
+  const { mutate: validateRecoverPasswordFormMutate, isLoading } =
+    useApiMutation('validateRecoverPasswordForm', {
       onSuccess: (data) => {
         setIsValidated(true);
         setEmail(data);
@@ -28,8 +27,7 @@ export const ChangePassword = () => {
       onError: () => {
         addNotification({ title: t('Errors.default') });
       },
-    },
-  );
+    });
 
   const { mutate: changePasswordMutate } = useApiMutation('changePassword', {
     onSuccess: () => {
@@ -87,7 +85,7 @@ export const ChangePassword = () => {
   };
 
   return (
-    <ProgressPanel {...{ isLoading: !isValidated }}>
+    <ProgressPanel {...{ isLoading: !isValidated || isLoading }}>
       <Stack className="w-full h-full bg-blue-50" justifyContent="center">
         <Stack
           className="w-[400px] overflow-hidden bg-white border rounded-lg shadow-md"

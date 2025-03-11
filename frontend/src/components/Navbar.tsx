@@ -11,9 +11,15 @@ import { Avatar } from './basic/Avatar';
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { state, actions } = useStateProvider();
+  const { state } = useStateProvider();
 
   const items: dropdownItemType[] = [
+    {
+      content: <p>{t('manageUser.title')}</p>,
+      onClick: () => {
+        navigate('/user');
+      },
+    },
     {
       content: <p className="text-red-500">{t('manageUser.LogOut')}</p>,
       onClick: () => {
@@ -51,7 +57,7 @@ export const Navbar = () => {
       </Stack>
 
       <Dropdown
-        label={<Avatar {...{ userData: state.auth }} />}
+        label={<Avatar {...{ userData: state.auth, canHover: false }} />}
         items={items}
       />
     </Stack>

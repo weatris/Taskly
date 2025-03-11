@@ -6,16 +6,20 @@ import { useRef } from 'react';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { inputStyle } from '../../common/styles';
+import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
   const { addNotification } = useNotification();
+  const navigate = useNavigate();
+
   const { setAuthData } = useStateProvider().actions;
   const emailRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
-  const { mutate } = useApiMutation('createUser', {
+  const { mutate, isLoading } = useApiMutation('createUser', {
     onSuccess: (data) => {
       setAuthData(data);
     },
@@ -76,46 +80,60 @@ export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
 
   return (
     <Stack className="w-full h-full bg-blue-50" justifyContent="center">
-      <Stack
-        className="w-[400px] overflow-hidden bg-white border rounded-lg shadow-md"
-        direction="col"
-      >
-        <p className="w-full py-2 bg-gray-50 text-xl text-center border-b">
-          {t('Register.header')}
-        </p>
-        <Stack className="w-full p-4 gap-4" direction="col">
-          <input
-            ref={emailRef}
-            placeholder={t('Register.email')}
-            className={inputStyle}
-          />
-          <input
-            ref={nameRef}
-            placeholder={t('Register.name')}
-            className={inputStyle}
-          />
-          <input
-            type="password"
-            ref={passwordRef}
-            placeholder={t('Register.password')}
-            className={inputStyle}
-          />
-          <input
-            type="password"
-            ref={confirmPasswordRef}
-            placeholder={t('Register.confirmPassword')}
-            className={inputStyle}
-          />
-          <Button
-            className="w-full"
-            text={t('common.submit')}
-            onClick={onSubmit}
-          />
-          <button className="text-blue-500 ml-auto" onClick={toggleMode}>
-            {t('Register.haveAccount')}
-          </button>
+      <ProgressPanel {...{ isLoading }}>
+        <Stack
+          className="w-[400px] overflow-hidden bg-white border rounded-lg shadow-md"
+          direction="col"
+        >
+          <p className="w-full py-2 bg-gray-50 text-xl text-center border-b">
+            {t('Register.header')}
+          </p>
+          <Stack className="w-full p-4 gap-4" direction="col">
+            <input
+              ref={emailRef}
+              placeholder={t('Register.email')}
+              className={inputStyle}
+            />
+            <input
+              ref={nameRef}
+              placeholder={t('Register.name')}
+              className={inputStyle}
+            />
+            <input
+              type="password"
+              ref={passwordRef}
+              placeholder={t('Register.password')}
+              className={inputStyle}
+            />
+            <input
+              type="password"
+              ref={confirmPasswordRef}
+              placeholder={t('Register.confirmPassword')}
+              className={inputStyle}
+            />
+            <Button
+              className="w-full"
+              text={t('common.submit')}
+              onClick={onSubmit}
+            />
+            <Stack
+              className="w-full gap-2 [&>button]:text-blue-500"
+              direction="row"
+              justifyContent="between"
+            >
+              <button
+                onClick={() => {
+                  navigate('/restore_account');
+                }}
+              >
+                {t('Register.restoreAccount')}
+              </button>
+              <div className="w-[1px] h-[15px] bg-gray-300" />
+              <button onClick={toggleMode}>{t('Register.haveAccount')}</button>
+            </Stack>
+          </Stack>
         </Stack>
-      </Stack>
+      </ProgressPanel>
     </Stack>
   );
 };

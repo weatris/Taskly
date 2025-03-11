@@ -11,8 +11,13 @@ export const userFunctions = {
     params: { name: string; email: string; password: string };
   }) => axios.post<LoginResponse>(BACKEND_URL + '/users', params),
 
+  updateUser: ({ params }: { params: { name: string } }) =>
+    axios.put<void>(BACKEND_URL + '/users', params),
+
   login: ({ params }: { params: { email: string; password: string } }) =>
     axios.post<LoginResponse>(BACKEND_URL + '/users/login', params),
+
+  deleteUser: () => axios.delete<void>(BACKEND_URL + '/users'),
 
   refreshToken: () => axios.get<LoginResponse>(BACKEND_URL + '/users/refresh'),
 
@@ -27,4 +32,10 @@ export const userFunctions = {
 
   changePassword: ({ email, password }: { email: string; password: string }) =>
     axios.post(BACKEND_URL + '/users/change_password', { email, password }),
+
+  sendRestoreAccountForm: ({ email }: { email: string }) =>
+    axios.post(BACKEND_URL + '/users/restore_account', { email }),
+
+  validateRestoreAccountForm: ({ id }: { id: string }) =>
+    axios.post(BACKEND_URL + '/users/restore_account/validate', { id }),
 };

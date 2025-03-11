@@ -57,32 +57,56 @@ async function getUserById(req, res) {
 }
 
 async function updateUser(req, res) {
+  const transaction = await sequelize.transaction();
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) {
-      res.status(404).json({ message: "User not found" });
-    } else {
-      await user.update(req.body);
-      res.json(user);
+    const { decoded, token } = decodeToken(req);
+
+    if (!token) {
+      await transaction.rollback();
+      return res.status(401).json({ message: "Unauthorized" });
     }
+
+    const user = await User.findByPk(decoded.userId, { transaction });
+    if (!user) {
+      await transaction.rollback();
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await user.update(req.body, { transaction });
+    await transaction.commit();
+    res.json(user);
   } catch (err) {
+    await transaction.rollback();
     console.error(err);
-    res.status(500).json({ message: "Error updating user" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 }
 
 async function deleteUser(req, res) {
+  const transaction = await sequelize.transaction();
   try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) {
-      res.status(404).json({ message: "User not found" });
-    } else {
-      await user.destroy();
-      res.json({ message: "User deleted" });
+    const { decoded, token } = decodeToken(req);
+
+    if (!token) {
+      await transaction.rollback();
+      return res.status(401).json({ message: "Unauthorized" });
     }
+
+    const user = await User.findByPk(decoded.userId, { transaction });
+
+    if (!user) {
+      await transaction.rollback();
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.isDeleted = true;
+    await user.save({ transaction });
+    await transaction.commit();
+    return res.json({ message: "Success" });
   } catch (err) {
+    await transaction.rollback();
     console.error(err);
-    res.status(500).json({ message: "Error deleting user" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 }
 
@@ -90,26 +114,30 @@ async function login(req, res) {
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) {
-      res.status(400).json({ message: "Invalid email or password" });
-    } else {
-      const isValid = await user.comparePassword(req.body.password);
-      if (!isValid) {
-        res.status(400).json({ message: "Invalid email or password" });
-      } else {
-        const { token, expirationDate } = generateToken(
-          user.id,
-          process.env.AUTH_TOKEN_LIFE_TIME,
-        );
-
-        res.json({
-          token,
-          expirationDate,
-          email: user.email,
-          name: user.name,
-          id: user.id,
-        });
-      }
+      return res.status(400).json({ message: "Something went wrong" });
     }
+
+    if (user.isDeleted) {
+      return res.status(400).json({ message: "Something went wrong" });
+    }
+
+    const isValid = await user.comparePassword(req.body.password);
+    if (!isValid) {
+      return res.status(400).json({ message: "Something went wrong" });
+    }
+
+    const { token, expirationDate } = generateToken(
+      user.id,
+      process.env.AUTH_TOKEN_LIFE_TIME,
+    );
+
+    res.json({
+      token,
+      expirationDate,
+      email: user.email,
+      name: user.name,
+      id: user.id,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error logging in" });
@@ -143,7 +171,11 @@ async function validateToken(req, res) {
       ignoreExpiration: true,
     });
 
-    await User.findByPk(decoded.userId);
+    const user = await User.findByPk(decoded.userId);
+    if (user.isDeleted) {
+      return res.status(400).json({ message: "Something went wrong" });
+    }
+
     return res.status(200).json({});
   } catch (err) {
     console.error(err);
@@ -257,7 +289,7 @@ async function validateRecoverPasswordForm(req, res) {
       return res.status(400).json({ message: "Invalid code" });
     }
 
-    // await token.destroy();
+    await token.destroy();
     await transaction.commit();
     return res.status(200).json(token.key);
   } catch (err) {
@@ -290,6 +322,90 @@ async function changePassword(req, res) {
   }
 }
 
+async function sendRestoreAccountForm(req, res) {
+  const transaction = await sequelize.transaction();
+
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+    if (!user) {
+      await transaction.rollback();
+      return res.status(200).json({ message: "Code sent" });
+    }
+
+    const token = await Token.findOne({
+      where: { key: req.body.email, type: tokenTypes.restoreAccount },
+    });
+    if (token) {
+      await token.destroy();
+    }
+
+    const id = generateId(10);
+
+    await Token.create(
+      {
+        value: id,
+        type: tokenTypes.restoreAccount,
+        key: req.body.email,
+      },
+      { transaction },
+    );
+
+    const info = await transporter.sendMail({
+      from: "Test message",
+      to: process.env.MAIL_USER,
+      // to: req.body.email,
+      subject: "Restore Account code",
+      text: `Go to this link to restore your account: ${process.env.FRONTEND_URL}/restore_account/${id}`,
+      html: `<p>Go to this link to restore your account:</p>
+            <a href="${process.env.FRONTEND_URL}/restore_account/${id}" target="_blank">Restore Your Account</a>`,
+    });
+
+    await transaction.commit();
+
+    return res.status(200).json({ message: "Code sent", info });
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error" });
+  }
+}
+
+async function validateRestoreAccountForm(req, res) {
+  const transaction = await sequelize.transaction();
+
+  try {
+    const token = await Token.findOne({
+      where: { value: req.body.id, type: tokenTypes.restoreAccount },
+    });
+    const lifetime = new Date(
+      Date.now() - (process.env.TOKEN_LIFE_TIME || 15) * 60 * 1000,
+    );
+
+    if (!token) {
+      return res.status(400).json({ message: "Invalid code" });
+    }
+
+    if (token.createdAt <= lifetime) {
+      await token.destroy({ transaction });
+      await transaction.commit();
+      return res.status(400).json({ message: "Invalid code" });
+    }
+
+    await token.destroy({ transaction });
+    const user = await User.findOne({ where: { email: token.key } });
+
+    user.isDeleted = false;
+    await user.save({ transaction });
+    await transaction.commit();
+
+    return res.status(200).json(token.key);
+  } catch (err) {
+    await transaction.rollback();
+    console.error(err);
+    res.status(500).json({ message: "Error" });
+  }
+}
+
 export default {
   createUser,
   getUserById,
@@ -302,4 +418,6 @@ export default {
   sendRecoverPasswordForm,
   validateRecoverPasswordForm,
   changePassword,
+  sendRestoreAccountForm,
+  validateRestoreAccountForm,
 };

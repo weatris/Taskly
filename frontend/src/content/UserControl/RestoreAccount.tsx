@@ -1,49 +1,80 @@
 import { t } from 'i18next';
 import { Stack } from '../../components/basic/Stack/Stack';
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { inputStyle } from '../../common/styles';
 import { Button } from '../../components/basic/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 
-export const RecoverPassword = () => {
+export const RestoreAccount = () => {
+  const { id = '' } = useParams();
   const { addNotification } = useNotification();
-  const emailRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const { mutate, isLoading } = useApiMutation('sendRecoverPasswordForm', {
+  const { mutate, isLoading: isLoadingSendRestoreAccountForm } = useApiMutation(
+    'sendRestoreAccountForm',
+    {
+      onSuccess: () => {
+        addNotification({ title: t('common.checkEmail') });
+        navigate('/');
+      },
+      onError: () => {
+        addNotification({ title: t('Errors.invalidData') });
+      },
+    },
+  );
+
+  const {
+    mutate: validateRestoreAccountForm,
+    isLoading: isLoadingValidateRestoreAccountForm,
+  } = useApiMutation('validateRestoreAccountForm', {
     onSuccess: () => {
-      addNotification({ title: t('checkEmail') });
+      addNotification({ title: t('common.checkEmail') });
+      navigate('/');
     },
     onError: () => {
       addNotification({ title: t('Errors.invalidData') });
+      navigate('/restore_account');
     },
   });
 
   const sendEmail = () => {
-    if (!emailRef.current?.value) {
+    if (!email) {
       addNotification({ title: t('Errors.invalidEmail') });
       return;
     }
-    mutate({ email: emailRef.current?.value });
+    mutate({ email });
   };
+
+  useEffect(() => {
+    id && validateRestoreAccountForm({ id });
+  }, [id]);
 
   return (
     <Stack className="w-full h-full bg-blue-50" justifyContent="center">
-      <ProgressPanel {...{ isLoading }}>
+      <ProgressPanel
+        {...{
+          isLoading:
+            isLoadingSendRestoreAccountForm ||
+            isLoadingValidateRestoreAccountForm,
+        }}
+      >
         <Stack
           className="w-[400px] overflow-hidden bg-white border rounded-lg shadow-md"
           direction="col"
         >
           <p className="w-full py-2 bg-gray-50 text-xl text-center border-b">
-            {t('RecoverPassword.header')}
+            {t('RestoreAccount.header')}
           </p>
           <Stack className="w-full p-4 gap-4" direction="col">
             <input
-              ref={emailRef}
               placeholder={t('Login.email')}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               className={inputStyle}
             />
             <Button
@@ -63,7 +94,7 @@ export const RecoverPassword = () => {
                   navigate('/');
                 }}
               >
-                {t('RecoverPassword.returnToLogin')}
+                {t('RestoreAccount.returnToLogin')}
               </button>
             </Stack>
           </Stack>
