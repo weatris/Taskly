@@ -1,43 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { Stack } from '../../../components/basic/Stack/Stack';
-import { useApiMutation } from '../../../api/useApiMutation';
-import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
-import { useNotification } from '../../../stateProvider/notification/useNotification';
-import { t } from 'i18next';
-import { Icon } from '../../../images/Icon';
-import { ChevronDownIcon, ChevronUpIcon } from '../../../images/icons';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { ticketType } from '../../../common/typing';
 import { MembersDisplay } from '../../../components/MembersDisplay';
 import { MarkerDisplay } from '../../../components/MarkerDisplay';
 import { formatDate } from '../../../utils/formatDate';
 
-export const TicketRowItem = ({
-  ticket,
-  position,
-}: {
-  ticket: ticketType;
-  position: '' | 'first' | 'last' | 'only';
-}) => {
+export const TicketRowItem = ({ ticket }: { ticket: ticketType }) => {
   const navigate = useNavigate();
-  const invalidateQuery = useInvalidateQuery();
-  const { addNotification } = useNotification();
   const { boardData, markers } = useStateProvider().state.board;
   const ticketMarkers = markers.filter((item) =>
     ticket.markers.includes(item.id),
   );
-
-  const { mutate: mutatechangeOrder } = useApiMutation('changeOrder', {
-    onSuccess: () => {
-      invalidateQuery('getBoardById');
-    },
-    onError: () => {
-      addNotification({
-        title: t('errors.cantChangeOrder'),
-        tp: 'alert',
-      });
-    },
-  });
 
   const membersToDisplay =
     boardData?.members.filter((item) => ticket.assignedTo?.includes(item.id)) ||
@@ -80,42 +54,6 @@ export const TicketRowItem = ({
           </Stack>
         )}
       </Stack>
-      {position !== 'only' && !!ticket.groupId && (
-        <Stack
-          className="h-full pr-1"
-          direction="col"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          {position !== 'first' && (
-            <Icon
-              size="sm"
-              onClick={() => {
-                mutatechangeOrder({
-                  id: ticket.id,
-                  order: ticket.order - 1,
-                });
-              }}
-            >
-              <ChevronUpIcon />
-            </Icon>
-          )}
-          {position !== 'last' && (
-            <Icon
-              size="sm"
-              onClick={() => {
-                mutatechangeOrder({
-                  id: ticket.id,
-                  order: ticket.order + 1,
-                });
-              }}
-            >
-              <ChevronDownIcon />
-            </Icon>
-          )}
-        </Stack>
-      )}
     </Stack>
   );
 };

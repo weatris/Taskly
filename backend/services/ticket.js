@@ -1,4 +1,4 @@
-import { sequelize, User, Ticket, Group, ChatMessage } from "../config/db.js";
+import { sequelize, Ticket, Group } from "../config/db.js";
 import { generateId } from "../utils/generateId.js";
 
 export async function createTicket(req, res) {
@@ -52,25 +52,65 @@ export async function getTicketById(req, res) {
   }
 }
 
-export async function changeTicketOrder(req, res) {
+async function updateTicketOrder(groupId, transaction) {
+  const tickets = await Ticket.findAll({
+    where: { groupId: groupId },
+    order: [["order", "ASC"]],
+    transaction,
+  });
+
+  const updatePromises = tickets.map((ticket, index) => {
+    ticket.order = index + 1;
+    return ticket.save({ transaction });
+  });
+
+  await Promise.all(updatePromises);
+}
+
+export async function updateTicket(req, res) {
   const transaction = await sequelize.transaction();
   try {
-    const { id, order } = req.body;
+    const { id, targetId, groupId } = req.body;
 
     const ticketToUpdate = await Ticket.findByPk(id);
-    const ticketToSwap = await Ticket.findOne({
-      where: { groupId: ticketToUpdate.groupId, order },
-    });
-
+    const originalGroup = ticketToUpdate.groupId;
     const originalOrder = ticketToUpdate.order;
 
-    ticketToUpdate.order = ticketToSwap.order;
-    ticketToSwap.order = originalOrder;
+    if (!targetId) {
+      const maxOrderTicket = await Ticket.findOne({
+        where: { groupId: groupId },
+        order: [["order", "DESC"]],
+      });
 
-    await ticketToUpdate.save({ transaction });
-    await ticketToSwap.save({ transaction });
+      ticketToUpdate.order = maxOrderTicket ? maxOrderTicket.order + 1 : 1;
+      if (groupId) {
+        ticketToUpdate.groupId = groupId;
+      }
+      await ticketToUpdate.save({ transaction });
+      await updateTicketOrder(originalGroup, transaction);
+      await updateTicketOrder(groupId, transaction);
+    } else {
+      const targetTicket = await Ticket.findByPk(targetId);
+
+      ticketToUpdate.groupId = targetTicket.groupId;
+
+      ticketToUpdate.order = targetTicket.order;
+      if (originalOrder < targetTicket.order)
+        targetTicket.order = targetTicket.order - 1;
+      else targetTicket.order = targetTicket.order + 1;
+
+      await ticketToUpdate.save({ transaction });
+      await targetTicket.save({ transaction });
+
+      await updateTicketOrder(ticketToUpdate.groupId, transaction);
+
+      if (originalGroup !== targetTicket.groupId) {
+        await updateTicketOrder(originalGroup, transaction);
+      }
+    }
 
     await transaction.commit();
+
     res
       .status(200)
       .json({ message: "Ticket order and groups updated successfully" });
@@ -136,7 +176,7 @@ export async function setDates(req, res) {
 export default {
   createTicket,
   getTicketById,
-  changeTicketOrder,
+  updateTicket,
   changeTicketGroup,
   setDates,
 };

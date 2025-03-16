@@ -35,10 +35,19 @@ export const ticketFunctions = {
       groupId,
     }),
 
-  changeOrder: ({ id, order }: { id: string; order: number }) =>
-    axios.put<void>(BACKEND_URL + `/ticket/change_order`, {
+  updateTicket: ({
+    id,
+    targetId,
+    groupId,
+  }: {
+    id: string;
+    targetId: string;
+    groupId: string;
+  }) =>
+    axios.put<void>(BACKEND_URL + `/ticket`, {
       id,
-      order,
+      targetId,
+      groupId,
     }),
 
   changeTicketMarkers: ({ id, newValue }: { id: string; newValue: string[] }) =>

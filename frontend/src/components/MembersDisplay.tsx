@@ -18,7 +18,7 @@ export const MembersDisplay = ({
   return (
     <>
       {membersToDisplay.slice(0, membersToDisplayLimit).map((userData) => (
-        <Avatar {...{ userData, size }} />
+        <Avatar key={userData.id} {...{ userData, size }} />
       ))}
       {membersToDisplay.length > membersToDisplayLimit && (
         <p className={textSize[size]}>

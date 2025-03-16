@@ -3,12 +3,11 @@ import { Stack } from '../../../components/basic/Stack/Stack';
 import { ButtonInputForm } from '../../BoardsPage/ButtonInputForm';
 import { useApiMutation } from '../../../api/useApiMutation';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
-import { useState } from 'react';
 import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { DndItem } from '../../../components/basic/dnd/DndItem';
 import { DndBucket } from '../../../components/basic/dnd/DndBucket';
 import { TicketRowItem } from './TicketRowItem';
-import { ticketGroupType } from '../../../common/typing';
+import { ticketGroupType, ticketType } from '../../../common/typing';
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { permissionControl } from '../../../utils/permissionControl';
 import { GroupHeader } from './GroupHeader';
@@ -18,7 +17,6 @@ export const TicketGroup = ({ item }: { item: ticketGroupType }) => {
   const { addNotification } = useNotification();
   const tickets = item.tickets || [];
   const invalidateQuery = useInvalidateQuery();
-  const [isTicketDragged, setIsTicketDragged] = useState(false);
 
   const { mutate: mutateCreateTicket } = useApiMutation('createTicket', {
     onSuccess: () => {
@@ -32,20 +30,17 @@ export const TicketGroup = ({ item }: { item: ticketGroupType }) => {
     },
   });
 
-  const { mutate: mutateChangeTicketGroup } = useApiMutation(
-    'changeTicketGroup',
-    {
-      onSuccess: () => {
-        invalidateQuery('getBoardById');
-      },
-      onError: () => {
-        addNotification({
-          title: t('Groups.cantUpdate'),
-          tp: 'alert',
-        });
-      },
+  const { mutate: mutateUpdateTicket } = useApiMutation('updateTicket', {
+    onSuccess: () => {
+      invalidateQuery('getBoardById');
     },
-  );
+    onError: () => {
+      addNotification({
+        title: t('errors.cantUpdate'),
+        tp: 'alert',
+      });
+    },
+  });
 
   if (!boardData) {
     return <></>;
@@ -59,58 +54,62 @@ export const TicketGroup = ({ item }: { item: ticketGroupType }) => {
     });
   };
 
+  const onDropTicket = (id: string, ticket?: ticketType, groupId?: string) => {
+    if (ticket?.id == id) {
+      return;
+    }
+    if (!!ticket && !ticket?.groupId) {
+      return;
+    }
+
+    mutateUpdateTicket({
+      id,
+      targetId: ticket?.id || '',
+      groupId: groupId || '',
+    });
+  };
+
   return (
-    <DndBucket
-      target="ticket"
-      canAcceptItem={!isTicketDragged}
-      onDrop={(id) => {
-        if (item.tickets.map((itm) => itm.id).includes(id)) {
-          return;
-        }
-        mutateChangeTicketGroup({
-          id,
-          groupId: item.groupId,
-        });
-      }}
-    >
-      <Stack className="w-[260px] h-full gap-2" direction="col">
+    <Stack className="h-full gap-2" direction="col">
+      <DndBucket
+        target="ticket"
+        className="!h-auto"
+        canAcceptItem={!!item.groupId}
+        onDrop={(id) => {
+          onDropTicket(id, undefined, item.groupId);
+        }}
+      >
         <GroupHeader {...{ item }} />
-        <Stack
-          className="w-full h-auto overflow-auto scrollbar-thin gap-2"
-          direction="col"
-        >
-          {tickets.map((ticket, idx) => (
-            <DndItem
-              key={ticket.id}
-              itemData={ticket.id}
-              itemType="ticket"
-              isDraggingCallback={(value) => {
-                setIsTicketDragged(value);
-              }}
-            >
+      </DndBucket>
+      <Stack
+        className="w-full h-auto overflow-auto scrollbar-thin gap-2"
+        direction="col"
+      >
+        {tickets.map((ticket) => (
+          <DndBucket
+            key={ticket.id}
+            target="ticket"
+            canAcceptItem={!!ticket.groupId}
+            onDrop={(id) => {
+              onDropTicket(id, ticket);
+            }}
+          >
+            <DndItem itemData={ticket.id} itemType="ticket">
               <TicketRowItem
                 {...{
                   ticket,
-                  position:
-                    idx == 0
-                      ? tickets.length == 1
-                        ? 'only'
-                        : 'first'
-                      : idx == tickets.length - 1
-                        ? 'last'
-                        : '',
                 }}
               />
             </DndItem>
-          ))}
-        </Stack>
-        {permissionControl({ userAccess, key: 'createTicket' }) &&
-          !!item.groupId && (
-            <ButtonInputForm
-              {...{ onAccept: createTicket, text: t('Board.createTicket') }}
-            />
-          )}
+          </DndBucket>
+        ))}
       </Stack>
-    </DndBucket>
+      {permissionControl({ userAccess, key: 'createTicket' }) &&
+        !!item.groupId && (
+          <ButtonInputForm
+            {...{ onAccept: createTicket, text: t('Board.createTicket') }}
+          />
+        )}
+    </Stack>
   );
 };

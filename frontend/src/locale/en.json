@@ -131,7 +131,6 @@
       "errors": {
         "cantCreate": "Can`t create ticket",
         "cantUpdate": "Can`t update ticket",
-        "cantChangeOrder": "Can`t change order",
         "cantLoadError": "Can`t load ticket data"
       },
       "startDate": "Start Date",

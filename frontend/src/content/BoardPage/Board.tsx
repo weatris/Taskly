@@ -124,7 +124,12 @@ export const Board = () => {
 
   useEffect(() => {
     data && filterTickets(data);
-  }, [data?.tickets, filterMarkers?.length, filterMembers?.length]);
+  }, [
+    isLoading,
+    data?.groups.length,
+    filterMarkers?.length,
+    filterMembers?.length,
+  ]);
 
   return (
     <ProgressPanel {...{ isLoading, isError }}>
@@ -141,7 +146,7 @@ export const Board = () => {
               <>
                 {ticketData.map((item) => (
                   <TicketGroup
-                    key={`${item.groupId}_${item.tickets.length}`}
+                    key={`${item.groupId}_${item.groupName}_${item.tickets.length}`}
                     {...{ item, boardData: data }}
                   />
                 ))}

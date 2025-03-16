@@ -48,7 +48,7 @@ export const MultipleSelect = ({
       <div className="w-full relative">
         {isOpen && (
           <Stack
-            className="w-full h-fit max-h-[300px] absolute top-0 p-2 gap-1 bg-white shadow-sm border rounded-lg"
+            className="w-full h-fit max-h-[300px] absolute top-0 overflow-auto p-2 gap-1 bg-white shadow-sm border rounded-lg"
             direction="col"
             alignItems="start"
           >
