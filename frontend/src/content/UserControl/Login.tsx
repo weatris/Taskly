@@ -6,6 +6,8 @@ import { useRef } from 'react';
 import { useApiMutation } from '../../api/useApiMutation';
 import { inputStyle } from '../../common/styles';
 import { useNavigate } from 'react-router-dom';
+import { useScreenDetector } from '../../utils/useScreenDetector';
+import { FloatingPanel } from './FloatingPanel';
 
 export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
   const { addNotification } = useNotification();
@@ -54,53 +56,50 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
     mutate({ params: { email, password } });
   };
 
+  const { isMobile } = useScreenDetector();
+
   return (
-    <Stack className="w-full h-full bg-blue-50" justifyContent="center">
-      <Stack
-        className="w-[400px] overflow-hidden bg-white border rounded-lg shadow-md"
-        direction="col"
-      >
-        <p className="w-full py-2 bg-gray-50 text-xl text-center border-b">
-          {t('Login.header')}
-        </p>
-        <Stack className="w-full p-4 gap-4" direction="col">
-          <input
-            ref={emailRef}
-            placeholder={t('Login.email')}
-            className={inputStyle}
-          />
-          <input
-            type="password"
-            ref={passwordRef}
-            placeholder={t('Login.password')}
-            className={inputStyle}
-          />
-          <Button
-            className="w-full"
-            isLoading={isLoading}
-            text={t('common.submit')}
-            onClick={onSubmit}
-          />
-          <Stack
-            className="w-full px-2"
-            direction="row"
-            alignItems="center"
-            justifyContent="between"
+    <FloatingPanel>
+      <p className="w-full py-2 bg-gray-50 text-xl text-center border-b">
+        {t('Login.header')}
+      </p>
+      <Stack className="w-full p-4 gap-4" direction="col">
+        <input
+          ref={emailRef}
+          placeholder={t('Login.email')}
+          className={inputStyle}
+        />
+        <input
+          type="password"
+          ref={passwordRef}
+          placeholder={t('Login.password')}
+          className={inputStyle}
+        />
+        <Button
+          className="w-full"
+          isLoading={isLoading}
+          text={t('common.submit')}
+          onClick={onSubmit}
+        />
+        <Stack
+          className="w-full px-2"
+          direction={isMobile ? 'col' : 'row'}
+          alignItems={isMobile ? 'end' : 'center'}
+          justifyContent="between"
+        >
+          <button
+            className="text-red-700"
+            onClick={() => {
+              navigate('/recover');
+            }}
           >
-            <button
-              className="text-red-700"
-              onClick={() => {
-                navigate('/recover');
-              }}
-            >
-              {t('Login.forgotPassword')}
-            </button>
-            <button className="text-blue-500" onClick={toggleMode}>
-              {t('Login.noAccount')}
-            </button>
-          </Stack>
+            {t('Login.forgotPassword')}
+          </button>
+          <button className="text-blue-500" onClick={toggleMode}>
+            {t('Login.noAccount')}
+          </button>
         </Stack>
       </Stack>
-    </Stack>
+    </FloatingPanel>
   );
 };

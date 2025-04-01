@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { state, actions } = useStateProvider();
   const [isDataLoading, setIsLoading] = useState(true);
   const { setAuthData } = actions;
-  const { token, expirationDate } = state.auth;
+  const { token, expirationDate: expireDate } = state.auth;
+  const expirationDate = expireDate ? new Date(expireDate) : '';
 
   const { mutate, isLoading } = useApiMutation('refreshToken', {
     onError: (error) => {
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (data.expirationDate)
         setAuthData({
           ...data,
-          expirationDate: new Date(data.expirationDate),
+          expirationDate: new Date(data.expirationDate).toISOString(),
         });
     },
     retry: () => false,
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const parsedData = JSON.parse(savedAuthData || '');
         setAuthData({
           ...parsedData,
-          expirationDate: new Date(parsedData.expirationDate),
+          expirationDate: new Date(parsedData.expirationDate).toISOString(),
         });
       },
       retry: () => false,
@@ -64,7 +65,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               onSuccess: () => {
                 setAuthData({
                   ...parsedData,
-                  expirationDate: new Date(parsedData.expirationDate),
+                  expirationDate: new Date(
+                    parsedData.expirationDate,
+                  ).toISOString(),
                 });
               },
             });

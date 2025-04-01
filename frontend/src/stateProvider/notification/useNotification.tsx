@@ -1,4 +1,4 @@
-import { generateRandomId } from '../../utils/utils';
+import { generateId } from '../../utils/generateId';
 import { useStateProvider } from '../useStateProvider';
 import { notificationMessageType } from './typing';
 
@@ -18,7 +18,7 @@ export const useNotification = () => {
     subtitle?: string;
     lifetime?: number;
   }) => {
-    const id = generateRandomId(6);
+    const id = generateId(6);
 
     addNotificationState({
       id,

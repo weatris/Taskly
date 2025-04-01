@@ -9,6 +9,9 @@ import { t } from 'i18next';
 import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { Toolbar } from './Toolbar';
 import { BoardManagement } from './BoardManagement';
+import { useScreenDetector } from '../../utils/useScreenDetector';
+import { useState } from 'react';
+import classNames from 'classnames';
 
 export const BoardSettings = () => {
   const { id = '' } = useParams();
@@ -16,6 +19,7 @@ export const BoardSettings = () => {
   const { state, actions } = useStateProvider();
   const { id: userId } = state.auth;
   const { setBoardData, setUserAccess } = actions;
+  const { isTablet } = useScreenDetector();
 
   const { isLoading, isError } = useApiQuery('getBoardById', [{ id }], {
     onSuccess: (data) => {
@@ -38,13 +42,60 @@ export const BoardSettings = () => {
     <ProgressPanel {...{ isLoading, isError }}>
       <Stack className="w-full h-full" direction="col">
         <Toolbar />
-        <Stack className="w-full h-full" direction="row">
-          <Markers />
-          <BoardManagement />
-          <div className="w-full h-full" />
-          <Members />
-        </Stack>
+        {isTablet ? <MobileLayout /> : <DesktopLayout />}
       </Stack>
     </ProgressPanel>
+  );
+};
+
+const DesktopLayout = () => {
+  return (
+    <Stack className="w-full h-full overflow-hidden" direction="row">
+      <Markers />
+      <BoardManagement />
+      <div className="w-full h-full" />
+      <Members />
+    </Stack>
+  );
+};
+
+const mapping = {
+  markers: <Markers />,
+  members: <Members />,
+  boardManagement: <BoardManagement />,
+};
+const tabs = Object.keys(mapping) as (keyof typeof mapping)[];
+
+const MobileLayout = () => {
+  const [currentTab, setCurrentTab] = useState<keyof typeof mapping>('markers');
+
+  return (
+    <Stack className="w-full h-full overflow-hidden" direction="col">
+      <Stack className="w-full" direction="row">
+        {tabs.map((item) => (
+          <Stack
+            key={item}
+            className={classNames(
+              'w-full h-[40px] px-4 border overflow-hidden',
+              item === currentTab && 'bg-gray-100',
+            )}
+            onClick={() => {
+              setCurrentTab(item);
+            }}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <p className="truncate">{t(`Board.settings.${item}.header`)}</p>
+          </Stack>
+        ))}
+      </Stack>
+      <Stack
+        className="w-full h-full overflow-auto [&>div]:w-full"
+        direction="row"
+      >
+        {mapping[currentTab]}
+      </Stack>
+    </Stack>
   );
 };

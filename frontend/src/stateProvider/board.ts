@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  boardType,
-  markerType,
-  ticketType,
-  userAccessType,
-} from '../common/typing';
+import { boardType, markerType, userAccessType } from '../common/typing';
 
 interface BoardState {
   boardData?: boardType;

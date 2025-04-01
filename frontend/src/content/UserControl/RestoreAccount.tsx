@@ -6,7 +6,7 @@ import { Button } from '../../components/basic/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
+import { FloatingPanel } from './FloatingPanel';
 
 export const RestoreAccount = () => {
   const { id = '' } = useParams();
@@ -54,52 +54,45 @@ export const RestoreAccount = () => {
   }, [id]);
 
   return (
-    <Stack className="w-full h-full bg-blue-50" justifyContent="center">
-      <ProgressPanel
-        {...{
-          isLoading:
-            isLoadingSendRestoreAccountForm ||
-            isLoadingValidateRestoreAccountForm,
-        }}
-      >
+    <FloatingPanel
+      {...{
+        isLoading:
+          isLoadingSendRestoreAccountForm ||
+          isLoadingValidateRestoreAccountForm,
+      }}
+    >
+      <p className="w-full py-2 bg-gray-50 text-xl text-center border-b">
+        {t('RestoreAccount.header')}
+      </p>
+      <Stack className="w-full p-4 gap-4" direction="col">
+        <input
+          placeholder={t('Login.email')}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          className={inputStyle}
+        />
+        <Button
+          className="w-full"
+          text={t('common.submit')}
+          onClick={sendEmail}
+        />
         <Stack
-          className="w-[400px] overflow-hidden bg-white border rounded-lg shadow-md"
-          direction="col"
+          className="w-full px-2"
+          direction="row"
+          alignItems="center"
+          justifyContent="between"
         >
-          <p className="w-full py-2 bg-gray-50 text-xl text-center border-b">
-            {t('RestoreAccount.header')}
-          </p>
-          <Stack className="w-full p-4 gap-4" direction="col">
-            <input
-              placeholder={t('Login.email')}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              className={inputStyle}
-            />
-            <Button
-              className="w-full"
-              text={t('common.submit')}
-              onClick={sendEmail}
-            />
-            <Stack
-              className="w-full px-2"
-              direction="row"
-              alignItems="center"
-              justifyContent="between"
-            >
-              <button
-                className="text-blue-500 ml-auto"
-                onClick={() => {
-                  navigate('/');
-                }}
-              >
-                {t('RestoreAccount.returnToLogin')}
-              </button>
-            </Stack>
-          </Stack>
+          <button
+            className="text-blue-500 ml-auto"
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            {t('RestoreAccount.returnToLogin')}
+          </button>
         </Stack>
-      </ProgressPanel>
-    </Stack>
+      </Stack>
+    </FloatingPanel>
   );
 };

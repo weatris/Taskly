@@ -7,6 +7,8 @@ import { useInvalidateQuery } from '../../../api/useInvalidateQuery';
 import { useState } from 'react';
 import { ManageMembersModal } from './ManageMembersModal';
 import { MembersDisplay } from '../../../components/MembersDisplay';
+import { useScreenDetector } from '../../../utils/useScreenDetector';
+import classNames from 'classnames';
 
 export const TicketMember = () => {
   const [showMembersModal, setShowMembersModal] = useState(false);
@@ -47,18 +49,31 @@ export const TicketMember = () => {
     ) || [];
 
   const isUserInMembers = membersToDisplay.map((item) => item.id).includes(id);
+  const { isMediumScreen } = useScreenDetector();
 
   return (
     <>
       <Stack className="w-full" direction="col">
-        <Stack className="w-full gap-2 pb-2" direction="row">
+        <Stack
+          className={classNames(
+            'w-full gap-2',
+            membersToDisplay.length && 'pb-2',
+          )}
+          direction="row"
+        >
           <MembersDisplay {...{ membersToDisplay }} />
         </Stack>
-        <Stack className="w-full gap-2" direction="row">
+        <Stack
+          className={classNames(
+            'w-full gap-2',
+            !isMediumScreen && '[&>button]:w-full',
+          )}
+          direction="row"
+          justifyContent={'end'}
+        >
           <Button
             {...{
               text: t('Tickets.manageMembers'),
-              className: 'w-full',
               variant: 'primary',
               onClick: () => {
                 setShowMembersModal(true);
@@ -70,7 +85,6 @@ export const TicketMember = () => {
               text: isUserInMembers
                 ? t('Tickets.leaveTicket')
                 : t('Tickets.joinTicket'),
-              className: 'w-full',
               onClick: onManageMembers,
               variant: isUserInMembers ? 'primary' : 'default',
             }}

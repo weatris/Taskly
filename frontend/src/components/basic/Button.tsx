@@ -25,7 +25,7 @@ export const Button = ({
   icon,
   isLoading,
 }: {
-  text: string | React.ReactNode;
+  text?: string | React.ReactNode;
   onClick?: (e: any) => void;
   variant?: keyof typeof variants;
   className?: string;
@@ -51,7 +51,13 @@ export const Button = ({
           })}
         </Icon>
       )}
-      {isLoading ? <Spinner size="sm" /> : <p className="w-full">{text}</p>}
+      {isLoading ? (
+        <Spinner size="sm" />
+      ) : text ? (
+        <p className="w-full text-nowrap">{text}</p>
+      ) : (
+        <></>
+      )}
     </button>
   );
 };

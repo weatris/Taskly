@@ -12,10 +12,14 @@ import { boardAccessType } from '../../common/typing';
 import { useNotification } from '../../stateProvider/notification/useNotification';
 import { permissionControl } from '../../utils/permissionControl';
 import { AccessTypeBadge } from '../../components/AccessTypeBadge';
+import classNames from 'classnames';
+import { useScreenDetector } from '../../utils/useScreenDetector';
+import { Accordion } from '../../components/basic/Accordion';
 
 export const BoardManagement = () => {
   const invalidateQuery = useInvalidateQuery();
   const { addNotification } = useNotification();
+  const { isMobile } = useScreenDetector();
 
   const { boardData, userAccess } = useStateProvider().state.board;
   const [name, setName] = useState(boardData?.name || '');
@@ -28,7 +32,7 @@ export const BoardManagement = () => {
     },
     onError: () => {
       addNotification({
-        title: t('Board.settings.basic.cantUpdate'),
+        title: t('Board.settings.boardManagement.cantUpdate'),
         tp: 'alert',
       });
     },
@@ -50,6 +54,7 @@ export const BoardManagement = () => {
     selectedOption !== boardData?.type;
 
   const canEdit = permissionControl({ userAccess, key: 'boardEdit' });
+  const canDelete = permissionControl({ userAccess, key: 'boardDelete' });
   const canBoardControl = permissionControl({
     userAccess,
     key: 'boardControl',
@@ -57,10 +62,13 @@ export const BoardManagement = () => {
 
   return (
     <Stack
-      className="w-[300px] min-w-[300px] h-full p-2 gap-4 border-r"
+      className={classNames(
+        'h-full overflow-auto px-2 py-4 gap-4 border-r',
+        isMobile ? 'w-full' : 'min-w-[350px]',
+      )}
       direction="col"
     >
-      <p className="text-xl">{t('Board.settings.basic.header')}</p>
+      <p className="text-xl">{t('Board.settings.boardManagement.header')}</p>
       <Input
         {...{
           value: name,
@@ -74,12 +82,27 @@ export const BoardManagement = () => {
         {...{
           value: description,
           setValue: setDescription,
-          className: 'w-full',
+          className: 'w-full min-h-[120px]',
           disabled: !canEdit,
         }}
       />
       {canBoardControl ? (
-        <AccessTypeSelect {...{ selectedOption, setSelectedOption }} />
+        <Accordion title={t('Board.settings.dangerousSection')}>
+          <AccessTypeSelect {...{ selectedOption, setSelectedOption }} />
+
+          <Stack className="w-full mt-auto" direction="row" alignItems="center">
+            {canDelete && (
+              <Button
+                {...{
+                  text: t('common.delete'),
+                  variant: 'secondary',
+                  className: 'w-[120px] mt-5 mr-auto ',
+                  onClick: onSubmit,
+                }}
+              />
+            )}
+          </Stack>
+        </Accordion>
       ) : (
         <>
           <AccessTypeBadge

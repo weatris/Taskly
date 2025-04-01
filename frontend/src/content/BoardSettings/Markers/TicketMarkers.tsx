@@ -15,6 +15,8 @@ import { useNotification } from '../../../stateProvider/notification/useNotifica
 import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { permissionControl } from '../../../utils/permissionControl';
 import { defaultState, MarkerControlPanel } from './MarkerControlPanel';
+import classNames from 'classnames';
+import { useScreenDetector } from '../../../utils/useScreenDetector';
 
 export type markerControlType = {
   id?: string;
@@ -25,6 +27,7 @@ export type markerControlType = {
 
 export const Markers = () => {
   const { addNotification } = useNotification();
+  const { isMobile } = useScreenDetector();
   const { boardData, userAccess } = useStateProvider().state.board;
   const id = boardData?.id || '';
 
@@ -46,11 +49,17 @@ export const Markers = () => {
   return (
     <>
       <Stack
-        className="w-[300px] min-w-[300px] h-full p-2 gap-4 border-r"
+        className={classNames(
+          'h-full px-2 py-3 gap-4 border-r',
+          isMobile ? 'w-full' : 'min-w-[350px]',
+        )}
         direction="col"
       >
         <p className="text-xl">{t('Board.settings.markers.header')}</p>
-        <Stack className="w-full h-full gap-2" direction="col">
+        <Stack
+          className="w-full h-full min-h-[120px] overflow-y-auto gap-2"
+          direction="col"
+        >
           {data?.map((item) => (
             <MarkerListItem key={item.id} {...{ item }}>
               {permissionControl({ userAccess, key: 'memberEdit' }) && (

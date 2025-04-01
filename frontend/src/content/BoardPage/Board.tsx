@@ -21,7 +21,7 @@ type ticketDataType = {
 };
 
 export const Board = () => {
-  const { id = '' } = useParams();
+  const { id = '', boardName = '', ticketId = '' } = useParams();
   const [ticketData, setTicketData] = useState<ticketDataType[]>([]);
   const { addNotification } = useNotification();
   const { state, actions } = useStateProvider();
@@ -163,7 +163,7 @@ export const Board = () => {
           </Stack>
         )}
       </Stack>
-      <OpenTicketModal />
+      {!!ticketId && <OpenTicketModal />}
     </ProgressPanel>
   );
 };

@@ -96,7 +96,7 @@ export const MarkerControlPanel = ({
   return (
     <>
       {permissionControl({ userAccess, key: 'memberEdit' }) && (
-        <Stack className="w-full gap-2" direction="col">
+        <Stack className="w-full h-[480px] gap-2 py-2" direction="col">
           <p className="text-xl">
             {t(
               selectedMarker?.id

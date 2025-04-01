@@ -56,13 +56,14 @@ export const TicketDates = () => {
   return (
     <Stack className="w-full h-[40px]" justifyContent="between">
       <ProgressPanel {...{ isLoading: !openTicketData || isLoading }}>
-        <Stack className="w-full gap-2" justifyContent="between">
+        <Stack className="w-full gap-2 [&>div]:w-full" justifyContent="between">
           <DatePicker
             disabled={!permissionControl({ userAccess, key: 'editTicket' })}
             selected={startDate}
             startDate={startDate}
             endDate={endDate}
             placeholderText={t('Tickets.startDate')}
+            popperPlacement="bottom-end"
             onChange={(date) => {
               setStartDate(date);
             }}
@@ -73,6 +74,7 @@ export const TicketDates = () => {
             startDate={startDate}
             endDate={endDate}
             placeholderText={t('Tickets.endDate')}
+            popperPlacement="bottom-start"
             onChange={(date) => {
               setEndDate(date);
             }}

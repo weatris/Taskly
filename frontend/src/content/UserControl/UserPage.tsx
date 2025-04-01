@@ -7,6 +7,8 @@ import { t } from 'i18next';
 import { useApiMutation } from '../../api/useApiMutation';
 import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 import { Modal } from '../../components/basic/Modal';
+import classNames from 'classnames';
+import { useScreenDetector } from '../../utils/useScreenDetector';
 
 const refreshPage = () => {
   localStorage.removeItem('authData');
@@ -17,6 +19,7 @@ export const UserPage = () => {
   const { auth } = useStateProvider().state;
   const [name, setName] = useState(auth.name);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { isMobile } = useScreenDetector();
 
   useEffect(() => {
     setName(auth.name);
@@ -43,10 +46,15 @@ export const UserPage = () => {
 
   return (
     <>
-      <ProgressPanel {...{ isLoading: updateUserIsLoading }}>
+      <ProgressPanel
+        {...{ isLoading: updateUserIsLoading || deleteUserIsLoading }}
+      >
         <Stack className="w-full h-full p-5" direction="col">
           <Stack
-            className="w-[500px] h-full border rounded-lg"
+            className={classNames(
+              'h-full border rounded-lg',
+              isMobile ? 'w-full' : 'w-[500px]',
+            )}
             direction="col"
             alignItems="start"
           >

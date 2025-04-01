@@ -12,6 +12,8 @@ import { useApiInfiniteQuery } from '../../api/useApiInfiniteQuery';
 import { generateId } from '../../utils/generateId';
 import { useSocket } from '../../api/useSocket';
 import { ProgressPanel } from '../StatePanels/ProgressPanel';
+import classNames from 'classnames';
+import { useScreenDetector } from '../../utils/useScreenDetector';
 
 export const Chat = ({
   chatId,
@@ -43,7 +45,7 @@ export const Chat = ({
 
   const { loadNext, isLoading } = useApiInfiniteQuery(
     'getChatData',
-    [{ ticketId, boardId }],
+    [{ ticketId, boardId, chatId }],
     {
       enabled: !!chatId,
       direction: 'start',
@@ -57,6 +59,7 @@ export const Chat = ({
           tp: 'alert',
         });
       },
+      refetchOnMount: true,
     },
   );
 
@@ -110,7 +113,13 @@ export const Chat = ({
     socket?.on('send_message', (id) => {
       getMessage(id);
     });
+    return () => {
+      console.log('closing chat');
+      setMessages([]);
+    };
   }, [socket]);
+
+  const { isSmallTablet } = useScreenDetector();
 
   return (
     <ProgressPanel isLoading={isLoading && !messages.length}>
@@ -129,7 +138,10 @@ export const Chat = ({
         />
         {permissionControl({ userAccess, key: 'boardChatWrite' }) && (
           <Stack
-            className="w-full max-h-[80px] h-[80px] border-t-[1px] gap-3 p-3"
+            className={classNames(
+              'w-full border-t-[1px] gap-3 p-3',
+              isSmallTablet && '!p-1',
+            )}
             direction="row"
           >
             <input
@@ -137,11 +149,18 @@ export const Chat = ({
               onChange={(e) => {
                 setMessage(e.target.value || '');
               }}
-              className="w-full h-full rounded-lg border indent-2 focus:outline-none"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && e.shiftKey) {
+                  e.preventDefault();
+                  sendMessage();
+                }
+              }}
+              className="w-full h-[50px] resize-none rounded-lg border indent-2 focus:outline-gray-200"
             />
             <Button
               {...{
                 text: 'Send',
+                className: 'h-[50px]',
                 onClick: sendMessage,
                 disabled: !message,
               }}

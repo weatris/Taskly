@@ -4,6 +4,7 @@ import { useStateProvider } from '../../stateProvider/useStateProvider';
 import { Chat } from '../../components/Chat/Chat';
 import { chatMessageType } from '../../common/typing';
 import { DetailedMessage } from '../../components/Chat/DetailedMessage';
+import { useRemoveQuery } from '../../api/useRemoveQuery';
 
 const renderItem = (message: chatMessageType) => {
   return <DetailedMessage {...{ message }} />;
@@ -13,12 +14,14 @@ export const GlobalChatModal = () => {
   const { state, actions } = useStateProvider();
   const { showGroupChat, boardData } = state.board;
   const { setShowGroupChat } = actions;
+  const removeQuery = useRemoveQuery();
 
   const onClose = () => {
+    removeQuery('getChatData');
     setShowGroupChat(false);
   };
 
-  if (!boardData?.id) {
+  if (!boardData?.id || !showGroupChat) {
     return <></>;
   }
 

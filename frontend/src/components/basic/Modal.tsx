@@ -5,6 +5,13 @@ import { Button } from './Button';
 import { Stack } from './Stack/Stack';
 import { t } from 'i18next';
 import { defaultTextStyle } from '../../common/styles';
+import { useScreenDetector } from '../../utils/useScreenDetector';
+
+const alignItems = {
+  info: 'center',
+  modal: 'center',
+  sidebar: 'end',
+};
 
 export const Modal = ({
   isVisible,
@@ -29,10 +36,15 @@ export const Modal = ({
     return <></>;
   }
 
-  const alignItems = {
-    info: 'center',
-    modal: 'center',
-    sidebar: 'end',
+  const { isMobile, isTablet } = useScreenDetector();
+
+  const styles = {
+    modal: 'w-[350px] rounded-lg border',
+    sidebar: classNames('w-[400px] h-full border-l-3', isMobile && 'w-full'),
+    info: classNames(
+      'w-[60%] h-[80%] rounded-lg border',
+      isTablet && 'w-full h-full rounded-none',
+    ),
   };
 
   return (
@@ -45,12 +57,7 @@ export const Modal = ({
         justifyContent="center"
       >
         <Stack
-          className={classNames(
-            'bg-white overflow-hidden',
-            modalType == 'modal' && 'w-[350px] rounded-lg border',
-            modalType == 'sidebar' && 'w-[400px] h-full border-l-3',
-            modalType == 'info' && 'w-[60%] h-[80%] rounded-lg border',
-          )}
+          className={classNames('bg-white overflow-hidden', styles[modalType])}
           direction="col"
           alignItems="start"
         >
@@ -72,7 +79,8 @@ export const Modal = ({
           {children && (
             <div
               className={classNames(
-                'w-full p-4',
+                'w-full',
+                isMobile ? 'p-2' : 'p-4',
                 modalType != 'modal' && 'h-full',
               )}
             >

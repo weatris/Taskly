@@ -17,10 +17,12 @@ export const infiniteFunctions = {
   getChatData: ({
     ticketId,
     boardId,
+    chatId,
     page = 0,
   }: {
     ticketId: string;
     boardId: string;
+    chatId: string;
     page?: number;
   }) =>
     axios.post<chatMessageType>(BACKEND_URL + `/chat/${page}`, {

@@ -27,7 +27,7 @@ export const DetailedMessage = ({ message }: { message: chatMessageType }) => {
   };
 
   return (
-    <Stack className="px-3 py-4">
+    <Stack className="px-2 py-4">
       <Stack
         className={classNames(
           'w-fit max-w-[400px] h-fit min-h-[40px] gap-3',

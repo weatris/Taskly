@@ -6,7 +6,7 @@ import { useStateProvider } from '../../../stateProvider/useStateProvider';
 import { MarkerListItem } from '../../BoardSettings/Markers/MarkerListItem';
 import { Checkbox } from '../../../components/basic/Checkbox';
 import { useClickAway } from 'react-use';
-import { haveSameElements } from '../../../utils/utils';
+import { haveSameElements } from '../../../utils/haveSameElements';
 import { useNotification } from '../../../stateProvider/notification/useNotification';
 import { t } from 'i18next';
 import { Button } from '../../../components/basic/Button';

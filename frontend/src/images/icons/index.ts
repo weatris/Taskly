@@ -21,4 +21,6 @@ export {
   ShareIcon,
   ChatBubbleLeftIcon,
   AdjustmentsHorizontalIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon,
 } from '@heroicons/react/24/solid';

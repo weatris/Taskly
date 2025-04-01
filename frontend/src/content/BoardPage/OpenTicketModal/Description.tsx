@@ -13,10 +13,10 @@ import { permissionControl } from '../../../utils/permissionControl';
 
 export const Description = ({
   data,
-  refetch,
+  onSave,
 }: {
   data?: ticketType;
-  refetch: () => void;
+  onSave: () => void;
 }) => {
   const { userAccess } = useStateProvider().state.board;
   const [content, setContent] = useState<string>(data?.description || '');
@@ -31,7 +31,7 @@ export const Description = ({
       });
     },
     onSuccess: () => {
-      refetch();
+      onSave();
       setIsEditMode(false);
     },
   });

@@ -83,6 +83,7 @@
       "settings": {
         "title": "Settings",
         "return": "Return to board",
+        "dangerousSection": "Dangerous section",
         "markers": {
           "header": "Markers",
           "create": "Create new",
@@ -106,8 +107,8 @@
           "infoDescription": "Some info about position/job of this member",
           "excludeConfirm": "Are you sure you want to exclude {{username}}?"
         },
-        "basic": {
-          "header": "Basic data",
+        "boardManagement": {
+          "header": "Board management",
           "cantUpdate": "Can`t update board"
         }
       }
@@ -148,6 +149,7 @@
       "create": "Create",
       "save": "Save",
       "update": "Update",
+      "delete": "Delete",
       "send": "Send",
       "cancel": "Cancel",
       "refresh": "Refresh",

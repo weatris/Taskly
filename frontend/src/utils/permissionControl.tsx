@@ -8,6 +8,7 @@ const allActions = [
   'editTicket',
   'memberEdit',
   'boardEdit',
+  'boardDelete',
   'boardControl',
   'changePermissionLevels',
 ] as const;
@@ -15,8 +16,14 @@ type allActionsType = (typeof allActions)[number];
 
 const excludePermissionMap: Record<string, allActionsType[]> = {
   owner: [],
-  admin: ['changePermissionLevels', 'boardControl'],
-  member: ['memberEdit', 'boardEdit', 'changePermissionLevels', 'boardControl'],
+  admin: ['changePermissionLevels', 'boardDelete', 'boardControl'],
+  member: [
+    'memberEdit',
+    'boardEdit',
+    'boardDelete',
+    'changePermissionLevels',
+    'boardControl',
+  ],
   guest: [...allActions],
 };
 
