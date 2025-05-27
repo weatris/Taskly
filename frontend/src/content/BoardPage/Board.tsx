@@ -156,6 +156,7 @@ export const Board = () => {
                   {...{
                     onAccept: onCreateNewGroup,
                     text: t('Groups.createGroup'),
+                    dataTestId: 'createGroup'
                   }}
                 />
               )}

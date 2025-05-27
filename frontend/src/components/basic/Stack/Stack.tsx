@@ -16,6 +16,7 @@ interface StackProps {
   style?: any;
   children: React.ReactNode;
   onClick?: (e: any) => void;
+  dataTestId?: string;
 }
 
 export const Stack: React.FC<StackProps> = ({
@@ -27,6 +28,7 @@ export const Stack: React.FC<StackProps> = ({
   style,
   onClick,
   children,
+  dataTestId,
 }) => {
   const classes = cn(
     'flex',
@@ -38,7 +40,7 @@ export const Stack: React.FC<StackProps> = ({
   );
 
   return (
-    <div className={classes} onClick={onClick} style={style}>
+    <div className={classes} onClick={onClick} style={style} data-testid={dataTestId}>
       {children}
     </div>
   );

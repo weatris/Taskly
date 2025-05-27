@@ -41,13 +41,10 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
     }
 
     if (
-      !password ||
-      password.length < 8 ||
-      !password.match(/\d/) ||
-      !password.match(/[!@#$%^&*(),.?":{}|<>-_+=]/)
+      !password
     ) {
       addNotification({
-        title: t('Errors.passwordNotSafe'),
+        title: t('Errors.wrongPassword'),
         tp: 'info',
       });
       return;
@@ -66,17 +63,20 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
       <Stack className="w-full p-4 gap-4" direction="col">
         <input
           ref={emailRef}
+          data-testid='email'
           placeholder={t('Login.email')}
           className={inputStyle}
         />
         <input
           type="password"
           ref={passwordRef}
+          data-testid='password'
           placeholder={t('Login.password')}
           className={inputStyle}
         />
         <Button
           className="w-full"
+          dataTestId='loginButton'
           isLoading={isLoading}
           text={t('common.submit')}
           onClick={onSubmit}
@@ -89,13 +89,16 @@ export const Login = ({ toggleMode }: { toggleMode: () => void }) => {
         >
           <button
             className="text-red-700"
+            data-testid="recoverPassword"
             onClick={() => {
               navigate('/recover');
             }}
           >
             {t('Login.forgotPassword')}
           </button>
-          <button className="text-blue-500" onClick={toggleMode}>
+          <button className="text-blue-500"
+            data-testid="noAccount"
+            onClick={toggleMode}>
             {t('Login.noAccount')}
           </button>
         </Stack>

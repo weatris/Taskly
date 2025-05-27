@@ -66,6 +66,7 @@ export const BoardsNavbar = () => {
         {!isTablet && (
           <Button
             text={t('Boards.createBoard.title')}
+            dataTestId='toggleCreateBoardModal'
             onClick={() => {
               toggleCreateBoardModal(true);
             }}
@@ -75,6 +76,7 @@ export const BoardsNavbar = () => {
           <Stack
             className="w-[60px] h-[60px] absolute right-8 bottom-8 bg-green-700 !hover:bg-green-800 rounded-full shadow-lg"
             justifyContent="center"
+            dataTestId='toggleCreateBoardModal'
             onClick={() => {
               toggleCreateBoardModal(true);
             }}

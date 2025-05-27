@@ -110,6 +110,7 @@ export const ShareBoardModal = () => {
                   className: 'w-full',
                   text: t('Board.copyLink'),
                   onClick: copyLink,
+                  dataTestId: 'copyShareLink'
                 }}
               />
             </Stack>
@@ -123,6 +124,7 @@ export const ShareBoardModal = () => {
                   onClick: () => {
                     mutateCreateBoardShareLink({ id });
                   },
+                  dataTestId: 'createShareLink'
                 }}
               />
             </Stack>

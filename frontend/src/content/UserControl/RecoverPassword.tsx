@@ -38,6 +38,7 @@ export const RecoverPassword = () => {
       <Stack className="w-full p-4 gap-4" direction="col">
         <input
           ref={emailRef}
+          data-testid='email'
           placeholder={t('Login.email')}
           className={inputStyle}
         />
@@ -54,6 +55,7 @@ export const RecoverPassword = () => {
         >
           <button
             className="text-blue-500 ml-auto"
+            data-testid={'returnToLogin'}
             onClick={() => {
               navigate('/');
             }}

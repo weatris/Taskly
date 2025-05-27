@@ -86,28 +86,33 @@ export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
       <Stack className="w-full p-4 gap-4" direction="col">
         <input
           ref={emailRef}
+          data-testid='email'
           placeholder={t('Register.email')}
           className={inputStyle}
         />
         <input
           ref={nameRef}
+          data-testid='name'
           placeholder={t('Register.name')}
           className={inputStyle}
         />
         <input
           type="password"
           ref={passwordRef}
+          data-testid='password'
           placeholder={t('Register.password')}
           className={inputStyle}
         />
         <input
           type="password"
           ref={confirmPasswordRef}
+          data-testid='confirmPassword'
           placeholder={t('Register.confirmPassword')}
           className={inputStyle}
         />
         <Button
           className="w-full"
+          dataTestId='registerButton'
           text={t('common.submit')}
           onClick={onSubmit}
         />
@@ -117,6 +122,7 @@ export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
           justifyContent="between"
         >
           <button
+            data-testid={'restoreAccount'}
             onClick={() => {
               navigate('/restore_account');
             }}
@@ -124,7 +130,8 @@ export const Register = ({ toggleMode }: { toggleMode: () => void }) => {
             {t('Register.restoreAccount')}
           </button>
           <div className="w-[1px] h-[15px] bg-gray-300" />
-          <button onClick={toggleMode}>{t('Register.haveAccount')}</button>
+          <button
+            data-testid={'returnToLogin'} onClick={toggleMode}>{t('Register.haveAccount')}</button>
         </Stack>
       </Stack>
     </FloatingPanel>

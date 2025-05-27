@@ -18,16 +18,19 @@ export const Avatar = ({
   size = 'md',
   placing = 'left',
   canHover = true,
+  dataTestId,
 }: {
   userData: userType;
   size?: 'sm' | 'md';
   placing?: 'left' | 'right';
   canHover?: boolean;
+  dataTestId?: string;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
+      data-testid={dataTestId}
       className="relative flex items-center justify-center"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

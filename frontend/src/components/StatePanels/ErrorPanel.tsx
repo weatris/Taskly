@@ -17,6 +17,7 @@ export const ErrorPanel = ({
       direction="row"
       alignItems="center"
       justifyContent="center"
+      dataTestId='ErrorPanel'
     >
       <Stack
         className="p-4 rounded-lg bg-white shadow-md border"

@@ -7,12 +7,14 @@ export const Textarea = ({
   placeholder,
   className,
   disabled,
+  dataTestId,
 }: {
   value?: string;
   setValue: (value: SetStateAction<string>) => void;
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  dataTestId?: string;
 }) => {
   return (
     <textarea
@@ -23,6 +25,7 @@ export const Textarea = ({
       disabled={disabled}
       placeholder={placeholder}
       value={value}
+      data-testid={dataTestId}
       onChange={(e) => {
         setValue(e.target.value);
       }}

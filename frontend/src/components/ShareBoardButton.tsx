@@ -28,6 +28,7 @@ export const ShareBoardButton = ({
             onClick: () => {
               id && setShareBoardId(id);
             },
+            dataTestId: 'shareBoard',
           }}
         />
       )}

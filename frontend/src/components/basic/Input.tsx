@@ -8,6 +8,7 @@ export const Input = ({
   className,
   type = 'text',
   disabled = false,
+  dataTestId=''
 }: {
   value?: any;
   setValue: (value: SetStateAction<string>) => void;
@@ -15,6 +16,7 @@ export const Input = ({
   className?: string;
   type?: HTMLInputTypeAttribute;
   disabled?: boolean;
+  dataTestId?: string;
 }) => {
   return (
     <input
@@ -22,6 +24,7 @@ export const Input = ({
         'w-full h-[40px] rounded-lg focus:outline-none px-2',
         className,
       )}
+      data-testid={dataTestId}
       placeholder={placeholder}
       type={type}
       value={value}

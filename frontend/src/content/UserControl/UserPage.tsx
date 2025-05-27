@@ -9,6 +9,7 @@ import { ProgressPanel } from '../../components/StatePanels/ProgressPanel';
 import { Modal } from '../../components/basic/Modal';
 import classNames from 'classnames';
 import { useScreenDetector } from '../../utils/useScreenDetector';
+import { useNavigate } from 'react-router-dom';
 
 const refreshPage = () => {
   localStorage.removeItem('authData');
@@ -16,6 +17,7 @@ const refreshPage = () => {
 };
 
 export const UserPage = () => {
+  const navigate = useNavigate();
   const { auth } = useStateProvider().state;
   const [name, setName] = useState(auth.name);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -84,8 +86,18 @@ export const UserPage = () => {
               <Stack
                 className="w-full gap-2"
                 direction="row"
-                justifyContent="end"
+                justifyContent="between"
               >
+                <Button
+                  {...{
+                    dataTestId: "cancel",
+                    text: t('common.cancel'),
+                    variant: 'secondary',
+                    onClick: () => {
+                      navigate('/');
+                    },
+                  }}
+                />
                 <Button
                   {...{
                     text: t('manageUser.deleteUser'),

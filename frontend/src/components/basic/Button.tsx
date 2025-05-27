@@ -24,6 +24,7 @@ export const Button = ({
   disabled = false,
   icon,
   isLoading,
+  dataTestId,
 }: {
   text?: string | React.ReactNode;
   onClick?: (e: any) => void;
@@ -33,6 +34,7 @@ export const Button = ({
   disabled?: boolean;
   icon?: ReactElement;
   isLoading?: boolean;
+  dataTestId?: string;
 }) => {
   const classes = classNames(
     'flex flex-row gap-2 items-center px-3 rounded-lg shadow-sm border',
@@ -43,7 +45,7 @@ export const Button = ({
     className,
   );
   return (
-    <button className={classes} onClick={onClick} disabled={disabled}>
+    <button className={classes} onClick={onClick} disabled={disabled} data-testid={dataTestId}>
       {!!icon && (
         <Icon className="pl-0" size="md" hoverable={false}>
           {cloneElement(icon, {

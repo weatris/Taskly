@@ -6,14 +6,16 @@ import { Dispatch, SetStateAction } from 'react';
 export const AccessTypeSelect = ({
   selectedOption,
   setSelectedOption,
+  allowClosed=true,
 }: {
   selectedOption: string;
   setSelectedOption: Dispatch<SetStateAction<string>>;
+  allowClosed?: boolean;
 }) => {
   const options = [
     { title: t('accessTypes.public'), key: 'public' },
     { title: t('accessTypes.private'), key: 'private' },
-    { title: t('accessTypes.closed'), key: 'closed' },
+    ...(allowClosed?[{ title: t('accessTypes.closed'), key: 'closed' }]:[])
   ];
 
   return (
@@ -22,6 +24,7 @@ export const AccessTypeSelect = ({
         return (
           <Button
             key={item.key}
+            dataTestId={`accessType_${item.key}`}
             className="w-full"
             text={item.title}
             variant={item.key == selectedOption ? 'default' : 'primary'}

@@ -22,6 +22,7 @@ export const Modal = ({
   modalType = 'sidebar',
   titleClasssnames = '',
   showButtons = true,
+  dataTestIdPrefix='modal'
 }: {
   isVisible?: boolean;
   title: string | React.ReactNode;
@@ -31,6 +32,7 @@ export const Modal = ({
   modalType?: 'info' | 'modal' | 'sidebar';
   titleClasssnames?: string;
   showButtons?: boolean;
+  dataTestIdPrefix?: string;
 }) => {
   if (!isVisible) {
     return <></>;
@@ -72,7 +74,7 @@ export const Modal = ({
             <div className={classNames(defaultTextStyle, 'text-xl')}>
               {title}
             </div>
-            <Icon onClick={onClose}>
+            <Icon onClick={onClose} dataTestId={`${dataTestIdPrefix}_closeIcon`}>
               <XMarkIcon color="gray" />
             </Icon>
           </Stack>
@@ -95,7 +97,7 @@ export const Modal = ({
                 variant="primary"
                 onClick={() => {
                   onClose();
-                }}
+                }} dataTestId={`${dataTestIdPrefix}_closeModal`}
               />
               <Button
                 className="w-full"
@@ -103,6 +105,7 @@ export const Modal = ({
                 onClick={() => {
                   onAccept?.();
                 }}
+                dataTestId={`${dataTestIdPrefix}_submit`}
               />
             </Stack>
           )}

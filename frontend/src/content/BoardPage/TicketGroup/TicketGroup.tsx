@@ -107,7 +107,7 @@ export const TicketGroup = ({ item }: { item: ticketGroupType }) => {
       {permissionControl({ userAccess, key: 'createTicket' }) &&
         !!item.groupId && (
           <ButtonInputForm
-            {...{ onAccept: createTicket, text: t('Board.createTicket') }}
+            {...{ onAccept: createTicket, text: t('Board.createTicket'), dataTestId: `createTicket_${item.groupName}` }}
           />
         )}
     </Stack>

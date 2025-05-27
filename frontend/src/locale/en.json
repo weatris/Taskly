@@ -41,6 +41,7 @@
       "default": "Something went wrong",
       "invalidData": "Invalid Data",
       "invalidEmail": "Invalid email address",
+      "wrongPassword": "Wrong Password",
       "passwordNotSafe": "Password must have at least 8 characters, 1 number, and 1 special character",
       "passwordsDontMatch": "Passwords do not match",
       "emptyName": "Name cannot be empty"

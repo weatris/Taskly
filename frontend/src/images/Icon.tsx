@@ -13,12 +13,14 @@ export const Icon = ({
   className = '',
   hoverable = true,
   size = 'lg',
+  dataTestId,
 }: {
   onClick?: (e: any) => void;
   children: React.ReactNode;
   className?: string;
   hoverable?: boolean;
   size?: keyof typeof sizes;
+  dataTestId?: string;
 }) => {
   const classes = classNames(
     sizes[size],
@@ -33,6 +35,7 @@ export const Icon = ({
       onClick={onClick}
       direction="row"
       alignItems="center"
+      dataTestId={dataTestId}
     >
       {children}
     </Stack>

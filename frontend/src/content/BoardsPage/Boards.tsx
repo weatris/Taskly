@@ -14,17 +14,14 @@ import { useScreenDetector } from '../../utils/useScreenDetector';
 import classNames from 'classnames';
 
 export const Boards = () => {
-  const { state, actions } = useStateProvider();
-  const { showCreateBoardModal } = state.board;
+  const { state } = useStateProvider();
   const { searchValue, selectedOption } = state.boards;
-  const { toggleCreateBoardModal } = actions;
   const { addNotification } = useNotification();
 
   const {
     data = [],
     isLoading,
     isError,
-    refetch,
   } = useApiQuery(
     'searchBoards',
     [
@@ -81,18 +78,7 @@ export const Boards = () => {
           ))}
         </Stack>
       </ProgressPanel>
-      <CreateBoardPanel
-        {...{
-          showCreateBoardModal,
-          onClose: () => {
-            toggleCreateBoardModal(false);
-          },
-          onSuccess: () => {
-            refetch();
-            toggleCreateBoardModal(false);
-          },
-        }}
-      />
+      <CreateBoardPanel/>
     </Stack>
   );
 };

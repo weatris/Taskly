@@ -5,27 +5,27 @@ import { t } from 'i18next';
 import { Stack } from '../../components/basic/Stack/Stack';
 import { useApiMutation } from '../../api/useApiMutation';
 import { useNotification } from '../../stateProvider/notification/useNotification';
-import { Button } from '../../components/basic/Button';
 import { boardAccessType } from '../../common/typing';
 import { Textarea } from '../../components/basic/Textarea';
 import { AccessTypeSelect } from '../../components/AccessTypeSelect';
+import { useStateProvider } from '../../stateProvider/useStateProvider';
+import { useNavigate } from 'react-router-dom';
 
-export const CreateBoardPanel = ({
-  showCreateBoardModal,
-  onClose,
-  onSuccess,
-}: {
-  showCreateBoardModal: boolean;
-  onClose: () => void;
-  onSuccess: () => void;
-}) => {
+export const CreateBoardPanel = () => {
+  const navigate = useNavigate();
   const { addNotification } = useNotification();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedOption, setSelectedOption] = useState('public');
+  const {state, actions} = useStateProvider();
+  const { showCreateBoardModal } = state.board;
+  const { toggleCreateBoardModal } = actions;
 
   const { mutate } = useApiMutation('createBoard', {
-    onSuccess,
+    onSuccess: ({id})=>{
+      navigate(`/boards/${id}/${name}`);
+      toggleCreateBoardModal(false);
+    },
     onError: () => {
       addNotification({ title: t('Boards.createBoard.cantCreate') });
     },
@@ -51,25 +51,30 @@ export const CreateBoardPanel = ({
       {...{
         isVisible: showCreateBoardModal,
         title: t('Boards.createBoard.title'),
-        onClose,
+        onClose : ()=>{
+          toggleCreateBoardModal(false);
+        },
         onAccept,
+        dataTestIdPrefix:"CreateBoardModal"
       }}
     >
       <Stack className="w-full h-full gap-4" direction="col">
         <input
           value={name}
+          data-testid="createBoardName"
           onChange={(e) => {
             setName(e.target.value);
           }}
           className={inputStyle}
           placeholder={t('Boards.createBoard.name')}
         />
-        <AccessTypeSelect {...{ selectedOption, setSelectedOption }} />
+        <AccessTypeSelect {...{ selectedOption, setSelectedOption, allowClosed: false }} />
         <Textarea
           {...{
             value: description,
             setValue: setDescription,
             className: 'h-[150px]',
+            dataTestId: 'createBoardDescription',
             placeholder: t('Boards.createBoard.description'),
           }}
         />

@@ -66,6 +66,7 @@ export const RestoreAccount = () => {
       </p>
       <Stack className="w-full p-4 gap-4" direction="col">
         <input
+          data-testid='email'
           placeholder={t('Login.email')}
           onChange={(e) => {
             setEmail(e.target.value);
@@ -84,6 +85,7 @@ export const RestoreAccount = () => {
           justifyContent="between"
         >
           <button
+            data-testid={'returnToLogin'}
             className="text-blue-500 ml-auto"
             onClick={() => {
               navigate('/');
